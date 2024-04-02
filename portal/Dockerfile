@@ -10,7 +10,6 @@ COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY portal/ /app
-
 EXPOSE 5000
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "app:run_app()"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "wsgi:app"]
