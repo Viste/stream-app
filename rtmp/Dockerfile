@@ -1,5 +1,8 @@
 FROM tiangolo/nginx-rtmp
 
+RUN mkdir -p /home/streams
+RUN mkdir -p /home/streams/rec
+
 EXPOSE 8080
 EXPOSE 1935
 
