@@ -1,0 +1,7 @@
+flask[async]
+flask-admin[async]
+flask-login[async]
+Flask-SQLAlchemy
+werkzeug
+wtforms
+PyMySQL

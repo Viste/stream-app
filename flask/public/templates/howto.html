@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}how to stream{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>How to Stream</h2>
+            <p>
+                1. First we’re going to ask you to install a streaming software that is compatible with HLS. We’d recommend either OBS Studio or Ffmpeg which are both free.<br><br>
+                2. During the set up, you need to connect the software to our HLS server address (rtmp://145.220.75.94:21204/live)<br><br>
+                3. You will have to create a stream key, which will be sent to your viewers. This is what will give them access to your stream once it’s started.<br><br>
+                4. Now just start your stream and it will be accessible on the “Join a Livestream” page!<br><br>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
