@@ -11,4 +11,4 @@ importlib-metadata
 itsdangerous
 Jinja2
 MarkupSafe
-zipp==3.8.0
+zipp
