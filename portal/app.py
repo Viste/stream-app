@@ -201,5 +201,10 @@ admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminInde
 admin.add_view(MyModelView(Course, db.session, category="Courses Management"))
 admin.add_view(MyModelView(Customer, db.session, category="Users Management"))
 
+
+def run_app():
+    app.run(host='0.0.0.0', debug=True, use_reloader=False)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', debug=True, use_reloader=False)

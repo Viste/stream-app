@@ -5,3 +5,4 @@ Flask-SQLAlchemy
 werkzeug
 wtforms
 PyMySQL
+gunicorn
