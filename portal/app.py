@@ -11,7 +11,7 @@ from flask_admin.menu import MenuLink
 from wtforms import form, fields, validators
 import re
 
-app = Flask(__name__, static_folder='public/static', template_folder='public/tempaltes')
+app = Flask(__name__, static_folder='public/static', template_folder='public/templates')
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 
