@@ -11,4 +11,6 @@ RUN pip install -r requirements.txt
 
 COPY portal/ /app
 
+EXPOSE 5000
+
 CMD ["python", "app.py"]
