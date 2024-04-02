@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container overflow-hidden">
     <div class="row">
-        <h2>Stream</h2>
+        <h2>Трансляции</h2>
     </div>
     <div class="row gy-5">
         <div class="col-12">
@@ -22,7 +22,7 @@
             <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
             <script>
                 var video = document.getElementById("video");
-                var videoSrc = "http://127.0.0.1:1935/hls/{{ key }}.m3u8";
+                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local:1935/hls/{{ key }}.m3u8";
                 if (Hls.isSupported()) {
                   var hls = new Hls();
                   hls.loadSource(videoSrc);

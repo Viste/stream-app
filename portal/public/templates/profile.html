@@ -1,24 +1,24 @@
 {% extends 'layout.html' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Профиль{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
-        <h2>Profile Page</h2>
+        <h2>Профиль</h2>
         <div class="col">
-            <p>Your account details are below:</p>
+            <p>Данные аккаунта:</p>
             <table>
                 <tr>
-                    <td>Username:</td>
+                    <td>Логин:</td>
                     <td>{{ account['username'] }}</td>
                 </tr>
                 <tr>
-                    <td>Password:</td>
+                    <td>Пароль:</td>
                     <td>{{ account['password'] }}</td>
                 </tr>
                 <tr>
-                    <td>Email:</td>
+                    <td>Почта:</td>
                     <td>{{ account['email'] }}</td>
                 </tr>
             </table>

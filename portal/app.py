@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import flask_admin as admin
-import flask_login as login
+from flask_login import LoginManager, login_user, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_admin import expose, helpers
+from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from wtforms import form, fields, validators
@@ -19,6 +19,9 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 app.env = "production"
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 class Customer(db.Model):
@@ -47,7 +50,7 @@ class Course(db.Model):
 
     def __repr__(self):
         return f'<Course {self.name}>'
-    
+
     @property
     def is_authenticated(self):
         return True
@@ -66,7 +69,7 @@ def login():
         password = request.form['password']
 
         customer = Customer.query.filter_by(username=username).first()
-        
+
         if customer and check_password_hash(customer.password, password):
             session['loggedin'] = True
             session['id'] = customer.id
@@ -104,9 +107,9 @@ def register():
             if existing_user:
                 msg = 'Account already exists!'
             else:
-                # Хешируем пароль перед сохранением
                 hashed_password = generate_password_hash(password, method='sha256')
-                new_user = Customer(username=username, password=hashed_password, email=email, allowed_courses='', is_moderator=False, is_admin=False, is_banned=False)
+                new_user = Customer(username=username, password=hashed_password, email=email, allowed_courses='',
+                                    is_moderator=False, is_admin=False, is_banned=False)
                 db.session.add(new_user)
                 db.session.commit()
                 msg = 'You have successfully registered!'
@@ -127,7 +130,7 @@ def stream():
     streamkey = ''
     if request.method == 'POST':
         streamkey = request.form['streamkey']
-        
+
     return render_template('stream.html', key=streamkey)
 
 
@@ -158,55 +161,45 @@ class LoginForm(form.Form):
         return db.session.query(Customer).filter_by(username=self.login.data).first()
 
 
-class MyAdminIndexView(admin.AdminIndexView):
-    @expose('/admin')
+class MyAdminIndexView(AdminIndexView):
+    @expose('/')
     def index(self):
-        if not login.current_user.is_authenticated:
-            return redirect(url_for('admin/login'))
+        if not current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
         return super(MyAdminIndexView, self).index()
+
+    @expose('/login/', methods=('GET', 'POST'))
+    def login_view(self):
+        form = LoginForm(request.form)
+        if helpers.validate_form_on_submit(form):
+            user = form.get_user()
+            login_user(user)
+
+        if current_user.is_authenticated:
+            return redirect(url_for('.index'))
+        self._template_args['form'] = form
+        return super(MyAdminIndexView, self).render('admin/login.html')
+
+    @expose('/logout/')
+    def logout_view(self):
+        logout_user()
+        return redirect(url_for('.login_view'))
 
 
 class MyModelView(ModelView):
     form_base_class = SecureForm
 
     def is_accessible(self):
-        return login.current_user.is_authenticated
+        return current_user.is_authenticated
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('admin/login', next=request.url))
+        return redirect(url_for('login'))
 
 
-class MyAdminIndexView(admin.AdminIndexView):
-    @expose('/admin')
-    def index(self):
-        if not login.current_user.is_authenticated:
-            return redirect(url_for('.login_view'))
-        return super(MyAdminIndexView, self).index()
-
-    @expose('/admin/login/', methods=('GET', 'POST'))
-    def login_view(self):
-        form = LoginForm(request.form)
-        if helpers.validate_form_on_submit(form):
-            user = form.get_user()
-            login.login_user(user)
-
-        if login.current_user.is_authenticated:
-            return redirect(url_for('.index'))
-        self._template_args['form'] = form
-        return super(MyAdminIndexView, self).render('admin/login.html')
-
-    @expose('/admin/logout/')
-    def logout_view(self):
-        session.pop('loggedin', None)
-        session.pop('id', None)
-        session.pop('username', None)
-        return redirect(url_for('admin/login'))
-
-
-admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='my_master.html', template_mode='bootstrap4', url='/admin')
-admin.add_view(MyModelView(menu_class_name='Управление Курсами', model=Course, session=db.session, category="Управление базой"))
-admin.add_view(MyModelView(menu_class_name='ТУправление Пользователями', model=Customer, session=db.session))
-
+admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='my_master.html',
+                    template_mode='bootstrap4', url='/admin')
+admin.add_view(MyModelView(Course, db.session, category="Courses Management"))
+admin.add_view(MyModelView(Customer, db.session, category="Users Management"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
