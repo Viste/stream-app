@@ -24,6 +24,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Customer.query.get(int(user_id))
+
+
 class Customer(db.Model):
     __tablename__ = 'customers'
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
