@@ -9,7 +9,7 @@ from flask_admin.form import SecureForm
 from wtforms import form, fields, validators
 import re
 
-app = Flask(__name__, static_folder='public/static', template_folder='public/templates')
+app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 
