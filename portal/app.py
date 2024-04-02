@@ -3,11 +3,9 @@ import flask_admin as admin
 import flask_login as login
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_admin import expose, BaseView, helpers
-from flask_admin.contrib import rediscli
+from flask_admin import expose, helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
-from flask_admin.menu import MenuLink
 from wtforms import form, fields, validators
 import re
 
@@ -21,6 +19,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 app.env = "production"
+
 
 class Customer(db.Model):
     __tablename__ = 'customers'
@@ -56,8 +55,7 @@ class Course(db.Model):
 
 @app.route('/')
 def index():
-   
-   return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -78,12 +76,13 @@ def login():
             msg = 'Incorrect username/password!'
     return render_template('login.html', msg=msg)
 
+
 @app.route('/logout')
 def logout():
-   session.pop('loggedin', None)
-   session.pop('id', None)
-   session.pop('username', None)
-   return redirect(url_for('login'))
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -113,6 +112,7 @@ def register():
                 msg = 'You have successfully registered!'
     return render_template('register.html', msg=msg)
 
+
 @app.route('/profile')
 def profile():
     if 'loggedin' in session:
@@ -121,23 +121,25 @@ def profile():
             return render_template('profile.html', account=customer)
     return redirect(url_for('login'))
 
+
 @app.route('/stream', methods=['GET', 'POST'])
 def stream():
-    streamkey=''
+    streamkey = ''
     if request.method == 'POST':
         streamkey = request.form['streamkey']
         
     return render_template('stream.html', key=streamkey)
 
+
 @app.route('/howto')
 def howto():
-   
-   return render_template('howto.html')
+    return render_template('howto.html')
+
 
 @app.route('/about')
 def about():
-   
-   return render_template('about.html')
+    return render_template('about.html')
+
 
 class LoginForm(form.Form):
     login = fields.StringField(validators=[validators.InputRequired()])
@@ -154,13 +156,15 @@ class LoginForm(form.Form):
 
     def get_user(self):
         return db.session.query(Customer).filter_by(username=self.login.data).first()
-    
+
+
 class MyAdminIndexView(admin.AdminIndexView):
     @expose('/admin')
     def index(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('admin/login'))
         return super(MyAdminIndexView, self).index()
+
 
 class MyModelView(ModelView):
     form_base_class = SecureForm
@@ -193,10 +197,11 @@ class MyAdminIndexView(admin.AdminIndexView):
 
     @expose('/admin/logout/')
     def logout_view(self):
-       session.pop('loggedin', None)
-       session.pop('id', None)
-       session.pop('username', None)
-       return redirect(url_for('admin/login'))
+        session.pop('loggedin', None)
+        session.pop('id', None)
+        session.pop('username', None)
+        return redirect(url_for('admin/login'))
+
 
 admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='my_master.html', template_mode='bootstrap4', url='/admin')
 admin.add_view(MyModelView(menu_class_name='Управление Курсами', model=Course, session=db.session, category="Управление базой"))
@@ -204,4 +209,4 @@ admin.add_view(MyModelView(menu_class_name='ТУправление Пользо�
 
 
 if __name__ == '__main__':
-        app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
