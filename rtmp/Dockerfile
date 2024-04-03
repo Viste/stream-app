@@ -1,5 +1,6 @@
 FROM tiangolo/nginx-rtmp
 
+RUN mkdir -p /var/sock
 RUN mkdir -p /home/streams
 RUN mkdir -p /home/streams/rec
 
