@@ -47,7 +47,10 @@ jobs:
           context: kubernetes-admin@kubernetes
           namespace: stream
 
-      - name: Rollout pod in k8s
+      - name: Rollout app pod in k8s
         shell: bash
         run: kubectl rollout restart -n stream deployment academy-app
 
+      - name: Rollout rtmp pod in k8s
+        shell: bash
+        run: kubectl rollout restart -n stream deployment rtmp-server

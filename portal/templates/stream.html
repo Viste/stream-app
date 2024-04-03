@@ -8,21 +8,12 @@
         <h2>Трансляции</h2>
     </div>
     <div class="row gy-5">
-        <div class="col-12">
-            <form action="{{ url_for('stream') }}" method="POST">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Ключ блять</span>
-                    <input type="text" class="form-control" aria-describedby="inputGroup-sizing-lg button-addon" name="streamkey">
-                    <input class="btn btn-outline-secondary" type="submit" id="button-addon" name="keyconfirm" value="Submit"></input>
-                </div>
-            </form>
-        </div>
         <div class="col-md-8">
             <video id="video" width=100% height= auto controls></video>
             <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
             <script>
                 var video = document.getElementById("video");
-                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local/hls/{{ key }}.m3u8";
+                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local/hls/index.m3u8";
                 if (Hls.isSupported()) {
                   var hls = new Hls();
                   hls.loadSource(videoSrc);
@@ -32,37 +23,6 @@
                   video.src = videoSrc;
                 }
               </script>
-        </div>
-        <div class="col-md-4">
-            
-            <div class="chat_window">
-                <div class="top_menu">
-                  <div class="title">
-                    Chat
-                  </div>
-                </div>
-                <ul class="messages"></ul>
-                <div class="bottom_wrapper clearfix">
-                  <div class="message_input_wrapper">
-                    <input class="message_input" placeholder="Type your message here..." />
-                  </div>
-                  <div class="send_message">
-                    <div class="icon"></div>
-                    <div class="text">
-                      Send
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="message_template">
-                <li class="message">
-                  <div class="avatar"></div>
-                  <div class="text_wrapper">
-                    <div class="text"></div>
-                  </div>
-                </li>
-              </div>
-
         </div>
     </div>
 </div>
