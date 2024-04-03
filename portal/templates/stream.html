@@ -11,7 +11,7 @@
         <div class="col-12">
             <form action="{{ url_for('stream') }}" method="POST">
                 <div class="input-group input-group-lg">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Streamkey</span>
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Ключ блять</span>
                     <input type="text" class="form-control" aria-describedby="inputGroup-sizing-lg button-addon" name="streamkey">
                     <input class="btn btn-outline-secondary" type="submit" id="button-addon" name="keyconfirm" value="Submit"></input>
                 </div>
@@ -22,7 +22,7 @@
             <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
             <script>
                 var video = document.getElementById("video");
-                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local:1935/hls/{{ key }}.m3u8";
+                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local/hls/{{ key }}.m3u8";
                 if (Hls.isSupported()) {
                   var hls = new Hls();
                   hls.loadSource(videoSrc);
