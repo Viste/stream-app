@@ -27,7 +27,9 @@ login_manager.login_view = "login"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.session.query(Customer).filter_by(id=int(user_id))
+    user = Customer.query.get(int(user_id))
+    print(user)
+    return user
 
 
 class Customer(db.Model):
