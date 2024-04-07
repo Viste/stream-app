@@ -45,6 +45,20 @@ class Customer(db.Model):
     def is_authenticated(self):
         return True
 
+    @property
+    def is_active(self):
+        # пользователь активен, если он не забанен.
+        return not self.is_banned
+
+    @property
+    def is_anonymous(self):
+        # должно возвращать False, так как пользователи не анонимны.
+        return False
+
+    def get_id(self):
+        # Возвращаем уникальный идентификатор пользователя в виде строки для управления пользовательской сессией.
+        return str(self.id)
+
 
 class Course(db.Model):
     __tablename__ = 'courses'
