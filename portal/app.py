@@ -32,6 +32,7 @@ def load_user(user_id):
 class Customer(db.Model):
     __tablename__ = 'customers'
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    telegram_id = db.Column(db.String, unique=True)
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String)
@@ -95,30 +96,7 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    msg = ''
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-
-        if not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email:
-            msg = 'Please fill out the form!'
-        else:
-            existing_user = Customer.query.filter_by(username=username).first()
-            if existing_user:
-                msg = 'Account already exists!'
-            else:
-                hashed_password = generate_password_hash(password, method='sha256')
-                new_user = Customer(username=username, password=hashed_password, email=email, allowed_courses='',
-                                    is_moderator=False, is_admin=False, is_banned=False)
-                db.session.add(new_user)
-                db.session.commit()
-                msg = 'You have successfully registered!'
-    return render_template('register.html', msg=msg)
+    return render_template('register.html')
 
 
 @app.route('/profile')

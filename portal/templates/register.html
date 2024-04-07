@@ -4,26 +4,8 @@
 
 {% block content %}
 <div class="register">
-	<h1>Регистрация</h1>
-	<div class="links">
-		<a href="{{ url_for('login') }}">Войти</a>
-		<a href="{{ url_for('register') }}" class="active">Регистрация</a>
-	</div>
-	<form action="{{ url_for('register') }}" method="post" autocomplete="off">
-		<label for="username">
-			<i class="fas fa-user"></i>
-		</label>
-		<input type="text" name="username" placeholder="Username" id="username" required>
-		<label for="password">
-			<i class="fas fa-lock"></i>
-		</label>
-		<input type="password" name="password" placeholder="Password" id="password" required>
-		<label for="email">
-			<i class="fas fa-envelope"></i>
-		</label>
-		<input type="email" name="email" placeholder="Email" id="email" required>
-		<div class="msg">{{ msg }}</div>
-		<input type="submit" value="Регистрация">
-	</form>
+    <h1>Регистрация через Telegram</h1>
+    <p>Для регистрации, пожалуйста, перейдите в нашего Telegram бота.</p>
+    <a href="https://t.me/cyberpaperbot?start=reg_academy" target="_blank" class="telegram-btn">Перейти к боту</a>
 </div>
 {% endblock %}
