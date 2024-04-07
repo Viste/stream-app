@@ -1,29 +1,30 @@
 {% extends 'layout.html' %}
 
-{% block title %}index{% endblock %}
+{% block title %}hls.js Player{% endblock %}
 
 {% block content %}
-<div class="container overflow-hidden">
-    <div class="row">
-        <h2>Трансляции</h2>
-    </div>
-    <div class="row gy-5">
-        <div class="col-md-8">
-            <video id="video" width=100% height= auto controls></video>
-            <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-            <script>
-                var video = document.getElementById("video");
-                var videoSrc = "http://rtmp-service.stream.svc.pprfnk.local/hls/index.m3u8";
-                if (Hls.isSupported()) {
-                  var hls = new Hls();
-                  hls.loadSource(videoSrc);
-                  hls.attachMedia(video);
-                }
-                else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                  video.src = videoSrc;
-                }
-              </script>
-        </div>
+<div class="container">
+    <h1>hls.js player</h1>
+    <a href="https://github.com/video-dev/hls.js">github.com/video-dev/hls.js</a>
+    <div class="video-wrapper">
+        <video id="video" controls muted></video>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+var params = new URLSearchParams(window.location.search);
+var url = params.get('url') || "http://rtmp-service.stream.svc.pprfnk.local/hls/index.m3u8"; // URL по умолчанию
+if (Hls.isSupported()) {
+    var video = document.getElementById('video');
+    var hls = new Hls();
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+        hls.loadSource(url);
+        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+            video.play();
+        });
+    });
+}
+</script>
 {% endblock %}
