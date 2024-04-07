@@ -126,17 +126,13 @@ def profile():
 @app.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():
-    streamkey = ''
-    if request.method == 'POST':
-        streamkey = request.form['streamkey']
-
-    return render_template('stream.html', key=streamkey)
+    return render_template('stream.html', account=current_user)
 
 
 @app.route('/howto')
 @login_required
 def howto():
-    return render_template('howto.html')
+    return render_template('howto.html', account=current_user)
 
 
 @app.route('/about')
