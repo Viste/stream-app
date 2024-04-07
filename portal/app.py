@@ -22,11 +22,12 @@ app.env = "production"
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = "login"
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Customer.query.get(int(user_id))
+    return db.session.query(Customer).filter_by(id=int(user_id))
 
 
 class Customer(db.Model):
@@ -94,6 +95,7 @@ def login():
             session['loggedin'] = True
             session['id'] = customer.id
             session['username'] = customer.username
+            login_user(customer)
             return redirect(url_for('index'))
         else:
             msg = 'Incorrect username/password!'
