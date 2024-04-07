@@ -116,10 +116,8 @@ def register():
 @app.route('/profile')
 @login_required
 def profile():
-    if 'loggedin' in session:
-        customer = Customer.query.filter_by(id=session['id']).first()
-        if customer:
-            return render_template('profile.html', account=customer)
+    if current_user:
+        return render_template('profile.html', account=current_user)
     return redirect(url_for('login'))
 
 
