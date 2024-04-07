@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import flask_admin as admin
-from flask_login import LoginManager, login_user, logout_user, current_user
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin import helpers, expose, AdminIndexView
@@ -114,6 +114,7 @@ def register():
 
 
 @app.route('/profile')
+@login_required
 def profile():
     if 'loggedin' in session:
         customer = Customer.query.filter_by(id=session['id']).first()
@@ -123,6 +124,7 @@ def profile():
 
 
 @app.route('/stream', methods=['GET', 'POST'])
+@login_required
 def stream():
     streamkey = ''
     if request.method == 'POST':
@@ -132,6 +134,7 @@ def stream():
 
 
 @app.route('/howto')
+@login_required
 def howto():
     return render_template('howto.html')
 
