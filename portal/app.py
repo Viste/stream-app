@@ -35,6 +35,15 @@ def load_user(user_id):
     return user
 
 
+class Broadcast(db.Model):
+    __tablename__ = 'broadcasts'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    video_path = db.Column(db.String)
+    is_live = db.Column(db.Boolean, default=False)
+    course = db.relationship('Course', backref=db.backref('broadcasts', lazy=True))
+
+
 class Customer(db.Model):
     __tablename__ = 'customers'
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
@@ -72,8 +81,6 @@ class Course(db.Model):
     name = db.Column(db.String)
     short_name = db.Column(db.String)
     description = db.Column(db.String, nullable=False)
-    video_path = db.Column(db.String)
-    is_live = db.Column(db.Boolean)
 
     def __repr__(self):
         return f'<Course {self.name}>'
@@ -142,26 +149,28 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/api/update_status', methods=['POST'])
-def update_status():
+@app.route('/api/start_broadcast', methods=['POST'])
+def start_broadcast():
     data = request.json
     course = Course.query.filter_by(short_name=data['short_name']).first()
     if course:
-        course.is_live = data['is_live']
+        new_broadcast = Broadcast(course_id=course.id, is_live=True)
+        db.session.add(new_broadcast)
         db.session.commit()
-        return jsonify({"message": "Status updated successfully"}), 200
+        return jsonify({"message": "Broadcast started successfully", "broadcast_id": new_broadcast.id}), 200
     return jsonify({"message": "Course not found"}), 404
 
 
-@app.route('/api/update_video_path', methods=['POST'])
-def update_video_path():
+@app.route('/api/end_broadcast', methods=['POST'])
+def end_broadcast():
     data = request.json
-    course = Course.query.filter_by(short_name=data['short_name']).first()
-    if course:
-        course.video_path = data['video_path']
+    broadcast = Broadcast.query.filter_by(id=data['broadcast_id']).first()
+    if broadcast:
+        broadcast.is_live = False
+        broadcast.video_path = data['video_path']
         db.session.commit()
-        return jsonify({"message": "Video path updated successfully"}), 200
-    return jsonify({"message": "Course not found"}), 404
+        return jsonify({"message": "Broadcast ended successfully"}), 200
+    return jsonify({"message": "Broadcast not found"}), 404
 
 
 class LoginForm(form.Form):

@@ -4,8 +4,9 @@ RUN mkdir -p /var/sock
 RUN mkdir -p /home/static
 RUN mkdir -p /home/streams
 RUN mkdir -p /home/storage
+
 RUN apt-get update
-RUN apt-get install -y python3
+RUN apt-get install -y jq
 
 COPY rtmp/utils/start_stream.sh /home/start_stream.sh
 COPY rtmp/utils/end_stream.sh  /home/end_stream.sh
