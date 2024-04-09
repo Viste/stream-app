@@ -1,13 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import flask_admin as admin
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from wtforms import form, fields, validators
-import re
 
 app = Flask(__name__)
 
@@ -71,16 +70,13 @@ class Course(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     name = db.Column(db.String)
+    short_name = db.Column(db.String)
     description = db.Column(db.String, nullable=False)
     video_path = db.Column(db.String)
     is_live = db.Column(db.Boolean)
 
     def __repr__(self):
         return f'<Course {self.name}>'
-
-    @property
-    def is_authenticated(self):
-        return True
 
 
 @app.route('/')
@@ -144,6 +140,28 @@ def howto():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/api/update_status', methods=['POST'])
+def update_status():
+    data = request.json
+    course = Course.query.filter_by(short_name=data['short_name']).first()
+    if course:
+        course.is_live = data['is_live']
+        db.session.commit()
+        return jsonify({"message": "Status updated successfully"}), 200
+    return jsonify({"message": "Course not found"}), 404
+
+
+@app.route('/api/update_video_path', methods=['POST'])
+def update_video_path():
+    data = request.json
+    course = Course.query.filter_by(short_name=data['short_name']).first()
+    if course:
+        course.video_path = data['video_path']
+        db.session.commit()
+        return jsonify({"message": "Video path updated successfully"}), 200
+    return jsonify({"message": "Course not found"}), 404
 
 
 class LoginForm(form.Form):
