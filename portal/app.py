@@ -128,14 +128,27 @@ def register():
 @login_required
 def profile():
     if current_user:
-        return render_template('profile.html', account=current_user)
+        allowed_course_short_names = current_user.allowed_courses.split(',')
+        courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
+        return render_template('profile.html', account=current_user, courses=courses)
     return redirect(url_for('login'))
 
 
 @app.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():
-    return render_template('stream.html', account=current_user)
+    allowed_course_short_names = current_user.allowed_courses.split(',')
+    available_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
+    live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live is True, Course.short_name.in_(allowed_course_short_names)).all()
+    return render_template('stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
+
+
+@app.route('/course/<short_name>')
+@login_required
+def course_page(short_name):
+    course = Course.query.filter_by(short_name=short_name).first_or_404()
+    broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
+    return render_template('course_page.html', course=course, broadcasts=broadcasts)
 
 
 @app.route('/howto')

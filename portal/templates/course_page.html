@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ course.name }}</h2>
+    <p>{{ course.description }}</p>
+    <h3>Записи Трансляций</h3>
+    {% for broadcast in broadcasts %}
+    <div>
+        <video width="640" height="360" controls>
+            <source src="{{ broadcast.video_path }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

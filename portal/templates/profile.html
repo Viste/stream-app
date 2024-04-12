@@ -1,24 +1,17 @@
 {% extends 'layout.html' %}
 
-{% block title %}Профиль{% endblock %}
-
 {% block content %}
 <div class="container">
-    <div class="row">
-        <h2>Профиль</h2>
-        <div class="col">
-            <p>Данные аккаунта:</p>
-            <table>
-                <tr>
-                    <td>Логин:</td>
-                    <td>{{ account['username'] }}</td>
-                </tr>
-                <tr>
-                    <td>Почта:</td>
-                    <td>{{ account['email'] }}</td>
-                </tr>
-            </table>
-        </div>
+    <h2>Профиль</h2>
+    <div>
+        <p>Логин: {{ account.username }}</p>
+        <p>Почта: {{ account.email }}</p>
     </div>
+    <h3>Доступные Курсы</h3>
+    {% for course in courses %}
+    <div>
+        <p><a href="{{ url_for('course_page', short_name=course.short_name) }}">{{ course.name }}</a></p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
