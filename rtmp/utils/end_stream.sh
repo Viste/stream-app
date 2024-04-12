@@ -6,10 +6,10 @@ COURSE_NAME=$1
 BROADCAST_ID=$(cat "/home/${COURSE_NAME}_broadcast_id.txt")
 
 # добавляем ID трансляции к имени файла
-UNIQUE_VIDEO_PATH="/home/storage/${COURSE_NAME}_${BROADCAST_ID}.mp4"
+UNIQUE_VIDEO_PATH="/home/storage/${COURSE_NAME}_${BROADCAST_ID}.flv"
 
 # копируем то что высрал nginx в уникальный айдишник
-cp "/home/storage/${COURSE_NAME}.mp4" "$UNIQUE_VIDEO_PATH"
+cp "/home/storage/${COURSE_NAME}.flv" "$UNIQUE_VIDEO_PATH"
 
 # Обновляем информацию о трансляции с новым путем к видео
 curl -X POST http://academy-service.stream.svc.pprfnk.local/api/end_broadcast \
