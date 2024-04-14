@@ -16,6 +16,7 @@ RUN chmod +x /home/end_stream.sh
 
 COPY rtmp/crossdomain.xml /home/static/crossdomain.xml
 COPY rtmp/stat.xsl  /home/static/stat.xsl
+COPY rtmp/nsclients.xsl /home/static/nsclients.xsl
 COPY rtmp/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80

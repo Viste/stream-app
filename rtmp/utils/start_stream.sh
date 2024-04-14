@@ -6,7 +6,7 @@ RESPONSE=$(curl -s -X POST http://academy-service.stream.svc.pprfnk.local/api/st
      -H "Content-Type: application/json" \
      -d "{\"short_name\":\"$COURSE_NAME\"}")
 
-echo "API Response: $RESPONSE"
+echo $RESPONSE > "/home/response.log"
 
 BROADCAST_ID=$(echo $RESPONSE | jq -r '.broadcast_id')
 
