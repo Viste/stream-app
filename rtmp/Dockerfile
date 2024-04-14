@@ -6,9 +6,9 @@ RUN apk update \
   && apk add  --no-cache openssl ca-certificates \
   && update-ca-certificates \
 
-ENV DEPS_BUILD_TOOLS="git perl unzip gcc binutils-libs binutils build-base libgcc make pkgconf pkgconfig openssl openssl-dev ca-certificates pcre nasm yasm yasm-dev coreutils musl-dev libc-dev pcre-dev zlib-dev lua-dev ffmpeg"
-
-RUN	apk update && apk add --virtual .build-dependencies	${DEPS_BUILD_TOOLS}
+RUN	apk update && apk add --no-cache git curl perl unzip gcc binutils build-base libgcc make \
+    libxslt libxml2 pkgconf pkgconfig openssl openssl-dev ca-certificates pcre nasm yasm yasm-dev coreutils musl-dev \
+    libc-dev pcre-dev zlib-dev lua-dev
 
 # Set environment variables
 ENV NGINX_RTMP_VERSION="1.2.2"
@@ -16,8 +16,13 @@ ENV RESTY_VERSION="1.21.4.3"
 
 # Download and unpack sources
 RUN cd /tmp \
-    && curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz | tar xz \
-    && curl -fSL https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz | tar xz
+    && curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
+RUN cd /tmp \
+    && tar xvf openresty-${RESTY_VERSION}.tar.gz
+RUN cd /tmp \
+    && curl -fSL https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz \
+RUN cd /tmp \
+    && tar xvf nginx-rtmp-module-${NGINX_RTMP_VERSION}.tar.gz
 
 # Build OpenResty with RTMP module
 RUN cd /tmp/openresty-${RESTY_VERSION} \
@@ -105,6 +110,7 @@ COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 # Expose ports for HTTP and RTMP
 EXPOSE 80 1935
+STOPSIGNAL SIGTERM
 
 # Start OpenResty (Nginx)
 CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]

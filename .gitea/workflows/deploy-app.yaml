@@ -25,19 +25,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push stream app
-        uses: docker/build-push-action@master
-        with:
-          file: portal/Dockerfile
-          push: true
-          tags: vistee/pprfnk:stream-academy
-
       - name: Build and push rtmp-server
         uses: docker/build-push-action@master
         with:
           file: rtmp/Dockerfile
           push: true
           tags: vistee/pprfnk:stream-rtmp
+
+      - name: Build and push stream app
+        uses: docker/build-push-action@master
+        with:
+          file: portal/Dockerfile
+          push: true
+          tags: vistee/pprfnk:stream-academy
 
       - name: Kubernetes context
         uses: Azure/k8s-set-context@v3
