@@ -1,5 +1,8 @@
 FROM tiangolo/nginx-rtmp
 
+# for future security now we can use root nah
+#RUN groupadd --system --gid 101 nginx && useradd --system --gid nginx --no-create-home --home /nonexistent --comment "nginx user" --shell /bin/false --uid 101 nginx
+
 RUN mkdir -p /var/sock
 RUN mkdir -p /home/static
 RUN mkdir -p /home/streams
@@ -16,8 +19,10 @@ RUN chmod +x /home/end_stream.sh
 
 COPY rtmp/crossdomain.xml /home/static/crossdomain.xml
 COPY rtmp/stat.xsl  /home/static/stat.xsl
-COPY rtmp/nsclients.xsl /home/static/nsclients.xsl
+COPY rtmp/nclients.xsl /home/static/nclients.xsl
 COPY rtmp/nginx.conf /etc/nginx/nginx.conf
+
+#RUN chown nginx:nginx -R /home
 
 EXPOSE 80
 EXPOSE 1935
