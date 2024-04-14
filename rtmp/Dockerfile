@@ -40,7 +40,6 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
                    --with-stream_ssl_module \
                    --with-mail \
                    --with-mail_ssl_module \
-                   --with-file-aio \
                    --with-http_realip_module \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install
