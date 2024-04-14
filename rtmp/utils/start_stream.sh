@@ -2,10 +2,15 @@
 
 COURSE_NAME=$1
 
-# Запускаем новую трансляцию и получаем её ID
-BROADCAST_ID=$(curl -s -X POST http://academy-service.stream.svc.pprfnk.local/api/start_broadcast \
+RESPONSE=$(curl -s -X POST http://academy-service.stream.svc.pprfnk.local/api/start_broadcast \
      -H "Content-Type: application/json" \
-     -d "{\"short_name\":\"$COURSE_NAME\"}" | jq -r '.broadcast_id')
+     -d "{\"short_name\":\"$COURSE_NAME\"}")
 
-# Сохраняем ID трансляции для использования в end_stream.sh
+echo "API Response: $RESPONSE"
+
+BROADCAST_ID=$(echo $RESPONSE | jq -r '.broadcast_id')
+
+echo "BROADCAST ID: $BROADCAST_ID"
+
 echo $BROADCAST_ID > "/home/${COURSE_NAME}_broadcast_id.txt"
+
