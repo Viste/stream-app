@@ -7,7 +7,7 @@ RUN apk update \
   && update-ca-certificates \
 
 RUN	apk update && apk add --no-cache git curl perl unzip gcc binutils build-base libgcc make \
-    libxslt libxml2 pkgconf pkgconfig openssl openssl-dev ca-certificates pcre nasm yasm yasm-dev coreutils musl-dev \
+    libxslt libxslt-dev libxml2 libxml2-dev pkgconf pkgconfig openssl openssl-dev ca-certificates pcre nasm yasm yasm-dev coreutils musl-dev \
     libc-dev pcre-dev zlib-dev lua-dev
 
 # Set environment variables
