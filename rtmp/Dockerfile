@@ -15,8 +15,8 @@ ENV NGINX_RTMP_VERSION="1.2.2"
 ENV RESTY_VERSION="1.21.4.3"
 
 # Download and unpack sources
-RUN cd /tmp && curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz | tar xvz
-RUN cd /tmp && curl -fSL https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz | tar xvz
+RUN cd /tmp && curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz | tar xz
+RUN cd /tmp && curl -fSL https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz | tar xz
 
 # Build OpenResty with RTMP module
 RUN cd /tmp/openresty-${RESTY_VERSION} \
@@ -24,7 +24,6 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
                    --with-ld-opt="-L/usr/lib" \
                    --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
                    --with-http_ssl_module \
-                   --with-file-aio \
                    --with-http_v2_module \
                    --with-http_mp4_module \
                    --with-http_flv_module \
