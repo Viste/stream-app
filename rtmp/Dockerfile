@@ -8,7 +8,7 @@ RUN apk update \
 
 RUN	apk update && apk add --no-cache git curl perl unzip gcc binutils build-base libgcc make \
     libxslt libxslt-dev libxml2 libxml2-dev pkgconf pkgconfig openssl openssl-dev ca-certificates pcre nasm yasm yasm-dev coreutils musl-dev \
-    libc-dev pcre-dev zlib-dev lua-dev
+    libc-dev pcre-dev zlib-dev lua-dev gd gd-dev geoip geoip-dev
 
 # Set environment variables
 ENV NGINX_RTMP_VERSION="1.2.2"
