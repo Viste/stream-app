@@ -23,6 +23,8 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
     && ./configure --with-cc-opt="-I/usr/include" \
                    --with-ld-opt="-L/usr/lib" \
                    --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
+                   --error-log-path=/var/log/nginx/error.log \
+                   --http-log-path=/var/log/nginx/access.log \
                    --with-http_ssl_module \
                    --with-http_v2_module \
                    --with-http_mp4_module \
@@ -91,10 +93,13 @@ COPY rtmp/nclients.xsl /home/static/nclients.xsl
 COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 #RUN chown nginx:nginx -R /home
+RUN mkdir -p /var/log/nginx
+RUN touch /var/log/nginx/access.log
+RUN touch /var/log/nginx/error.log
 
 # Forward logs to Docker
-RUN ln -sf /dev/stdout /usr/local/openresty/logs/access.log && \
-    ln -sf /dev/stderr /usr/local/openresty/logs/error.log \
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log \
 
 # Copy nginx configuration files
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
