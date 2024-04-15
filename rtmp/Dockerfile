@@ -109,4 +109,4 @@ STOPSIGNAL SIGTERM
 
 # Start OpenResty (Nginx)
 #CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
-CMD ["/bin/bash"]
+CMD ["/bin/sh"]
