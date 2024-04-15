@@ -151,7 +151,8 @@ def profile():
 def stream():
     allowed_course_short_names = current_user.allowed_courses.split(',')
     available_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-    live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live is True, Course.short_name.in_(allowed_course_short_names)).all()
+    live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
+    print("Live Broadcasts:", live_broadcasts)
     return render_template('stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
 
 
