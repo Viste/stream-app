@@ -1,4 +1,4 @@
-FROM alpine:latest as builder
+FROM alpine:latest
 
 LABEL maintainer="Viste <viste@pprfnk.tech>"
 
@@ -43,26 +43,6 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
                    --with-http_realip_module \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install
-
-# Final image
-FROM alpine:latest
-
-LABEL maintainer="Viste <viste@pprfnk.tech>"
-
-# Copy OpenResty from builder stage
-COPY --link=false --from=builder /usr/local/openresty /usr/local/openresty
-
-# Install runtime dependencies
-RUN apk add --no-cache \
-    libgcc \
-    libstdc++ \
-    pcre \
-    zlib \
-    openssl \
-    geoip \
-    libxslt \
-    gd \
-    ffmpeg
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
