@@ -9,7 +9,7 @@ logging.basicConfig(filename='/home/logfile.log', level=logging.DEBUG)
 
 def start_stream(course_name):
     logging.debug("Starting stream for %s", course_name)
-    url = "http://academy-service.stream.svc.pprfnk.local/api/start_broadcast"
+    url = "https://academy.pprfnk.tech/api/start_broadcast"
     headers = {"Content-Type": "application/json"}
     data = json.dumps({"short_name": course_name})
     response = requests.post(url, headers=headers, data=data)
