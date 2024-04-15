@@ -66,7 +66,7 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 #RUN groupadd --system --gid 101 nginx && useradd --system --gid nginx --no-create-home --home /nonexistent --comment "nginx user" --shell /bin/false --uid 101 nginx
 
 RUN mkdir -p /var/sock
-RUN mkdir -p /home/static
+RUN mkdir -p /usr/local/openresty/nginx/static
 RUN mkdir -p /home/streams
 RUN mkdir -p /home/storage
 
@@ -78,9 +78,9 @@ COPY rtmp/utils/end_stream.sh  /home/end_stream.sh
 RUN chmod +x /home/start_stream.sh
 RUN chmod +x /home/end_stream.sh
 
-COPY rtmp/crossdomain.xml /home/static/crossdomain.xml
-COPY rtmp/stat.xsl  /home/static/stat.xsl
-COPY rtmp/nclients.xsl /home/static/nclients.xsl
+COPY rtmp/crossdomain.xml /usr/local/openresty/nginx/static/crossdomain.xml
+COPY rtmp/stat.xsl  /usr/local/openresty/nginx/static/stat.xsl
+COPY rtmp/nclients.xsl /usr/local/openresty/nginx/static/nclients.xsl
 COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 #RUN chown nginx:nginx -R /home
