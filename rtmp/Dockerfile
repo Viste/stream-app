@@ -108,5 +108,4 @@ EXPOSE 80 1935
 STOPSIGNAL SIGTERM
 
 # Start OpenResty (Nginx)
-#CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
-CMD ["/bin/sh"]
+CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
