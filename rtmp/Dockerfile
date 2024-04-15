@@ -35,7 +35,7 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
                    --with-http_stub_status_module \
                    --with-http_secure_link_module \
                    --with-http_sub_module \
-                   --with-http_xslt_module=dynamic \
+                   --with-http_xslt_module \
                    --with-stream \
                    --with-stream_ssl_module \
                    --with-mail \
@@ -54,15 +54,8 @@ COPY --from=builder /usr/local/openresty /usr/local/openresty
 
 # Install runtime dependencies
 RUN apk add --no-cache \
-    libgcc \
-    libstdc++ \
-    pcre \
-    zlib \
-    openssl \
-    geoip \
-    libxslt \
-    gd \
-    ffmpeg
+    libgcc libstdc++ pcre zlib openssl geoip \
+    libxslt gd ffmpeg  libxslt-dev libxml2 libxml2-dev
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
