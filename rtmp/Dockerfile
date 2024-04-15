@@ -55,7 +55,7 @@ COPY --from=builder /usr/local/openresty /usr/local/openresty
 # Install runtime dependencies
 RUN apk add --no-cache \
     libgcc libstdc++ pcre zlib openssl geoip \
-    libxslt gd ffmpeg  libxslt-dev libxml2 libxml2-dev
+    libxslt gd ffmpeg  libxslt-dev libxml2 libxml2-dev, python3, py3-requests, py3-pip, py3-setuptools
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
@@ -72,11 +72,11 @@ RUN mkdir -p /home/storage
 
 RUN	apk update && apk add --no-cache jq bash
 
-COPY rtmp/utils/start_stream.sh /home/start_stream.sh
-COPY rtmp/utils/end_stream.sh  /home/end_stream.sh
+COPY rtmp/utils/start_stream.sh /home/start_stream.py
+COPY rtmp/utils/end_stream.sh  /home/end_stream.py
 
-RUN chmod +x /home/start_stream.sh
-RUN chmod +x /home/end_stream.sh
+RUN chmod +x /home/start_stream.py
+RUN chmod +x /home/end_stream.py
 
 COPY rtmp/crossdomain.xml /usr/local/openresty/nginx/static/crossdomain.xml
 COPY rtmp/stat.xsl  /usr/local/openresty/nginx/static/stat.xsl
