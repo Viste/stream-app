@@ -93,8 +93,8 @@ COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 #RUN chown nginx:nginx -R /home
 
 # Forward logs to Docker
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log \
+RUN ln -sf /dev/stdout /usr/local/openresty/logs/access.log && \
+    ln -sf /dev/stderr /usr/local/openresty/logs/error.log \
 
 # Copy nginx configuration files
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
