@@ -53,9 +53,8 @@ LABEL maintainer="Viste <viste@pprfnk.tech>"
 COPY --from=builder /usr/local/openresty /usr/local/openresty
 
 # Install runtime dependencies
-RUN apk add --no-cache \
-    libgcc libstdc++ pcre zlib openssl geoip \
-    libxslt gd ffmpeg  libxslt-dev libxml2 libxml2-dev, python3, py3-requests, py3-pip, py3-setuptools
+RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpeg  libxslt-dev libxml2 \
+    libxml2-dev python3 py3-requests py3-pip py3-setuptools
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
