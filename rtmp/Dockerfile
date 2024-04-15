@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest as builder
 
 LABEL maintainer="Viste <viste@pprfnk.tech>"
 
@@ -44,6 +44,26 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install
 
+# Final image
+FROM alpine:latest
+
+LABEL maintainer="Viste <viste@pprfnk.tech>"
+
+# Copy OpenResty from builder stage
+COPY --from=builder /usr/local/openresty /usr/local/openresty
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    libgcc \
+    libstdc++ \
+    pcre \
+    zlib \
+    openssl \
+    geoip \
+    libxslt \
+    gd \
+    ffmpeg
+
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
 ENV LUA_PATH="/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua"
@@ -68,7 +88,6 @@ RUN chmod +x /home/end_stream.sh
 COPY rtmp/crossdomain.xml /home/static/crossdomain.xml
 COPY rtmp/stat.xsl  /home/static/stat.xsl
 COPY rtmp/nclients.xsl /home/static/nclients.xsl
-RUN rm -f /usr/local/openresty/nginx/conf/nginx.conf
 COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 #RUN chown nginx:nginx -R /home
@@ -79,9 +98,6 @@ RUN touch /usr/local/openresty/nginx/logs/error.log
 # Forward logs to Docker
 RUN ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log && \
     ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
-
-# Copy nginx configuration files
-COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 # Expose ports for HTTP and RTMP
 EXPOSE 80 1935
