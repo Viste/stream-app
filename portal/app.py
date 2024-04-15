@@ -7,10 +7,12 @@ from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from wtforms import form, fields, validators
+from functools import wraps
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
+app.config['API_KEY'] = 'pprfkebetvsehrot2024'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@pprfnkdb-primary.mariadb.svc.pprfnk.local/cyber?charset=utf8mb4'
 app.config['SQLALCHEMY_ECHO'] = True
@@ -26,6 +28,16 @@ app.env = "production"
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+
+def require_api_key(view_function):
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        if request.headers.get('X-API-Key') and request.headers.get('X-API-Key') == app.config['API_KEY']:
+            return view_function(*args, **kwargs)
+        else:
+            return jsonify({"message": "Unauthorized"}), 401
+    return decorated_function
 
 
 @login_manager.user_loader
@@ -163,6 +175,7 @@ def about():
 
 
 @app.route('/api/start_broadcast', methods=['POST'])
+@require_api_key
 def start_broadcast():
     data = request.json
     course = Course.query.filter_by(short_name=data['short_name']).first()
@@ -175,6 +188,7 @@ def start_broadcast():
 
 
 @app.route('/api/end_broadcast', methods=['POST'])
+@require_api_key
 def end_broadcast():
     data = request.json
     broadcast = Broadcast.query.filter_by(id=data['broadcast_id']).first()

@@ -10,7 +10,7 @@ logging.basicConfig(filename='/home/logfile.log', level=logging.DEBUG)
 def start_stream(course_name):
     logging.debug("Starting stream for %s", course_name)
     url = "https://academy.pprfnk.tech/api/start_broadcast"
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "X-API-Key": "pprfkebetvsehrot2024"}
     data = json.dumps({"short_name": course_name})
     response = requests.post(url, headers=headers, data=data)
     broadcast_id = response.json().get('broadcast_id')

@@ -14,7 +14,7 @@ def end_stream(course_name):
     shutil.copy(f"/home/storage/{course_name}.flv", unique_video_path)
 
     url = "https://academy.pprfnk.tech/api/end_broadcast"
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "X-API-Key": "pprfkebetvsehrot2024"}
     data = json.dumps({"broadcast_id": broadcast_id, "video_path": unique_video_name})
     requests.post(url, headers=headers, data=data)
 
