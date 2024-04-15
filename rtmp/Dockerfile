@@ -23,8 +23,6 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
     && ./configure --with-cc-opt="-I/usr/include" \
                    --with-ld-opt="-L/usr/lib" \
                    --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
-                   --error-log-path=/var/log/nginx/error.log \
-                   --http-log-path=/var/log/nginx/access.log \
                    --with-http_ssl_module \
                    --with-http_v2_module \
                    --with-http_mp4_module \
@@ -90,6 +88,7 @@ RUN chmod +x /home/end_stream.sh
 COPY rtmp/crossdomain.xml /home/static/crossdomain.xml
 COPY rtmp/stat.xsl  /home/static/stat.xsl
 COPY rtmp/nclients.xsl /home/static/nclients.xsl
+RUN rm /usr/local/openresty/nginx/conf/nginx.conf
 COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 #RUN chown nginx:nginx -R /home
