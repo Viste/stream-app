@@ -50,7 +50,7 @@ FROM alpine:latest
 LABEL maintainer="Viste <viste@pprfnk.tech>"
 
 # Copy OpenResty from builder stage
-COPY --from=builder /usr/local/openresty /usr/local/openresty
+COPY --link=false --from=builder /usr/local/openresty /usr/local/openresty
 
 # Install runtime dependencies
 RUN apk add --no-cache \
