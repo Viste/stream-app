@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
-{% block title %}index{% endblock %}
+{% block title %}Главная{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <img src="../static/images/LOGO.png" class="img-fluid mx-auto d-block" alt="...">
+    <div class="col-12 my-5">
+      <img src="../static/images/LOGO.png" class="img-fluid mx-auto d-block" alt="Логотип">
     </div>
   </div>
 </div>
@@ -14,26 +14,26 @@
     <div class="row gx-5">
         <div class="col-lg-4 mb-5 mb-lg-0">
             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
-            <h2 class="h4 fw-bolder">Хав ту</h2>
-            <p>Чета текст</p>
+            <h2 class="h4 fw-bolder">Как это работает</h2>
+            <p>Узнайте, как начать пользоваться нашим сервисами.</p>
             <a class="text-decoration-none" href="{{ url_for('howto') }}">
-              <button type="button" class="btn btn-outline-primary">Хав ту</button>
+              <button type="button" class="btn btn-outline-primary">Подробнее</button>
             </a>
         </div>
         <div class="col-lg-4 mb-5 mb-lg-0">
             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
             <h2 class="h4 fw-bolder">Трансляции</h2>
-            <p>бла бла</p>
+            <p>Смотрите трансляции и записи текущих и прошедших курсов.</p>
             <a class="text-decoration-none" href="{{ url_for('stream') }}">
-              <button type="button" class="btn btn-outline-primary">Трансляции</button>
+              <button type="button" class="btn btn-outline-primary">Смотреть</button>
             </a>
         </div>
         <div class="col-lg-4">
             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
             <h2 class="h4 fw-bolder">О нас</h2>
-            <p>блабла</p>
+            <p>Подробная информация о нас и наших целях.</p>
             <a class="text-decoration-none" href="{{ url_for('about') }}">
-              <button type="button" class="btn btn-outline-primary">О нас</button>
+              <button type="button" class="btn btn-outline-primary">Узнать больше</button>
             </a>
         </div>
     </div>
