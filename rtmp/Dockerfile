@@ -66,8 +66,6 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 
 RUN mkdir -p /var/sock
 RUN mkdir -p /usr/local/openresty/nginx/static
-RUN mkdir -p /home/streams
-RUN mkdir -p /home/storage
 
 RUN	apk update && apk add --no-cache jq bash
 

@@ -67,7 +67,58 @@
     transition: background-color 0.2s;
 }
 
-.footer{
-    position: absolute;
-    bottom: 0;
+body {
+    background-color: #121212; /* Темный фон для всей страницы */
+    color: #ffffff; /* Белый текст для контраста */
+    font-family: 'Arial', sans-serif; /* Современный шрифт */
+}
+
+.navbar {
+    background-color: #333333; /* Темный фон для навигационной панели */
+}
+
+.nav-link {
+    color: #ffffff; /* Белый цвет ссылок */
+}
+
+.nav-link:hover {
+    color: #bbbbbb; /* Светло-серый цвет при наведении */
+}
+
+.container {
+    padding-top: 20px;
+}
+
+h2, h3 {
+    border-bottom: 1px solid #444444; /* Подчеркивание заголовков */
+    padding-bottom: 10px;
+}
+
+.video {
+    width: 100%; /* Ширина видео */
+    height: auto; /* Автоматическая высота видео */
+    background-color: #000000; /* Фон видеоплеера */
+}
+
+a {
+    color: #4da6ff; /* Цвет ссылок */
+    text-decoration: none; /* Убрать подчеркивание */
+}
+
+a:hover {
+    color: #ffffff; /* Цвет ссылок при наведении */
+}
+
+.footer {
+    background-color: #333333; /* Темный фон для подвала */
+    color: #ffffff; /* Белый текст в подвале */
+    padding: 10px 0; /* Паддинг для подвала */
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
 }
