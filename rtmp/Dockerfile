@@ -79,7 +79,7 @@ RUN mkdir -p /home/static
 RUN mkdir -p /home/streams
 RUN mkdir -p /home/storage
 
-RUN	apk update && apk add --no-cache jq
+RUN	apk update && apk add --no-cache jq bash
 
 COPY rtmp/utils/start_stream.sh /home/start_stream.sh
 COPY rtmp/utils/end_stream.sh  /home/end_stream.sh
@@ -93,13 +93,13 @@ COPY rtmp/nclients.xsl /home/static/nclients.xsl
 COPY rtmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 #RUN chown nginx:nginx -R /home
-RUN mkdir -p /var/log/nginx
-RUN touch /var/log/nginx/access.log
-RUN touch /var/log/nginx/error.log
+
+RUN touch /usr/local/openresty/nginx/logs/access.log
+RUN touch /usr/local/openresty/nginx/logs/error.log
 
 # Forward logs to Docker
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log \
+RUN ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log && \
+    ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
 
 # Copy nginx configuration files
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
