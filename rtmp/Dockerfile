@@ -72,8 +72,8 @@ RUN mkdir -p /home/storage
 
 RUN	apk update && apk add --no-cache jq bash
 
-COPY rtmp/utils/start_stream.sh /home/start_stream.py
-COPY rtmp/utils/end_stream.sh  /home/end_stream.py
+COPY rtmp/utils/start_stream.py /home/start_stream.py
+COPY rtmp/utils/end_stream.py  /home/end_stream.py
 
 RUN chmod +x /home/start_stream.py
 RUN chmod +x /home/end_stream.py
