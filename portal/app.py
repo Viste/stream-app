@@ -55,6 +55,9 @@ class Broadcast(db.Model):
     is_live = db.Column(db.Boolean, default=False)
     course = db.relationship('Course', backref=db.backref('broadcasts', lazy=True))
 
+    def __repr__(self):
+        return f'<Broadcast {self.id} for course {self.course.name}>'
+
 
 class Customer(db.Model):
     __tablename__ = 'customers'
@@ -101,7 +104,8 @@ class Course(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    courses = Course.query.all()
+    return render_template('index.html', courses=courses)
 
 
 @app.route('/login', methods=['GET', 'POST'])

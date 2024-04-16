@@ -54,7 +54,7 @@ COPY --from=builder /usr/local/openresty /usr/local/openresty
 
 # Install runtime dependencies
 RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpeg  libxslt-dev libxml2 \
-    libxml2-dev python3 py3-requests py3-pip py3-setuptools
+    libxml2-dev python3 py3-requests py3-pip py3-setuptools bash
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
@@ -66,8 +66,6 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 
 RUN mkdir -p /var/sock
 RUN mkdir -p /usr/local/openresty/nginx/static
-
-RUN	apk update && apk add --no-cache jq bash
 
 COPY rtmp/utils/start_stream.py /home/start_stream.py
 COPY rtmp/utils/end_stream.py  /home/end_stream.py
