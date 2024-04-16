@@ -9,6 +9,7 @@
         <div class="col-md-{{ 12 // live_broadcasts|length }}">
             <h3>{{ broadcast.course.name }}</h3>
             <video id="video_{{ loop.index }}" class="video" controls style="width: 100%;"></video>
+            <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var video = document.getElementById('video_{{ loop.index }}');
