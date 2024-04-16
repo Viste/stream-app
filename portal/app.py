@@ -63,7 +63,7 @@ class Customer(db.Model):
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String)
-    allowed_courses = db.Column(db.String, nullable=False)
+    allowed_courses = db.Column(db.String, nullable=False, default='academy')
     is_moderator = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
     is_banned = db.Column(db.Boolean)
@@ -93,6 +93,7 @@ class Course(db.Model):
     name = db.Column(db.String)
     short_name = db.Column(db.String)
     description = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String)
 
     def __repr__(self):
         return f'<Course {self.name}>'
