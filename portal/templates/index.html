@@ -8,7 +8,7 @@
         <div class="carousel-inner">
             {% for course in courses %}
             <div class="carousel-item {{ 'active' if loop.first }}">
-                <img src="{{ course.image_url }}" class="d-block w-100" alt="{{ course.name }}">
+                <img src="{{ course.image_url }}" class="d-block w-100 carousel-image" alt="{{ course.name }}">
             </div>
             {% endfor %}
         </div>
