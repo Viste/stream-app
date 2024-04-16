@@ -8,25 +8,31 @@
         {% for broadcast in live_broadcasts %}
         <div class="col-md-{{ 12 // live_broadcasts|length }}">
             <h3>{{ broadcast.course.name }}</h3>
-            <video id="video_{{ loop.index }}" class="video" controls style="width: 100%;"></video>
-            <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+            <div id="dplayer-{{ loop.index }}" class="video" style="width: 100%;"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    var video = document.getElementById('video_{{ loop.index }}');
-                    var videoSrc = 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8';
-                    if (Hls.isSupported()) {
-                        var hls = new Hls();
-                        hls.loadSource(videoSrc);
-                        hls.attachMedia(video);
-                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                            video.play();
-                        });
-                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        video.src = videoSrc;
-                        video.addEventListener('loadedmetadata', function() {
-                            video.play();
-                        });
-                    }
+                    var dp = new DPlayer({
+                        container: document.getElementById('dplayer-{{ loop.index }}'),
+                        video: {
+                            quality: [{
+                                name: 'HD',
+                                url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8',
+                                type: 'hls'
+                            }],
+                            defaultQuality: 0,
+                            pic: 'PATH_TO_PREVIEW_IMAGE_IF_NEEDED'
+                        },
+                        hlsjsConfig: {
+                            // hls.js specific options
+                            startLevel: 0,
+                            autoStartLoad: true,
+                            maxBufferLength: 5, // Уменьшение максимальной длины буфера
+                            maxMaxBufferLength: 10, // Максимальная длина буфера, которую `hls.js` будет поддерживать
+                            liveSyncDurationCount: 1, // Уменьшение количества сегментов, необходимых для начала воспроизведения
+                            liveMaxLatencyDurationCount: 2, // Максимальное количество сегментов, которое может отставать от реального времени
+                            capLevelToPlayerSize: true
+                        }
+                    });
                 });
             </script>
         </div>

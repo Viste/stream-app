@@ -6,12 +6,16 @@
     <p>{{ course.description }}</p>
     <h3>Записи Трансляций</h3>
     {% for broadcast in broadcasts %}
-    <div class="mb-4">
-        <video width="100%" height="auto" controls>
-            <source src="https://live.pprfnk.tech/vod/{{ broadcast.video_path }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+    <div class="mb-4" id="dplayer-{{ loop.index }}"></div>
+    <script>
+        var dp{{ loop.index }} = new DPlayer({
+            container: document.getElementById('dplayer-{{ loop.index }}'),
+            video: {
+                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}',
+                type: 'video/mp4'
+            }
+        });
+    </script>
     {% endfor %}
 </div>
 {% endblock %}
