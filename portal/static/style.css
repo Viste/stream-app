@@ -130,6 +130,12 @@ li {
 
 .carousel-image {
     height: 500px; /* Высота изображения */
-    object-fit: cover; /* Обрезка изображения для заполнения контейнера */
-    width: 100%; /* Ширина изображения, уже задана классом w-100 */
+    object-fit: contain; /* Вписывание изображения в контейнер без обрезки */
+    width: 100%; /* Ширина изображения */
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
