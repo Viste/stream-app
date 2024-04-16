@@ -51,9 +51,9 @@ jobs:
         shell: bash
         run: kubectl rollout restart -n stream deployment academy-app
 
-      - name: Scale to 0 rtmp pod in k8s
-        shell: bash
-        run: kubectl scale -n stream deployment rtmp-server --replicas 0
+      #- name: Scale to 0 rtmp pod in k8s
+      #  shell: bash
+      #  run: kubectl scale -n stream deployment rtmp-server --replicas 0
 
       #- name: Scale scale to 1 rtmp pod in k8s
       #  shell: bash
