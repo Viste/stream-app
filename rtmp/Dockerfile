@@ -55,10 +55,10 @@ COPY --from=builder /usr/local/openresty /usr/local/openresty
 # Install runtime dependencies
 RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpeg  libxslt-dev libxml2 \
     libxml2-dev python3 py3-requests py3-pip py3-setuptools bash luarocks lua-dev build-base gcc \
-
-RUN luarocks-5.1 install lua-resty-http
-RUN luarocks-5.1 install lua-cjson
-RUN luarocks-5.1 install xml2lua
+RUN ls -la /usr/bin
+RUN luarocks install lua-resty-http
+RUN luarocks install lua-cjson
+RUN luarocks install xml2lua
 
 # Set environment variables for Lua package paths
 ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
