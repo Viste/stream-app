@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['API_KEY'] = 'pprfkebetvsehrot2024'
-app.config['UPLOAD_FOLDER'] = '/app/storage'
+app.config['UPLOAD_FOLDER'] = 'storage'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@pprfnkdb-primary.mariadb.svc.pprfnk.local/cyber?charset=utf8mb4'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_POOL_SIZE'] = 10
