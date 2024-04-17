@@ -43,7 +43,7 @@
         <h3>Сделанные домашние задания</h3>
         {% for submission in submissions %}
         <div>
-            <p><strong>Курс:</strong> {{ submission.Homework.course.name }}</p>
+            <p><strong>Курс:</strong> {{ submission.course.name }}</p>
             <p><strong>Оценка:</strong> <span class="star-rating">{% for i in range(submission.grade) %}★{% endfor %}</span></p>
             <p><strong>Комментарий:</strong> {{ submission.comments }}</p>
         </div>
