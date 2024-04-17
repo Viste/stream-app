@@ -12,6 +12,7 @@ from markupsafe import Markup
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from wtforms import form, fields, validators
+from wtforms.fields import TextAreaField, IntegerField
 
 app = Flask(__name__)
 
@@ -318,6 +319,20 @@ class MyAdminIndexView(AdminIndexView):
         return redirect(url_for('.login_view'))
 
 
+class StarRatingWidget(object):
+    def __call__(self, field, **kwargs):
+        html = '<div class="star-rating">'
+        for i in range(1, 11):
+            checked = 'checked' if i == field.data else ''
+            html += f'<input type="radio" name="{field.name}" value="{i}" {checked}/><label>{i}</label>'
+        html += '</div>'
+        return Markup(html)
+
+
+class StarRatingField(IntegerField):
+    widget = StarRatingWidget()
+
+
 class HomeworkSubmissionAdminView(ModelView):
     form_columns = ['homework', 'student', 'file_path', 'grade', 'comments']
 
@@ -325,11 +340,21 @@ class HomeworkSubmissionAdminView(ModelView):
     column_searchable_list = ['student.username', 'homework.title']
     column_filters = ['homework.course.name']
 
-    def _list_thumbnail(view, context, model, name):
+    def _list_thumbnail(context, model, name):
         if not model.file_path:
             return ''
         return Markup(f'<audio controls><source src="{url_for("static", filename=model.file_path)}" type="audio/mpeg"></audio>')
 
+    form_overrides = {
+        'comments': TextAreaField,
+        'grade': StarRatingField
+    }
+    form_widget_args = {
+        'comments': {
+            'rows': 5,
+            'style': 'color: black;'
+        }
+    }
     column_formatters = {
         'file_path': _list_thumbnail
     }
@@ -348,7 +373,7 @@ class MyModelView(ModelView):
 admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='admin/my_master.html',
                     template_mode='bootstrap4', url='/admin')
 
-admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, category="Таблицы", name="Проверка Домашек", endpoint="homeworksubmissionadmin"))
+admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, name="Проверка Домашек", endpoint="homeworksubmissionadmin"))
 
 admin.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
 admin.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))

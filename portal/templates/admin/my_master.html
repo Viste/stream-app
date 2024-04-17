@@ -1,5 +1,11 @@
 {% extends 'admin/base.html' %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_custom.css') }}">
+<script src="{{ url_for('static', filename='js/admin_custom.js') }}"></script>
+{% endblock %}
+
 {% block access_control %}
 {% if current_user.is_authenticated %}
 <div class="dropdown show">
