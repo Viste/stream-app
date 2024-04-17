@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import os
+
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, Markup
 import flask_admin as admin
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
@@ -13,7 +16,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['API_KEY'] = 'pprfkebetvsehrot2024'
-
+app.config['UPLOAD_FOLDER'] = '/home/homeworks'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@pprfnkdb-primary.mariadb.svc.pprfnk.local/cyber?charset=utf8mb4'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_POOL_SIZE'] = 10
@@ -102,10 +105,40 @@ class Course(db.Model):
         return f'<Course {self.name}>'
 
 
+class CourseProgram(db.Model):
+    __tablename__ = 'course_programs'
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    course = db.relationship('Course', backref=db.backref('programs', lazy=True))
+
+
+class Homework(db.Model):
+    __tablename__ = 'homeworks'
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    course = db.relationship('Course', backref=db.backref('homeworks', lazy=True))
+
+
+class HomeworkSubmission(db.Model):
+    __tablename__ = 'homework_submissions'
+    id = db.Column(db.Integer, primary_key=True)
+    homework_id = db.Column(db.Integer, db.ForeignKey('homeworks.id'), nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
+    file_path = db.Column(db.String(255))
+    grade = db.Column(db.Integer)
+    comments = db.Column(db.Text)
+    homework = db.relationship('Homework', backref=db.backref('submissions', lazy=True))
+    student = db.relationship('Customer', backref=db.backref('submissions', lazy=True))
+
+
 @app.route('/')
 def index():
-    courses = Course.query.all()
-    return render_template('index.html', courses=courses)
+    slider_elements = Course.query.all()
+    return render_template('index.html', courses=slider_elements)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -145,8 +178,8 @@ def register():
 def profile():
     if current_user:
         allowed_course_short_names = current_user.allowed_courses.split(',')
-        courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-        return render_template('profile.html', account=current_user, courses=courses)
+        user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
+        return render_template('profile.html', account=current_user, courses=user_courses)
     return redirect(url_for('login'))
 
 
@@ -177,6 +210,36 @@ def howto():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/courses')
+def courses():
+    allowed_courses = current_user.allowed_courses.split(',')
+    course_item = Course.query.filter(Course.short_name.in_(allowed_courses)).all()
+    return render_template('courses.html', courses=course_item)
+
+
+@app.route('/course/<int:course_id>')
+def course_detail(course_id):
+    course = Course.query.get_or_404(course_id)
+    programs = CourseProgram.query.filter_by(course_id=course.id).all()
+    homeworks = Homework.query.filter_by(course_id=course.id).all()
+    return render_template('course_detail.html', course=course, programs=programs, homeworks=homeworks)
+
+
+@app.route('/submit_homework/<int:homework_id>', methods=['POST'])
+@login_required
+def submit_homework(homework_id):
+    file = request.files['file']
+    if file:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        submission = HomeworkSubmission(homework_id=homework_id, student_id=current_user.id, file_path=file_path)
+        db.session.add(submission)
+        db.session.commit()
+        flash('Домашнее задание успешно отправлено!', 'success')
+    return redirect(url_for('course_detail', course_id=Homework.query.get(homework_id).course_id))
 
 
 @app.route('/api/start_broadcast', methods=['POST'])
@@ -254,6 +317,23 @@ class MyAdminIndexView(AdminIndexView):
         return redirect(url_for('.login_view'))
 
 
+class HomeworkSubmissionAdminView(ModelView):
+    form_columns = ['homework', 'student', 'file_path', 'grade', 'comments']
+
+    column_list = ['homework', 'student', 'file_path', 'grade', 'comments']
+    column_searchable_list = ['student.username', 'homework.title']
+    column_filters = ['homework.course.name']
+
+    def _list_thumbnail(view, context, model, name):
+        if not model.file_path:
+            return ''
+        return Markup(f'<audio controls><source src="{url_for("static", filename=model.file_path)}" type="audio/mpeg"></audio>')
+
+    column_formatters = {
+        'file_path': _list_thumbnail
+    }
+
+
 class MyModelView(ModelView):
     form_base_class = SecureForm
 
@@ -266,9 +346,14 @@ class MyModelView(ModelView):
 
 admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='admin/my_master.html',
                     template_mode='bootstrap4', url='/admin')
-admin.add_view(MyModelView(Course, db.session, category="Courses Management"))
-admin.add_view(MyModelView(Customer, db.session, category="Users Management"))
-admin.add_view(MyModelView(Broadcast, db.session, category="Broadcast Management"))
+admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, category="Домашки"))
+
+admin.add_view(MyModelView(Course, db.session, category="Таблица Курсов"))
+admin.add_view(MyModelView(Customer, db.session, category="Таблица Пользователей"))
+admin.add_view(MyModelView(Broadcast, db.session, category="Таблица Трансляций"))
+admin.add_view(MyModelView(Homework, db.session, category="Таблица Домашек"))
+admin.add_view(MyModelView(CourseProgram, db.session, category="Таблица Программы курсов"))
+admin.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблица проверки домашек"))
 
 
 if __name__ == "__main__":

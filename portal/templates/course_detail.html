@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    <h1>{{ course.name }}</h1>
+    <p>{{ course.description }}</p>
+    <h2>Программа курса</h2>
+    {% for program in programs %}
+    <div><strong>{{ program.title }}</strong>: {{ program.description }}</div>
+    {% endfor %}
+    <h2>Домашние задания</h2>
+    {% for homework in homeworks %}
+    <div>
+        <strong>{{ homework.title }}</strong>: {{ homework.description }}
+        <form action="{{ url_for('submit_homework', homework_id=homework.id) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".mp3,.wav">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        <form action="{{ url_for('submit_homework', homework_id=homework.id) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
