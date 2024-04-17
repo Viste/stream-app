@@ -250,6 +250,7 @@ class MyAdminIndexView(AdminIndexView):
     @expose('/logout/')
     def logout_view(self):
         logout_user()
+        session.clear()
         return redirect(url_for('.login_view'))
 
 
