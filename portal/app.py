@@ -2,7 +2,7 @@ import os
 from functools import wraps
 
 import flask_admin as admin
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, Markup
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
