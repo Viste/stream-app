@@ -341,7 +341,7 @@ class HomeworkSubmissionAdminView(ModelView):
     column_searchable_list = ['student.username', 'homework.title']
     column_filters = ['homework.course.name']
 
-    def _list_thumbnail(context, model, name):
+    def _list_thumbnail(self, context, model, name):
         if not model.file_path:
             return ''
         return Markup(f'<audio controls><source src="{url_for("static", filename=model.file_path)}" type="audio/mpeg"></audio>')
