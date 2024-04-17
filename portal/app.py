@@ -130,9 +130,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
+    logout_user()
+    session.clear()
     return redirect(url_for('login'))
 
 
@@ -264,10 +263,11 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='my_master.html',
+admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='admin/my_master.html',
                     template_mode='bootstrap4', url='/admin')
 admin.add_view(MyModelView(Course, db.session, category="Courses Management"))
 admin.add_view(MyModelView(Customer, db.session, category="Users Management"))
+admin.add_view(MyModelView(Broadcast, db.session, category="Broadcast Management"))
 
 
 if __name__ == "__main__":
