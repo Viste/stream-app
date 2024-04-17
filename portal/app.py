@@ -181,7 +181,8 @@ def profile():
     if current_user:
         allowed_course_short_names = current_user.allowed_courses.split(',')
         user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-        return render_template('profile.html', account=current_user, courses=user_courses)
+        submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).join(Homework, Homework.id == HomeworkSubmission.homework_id).add_columns(Homework.course_id, HomeworkSubmission.grade, HomeworkSubmission.comments).all()
+        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions)
     return redirect(url_for('login'))
 
 

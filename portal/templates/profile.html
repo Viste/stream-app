@@ -17,6 +17,9 @@
     .course-link:hover {
         text-decoration: underline;
     }
+    .star-rating {
+        color: gold;
+    }
 </style>
 {% endblock %}
 
@@ -33,6 +36,16 @@
         {% for course in courses %}
         <div>
             <p><a class="course-link" href="{{ url_for('course_page', short_name=course.short_name) }}">{{ course.name }}</a></p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="profile-section">
+        <h3>Сделанные домашние задания</h3>
+        {% for submission in submissions %}
+        <div>
+            <p><strong>Курс:</strong> {{ submission.Homework.course.name }}</p>
+            <p><strong>Оценка:</strong> <span class="star-rating">{% for i in range(submission.grade) %}★{% endfor %}</span></p>
+            <p><strong>Комментарий:</strong> {{ submission.comments }}</p>
         </div>
         {% endfor %}
     </div>
