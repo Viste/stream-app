@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['API_KEY'] = 'pprfkebetvsehrot2024'
-app.config['UPLOAD_FOLDER'] = 'storage'
+app.config['UPLOAD_FOLDER'] = '/app/static/storage'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@pprfnkdb-primary.mariadb.svc.pprfnk.local/cyber?charset=utf8mb4'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_POOL_SIZE'] = 10
@@ -238,7 +238,8 @@ def submit_homework(homework_id):
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
-        submission = HomeworkSubmission(homework_id=homework_id, student_id=current_user.id, file_path=file_path)
+        db_path = "storage/" + filename
+        submission = HomeworkSubmission(homework_id=homework_id, student_id=current_user.id, file_path=db_path)
         db.session.add(submission)
         db.session.commit()
         flash('Домашнее задание успешно отправлено!', 'success')
