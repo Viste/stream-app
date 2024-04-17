@@ -347,7 +347,8 @@ class MyModelView(ModelView):
 
 admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='admin/my_master.html',
                     template_mode='bootstrap4', url='/admin')
-admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, category="Домашки"))
+
+admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, name="Проверка Домашек"))
 
 admin.add_view(MyModelView(Course, db.session, category="Таблица Курсов"))
 admin.add_view(MyModelView(Customer, db.session, category="Таблица Пользователей"))
