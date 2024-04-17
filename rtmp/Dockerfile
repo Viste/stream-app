@@ -61,9 +61,9 @@ RUN /usr/bin/luarocks-5.1 install lua-cjson
 RUN /usr/bin/luarocks-5.1 install xml2lua
 
 # Set environment variables for Lua package paths
-ENV PATH="/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:$PATH"
-ENV LUA_PATH="/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua"
-ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so"
+ENV PATH="/root/.luarocks/bin:/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+ENV LUA_PATH="/usr/share/lua/5.1/?.lua;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/root/.luarocks/share/lua/5.1/?.lua;/root/.luarocks/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/share/lua/common/?.lua;/usr/share/lua/common/?/init.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua"
+ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so;/root/.luarocks/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so"
 
 # for future security now we can use root nah
 #RUN groupadd --system --gid 101 nginx && useradd --system --gid nginx --no-create-home --home /nonexistent --comment "nginx user" --shell /bin/false --uid 101 nginx
