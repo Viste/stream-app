@@ -1,8 +1,5 @@
-flask[async]
-flask-admin[async]
-flask-login[async]
-Flask-SQLAlchemy
-werkzeug
-wtforms
-PyMySQL
-gunicorn
+flask[async]~=3.0.2
+werkzeug~=3.0.2
+wtforms~=3.1.2
+
+MarkupSafe~=2.1.5

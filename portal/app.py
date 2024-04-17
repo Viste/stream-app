@@ -1,16 +1,17 @@
 import os
+from functools import wraps
 
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, Markup
 import flask_admin as admin
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, Markup
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_sqlalchemy import SQLAlchemy
+from markupsafe import Markup
+from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from wtforms import form, fields, validators
-from functools import wraps
 
 app = Flask(__name__)
 
