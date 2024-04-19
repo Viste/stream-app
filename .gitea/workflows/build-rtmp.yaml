@@ -1,11 +1,9 @@
-name: deploy academy stream web-app
+name: Build
 
 on:
   push:
     branches: [ 'master' ]
 
-  pull_request:
-    branches: [ 'master' ]
 
 jobs:
   build-image:
@@ -25,21 +23,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push stream app
+      - name: Build and push rtmp-server
         uses: docker/build-push-action@master
         with:
-          file: portal/Dockerfile
+          file: rtmp/Dockerfile
           push: true
-          tags: vistee/pprfnk:stream-academy
-
-      - name: Kubernetes context
-        uses: Azure/k8s-set-context@v3
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          context: kubernetes-admin@kubernetes
-          namespace: stream
-
-      - name: Rollout app pod in k8s
-        shell: bash
-        run: kubectl rollout restart -n stream deployment academy-app
+          tags: vistee/pprfnk:stream-rtmp

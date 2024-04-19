@@ -1,7 +1,9 @@
 import os
+from datetime import datetime, timedelta
 from functools import wraps
 
 import flask_admin as admin
+import jwt
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -203,7 +205,14 @@ def stream():
 def course_page(short_name):
     course = Course.query.filter_by(short_name=short_name).first_or_404()
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
-    return render_template('course_page.html', course=course, broadcasts=broadcasts)
+
+    payload = {
+        'user_id': current_user.id,
+        'exp': datetime.utcnow() + timedelta(hours=1)  # Токен действителен 1 час
+    }
+    token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+
+    return render_template('course_page.html', course=course, broadcasts=broadcasts, token=token)
 
 
 @app.route('/howto')

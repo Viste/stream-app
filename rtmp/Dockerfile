@@ -59,6 +59,8 @@ RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpe
 RUN /usr/bin/luarocks-5.1 install lua-resty-http
 RUN /usr/bin/luarocks-5.1 install lua-cjson
 RUN /usr/bin/luarocks-5.1 install xml2lua
+RUN /usr/bin/luarocks-5.1 install lua-resty-jwt
+RUN /usr/bin/luarocks-5.1 install lua-resty-jwt-validators
 
 # Set environment variables for Lua package paths
 ENV PATH="/root/.luarocks/bin:/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
