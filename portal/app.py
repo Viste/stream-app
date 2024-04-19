@@ -1,13 +1,13 @@
 import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 from functools import wraps
 
 import flask_admin as admin
-import jwt
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
+from flask_jwt_extended import JWTManager, create_access_token
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
@@ -18,6 +18,7 @@ from wtforms.fields import TextAreaField, IntegerField
 
 app = Flask(__name__)
 
+app.config['JWT_SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['API_KEY'] = 'pprfkebetvsehrot2024'
 app.config['UPLOAD_FOLDER'] = '/app/static/storage'
@@ -29,6 +30,7 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 1800
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 5
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True}
 
+jwt = JWTManager(app)
 db = SQLAlchemy(app)
 app.env = "production"
 
@@ -206,11 +208,9 @@ def course_page(short_name):
     course = Course.query.filter_by(short_name=short_name).first_or_404()
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
 
-    payload = {
-        'user_id': current_user.id,
-        'exp': datetime.utcnow() + timedelta(hours=1)  # Токен действителен 1 час
-    }
-    token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+    # Создание токена с идентификатором пользователя и сроком действия 1 час
+    identity = {'user_id': current_user.id}
+    token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
 
     return render_template('course_page.html', course=course, broadcasts=broadcasts, token=token)
 

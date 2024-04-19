@@ -4,10 +4,10 @@ flask[async]
 flask-admin[async]
 flask-login[async]
 Flask-SQLAlchemy
+flask-jwt-extended
 werkzeug
 wtforms
 PyMySQL
-PyJWT
 importlib-metadata
 itsdangerous
 Jinja2
