@@ -7,9 +7,9 @@ Flask-SQLAlchemy
 werkzeug
 wtforms
 PyMySQL
+PyJWT
 importlib-metadata
 itsdangerous
 Jinja2
 MarkupSafe
 zipp
-PyJWT
