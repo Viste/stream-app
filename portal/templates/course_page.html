@@ -12,7 +12,7 @@
         var dp{{ loop.index }} = new DPlayer({
             container: document.getElementById('dplayer-{{ loop.index }}'),
             video: {
-                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token }}',
+                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}',
                 type: 'video/mp4'
             },
             preload: 'auto',

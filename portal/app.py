@@ -207,8 +207,6 @@ def stream():
 def course_page(short_name):
     course = Course.query.filter_by(short_name=short_name).first_or_404()
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
-
-    # Создание токена с идентификатором пользователя и сроком действия 1 час
     identity = {'user_id': current_user.id}
     token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
 
