@@ -1,12 +1,36 @@
 {% extends 'layout.html' %}
+
 {% block content %}
 <div class="container">
     <h1>{{ course.name }}</h1>
     <p>{{ course.description }}</p>
+
+    <!-- Программа курса -->
     <h2>Программа курса</h2>
     {% for program in programs %}
     <div><strong>{{ program.title }}</strong>: {{ program.description }}</div>
     {% endfor %}
+
+    <!-- Трансляции и записи -->
+    <h3>Записи Трансляций</h3>
+    {% for broadcast in broadcasts %}
+    <div class="mb-4" id="dplayer-{{ loop.index }}"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var dp{{ loop.index }} = new DPlayer({
+            container: document.getElementById('dplayer-{{ loop.index }}'),
+            video: {
+                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}',
+                type: 'video/mp4'
+            },
+            preload: 'auto',
+            autoplay: false
+        });
+    });
+    </script>
+    {% endfor %}
+
+    <!-- Домашние задания -->
     <h2>Домашние задания</h2>
     {% for homework in homeworks %}
     <div>

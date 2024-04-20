@@ -45,20 +45,5 @@
     {% else %}
     <p>В данный момент нет активных трансляций.</p>
     {% endif %}
-
-    <h2>Доступные Курсы</h2>
-    <div class="row">
-        {% for course in courses %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body d-flex flex-column">
-                    <h3 class="card-title">{{ course.name }}</h3>
-                    <p class="card-text">{{ course.description }}</p>
-                    <a href="{{ url_for('course_page', short_name=course.short_name) }}" class="btn btn-primary mt-auto">Подробнее</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </div>
 {% endblock %}

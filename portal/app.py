@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from functools import wraps
 
 import flask_admin as admin
@@ -7,7 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
@@ -200,17 +199,6 @@ def stream():
     live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
     print("Live Broadcasts:", live_broadcasts)
     return render_template('stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
-
-
-@app.route('/course/<short_name>')
-@login_required
-def course_page(short_name):
-    course = Course.query.filter_by(short_name=short_name).first_or_404()
-    broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
-    identity = {'user_id': current_user.id}
-    token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
-
-    return render_template('course_page.html', course=course, broadcasts=broadcasts, token=token)
 
 
 @app.route('/howto')
