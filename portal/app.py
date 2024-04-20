@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from functools import wraps
 
 import flask_admin as admin
@@ -6,7 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_admin import helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, create_access_token
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
@@ -224,7 +225,10 @@ def course_detail(course_id):
     course = Course.query.get_or_404(course_id)
     programs = CourseProgram.query.filter_by(course_id=course.id).all()
     homeworks = Homework.query.filter_by(course_id=course.id).all()
-    return render_template('course_detail.html', course=course, programs=programs, homeworks=homeworks)
+    broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
+    identity = {'user_id': current_user.id}
+    token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
+    return render_template('course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts)
 
 
 @app.route('/submit_homework/<int:homework_id>', methods=['POST'])
