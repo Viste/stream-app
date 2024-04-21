@@ -16,6 +16,7 @@ from wtforms import form, fields, validators
 from wtforms.fields import TextAreaField, IntegerField
 
 app = Flask(__name__)
+app.config["JWT_TOKEN_LOCATION"] = ["query_string"]
 app.config['JWT_ALGORITHM'] = 'HS256'
 app.config['JWT_SECRET_KEY'] = 'pprfnktechsekta2024'
 app.config['SECRET_KEY'] = 'pprfnktechsekta2024'
