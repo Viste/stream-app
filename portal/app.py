@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from functools import wraps
 
 import flask_admin as admin
@@ -227,7 +228,7 @@ def course_detail(course_id):
     homeworks = Homework.query.filter_by(course_id=course.id).all()
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
     identity = {'user_id': current_user.id}
-    token = create_access_token(identity=identity)
+    token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
     return render_template('course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts)
 
 
