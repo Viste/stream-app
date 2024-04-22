@@ -10,12 +10,10 @@ from flask_admin.form import SecureForm
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
-from markupsafe import Markup
 from sqlalchemy.orm import joinedload
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from wtforms import form, fields, validators
-from wtforms.fields import IntegerField
 
 app = Flask(__name__)
 app.config["JWT_TOKEN_LOCATION"] = ["query_string"]
@@ -322,20 +320,6 @@ class MyAdminIndexView(AdminIndexView):
         logout_user()
         session.clear()
         return redirect(url_for('.login_view'))
-
-
-class StarRatingWidget(object):
-    def __call__(self, field, **kwargs):
-        html = '<div class="star-rating">'
-        for i in range(1, 11):
-            checked = 'checked' if i == field.data else ''
-            html += f'<input type="radio" name="{field.name}" value="{i}" {checked}/><label>{i}</label>'
-        html += '</div>'
-        return Markup(html)
-
-
-class StarRatingField(IntegerField):
-    widget = StarRatingWidget()
 
 
 class HomeworkReviewView(BaseView):
