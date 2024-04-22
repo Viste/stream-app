@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 from datetime import timedelta
 from functools import wraps
 
@@ -331,7 +332,12 @@ class HomeworkReviewView(BaseView):
             joinedload(HomeworkSubmission.student)
         ).all()
 
-        return self.render('admin/homework_review.html', submissions=submissions)
+        # Группировка по названию курса
+        courses_dict = defaultdict(list)
+        for submission in submissions:
+            courses_dict[submission.homework.course.name].append(submission)
+
+        return self.render('admin/homework_review.html', courses_dict=courses_dict)
 
 
 class MyModelView(ModelView):

@@ -1,13 +1,15 @@
 {% extends 'admin/master.html' %}
 {% block body %}
 <h2>Проверка Домашек</h2>
+
+{% for course_name, submissions in courses_dict.items() %}
+<h3>{{ course_name }}</h3>
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Студент</th>
-            <th>Курс</th>
             <th>Домашнее задание</th>
-            <th>Файл</th>
+            <th>Аудио</th>
             <th>Оценка</th>
             <th>Комментарии</th>
         </tr>
@@ -16,13 +18,23 @@
         {% for submission in submissions %}
         <tr>
             <td>{{ submission.student.username }}</td>
-            <td>{{ submission.homework.course.name }}</td>
             <td>{{ submission.homework.title }}</td>
-            <td><a href="{{ url_for('static', filename=submission.file_path) }}">Скачать</a></td>
+            <td>
+                {% if submission.file_path %}
+                <audio controls>
+                    <source src="{{ url_for('static', filename=submission.file_path) }}" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио элемент.
+                </audio>
+                {% else %}
+                Нет файла
+                {% endif %}
+            </td>
             <td>{{ submission.grade }}</td>
             <td>{{ submission.comments }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% endfor %}
+
 {% endblock %}
