@@ -11,3 +11,4 @@ PyMySQL
 itsdangerous
 Jinja2
 zipp
+gunicorn

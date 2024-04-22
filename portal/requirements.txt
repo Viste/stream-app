@@ -14,3 +14,4 @@ Jinja2
 MarkupSafe
 zipp
 SQLAlchemy
+gunicorn
