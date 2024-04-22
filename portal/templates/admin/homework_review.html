@@ -1,0 +1,28 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h2>Проверка Домашек</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Студент</th>
+            <th>Курс</th>
+            <th>Домашнее задание</th>
+            <th>Файл</th>
+            <th>Оценка</th>
+            <th>Комментарии</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+        <tr>
+            <td>{{ submission.student.username }}</td>
+            <td>{{ submission.homework.course.name }}</td>
+            <td>{{ submission.homework.title }}</td>
+            <td><a href="{{ url_for('static', filename=submission.file_path) }}">Скачать</a></td>
+            <td>{{ submission.grade }}</td>
+            <td>{{ submission.comments }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -4,17 +4,18 @@ from functools import wraps
 
 import flask_admin as admin
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
-from flask_admin import helpers, expose, AdminIndexView
+from flask_admin import helpers, expose, AdminIndexView, BaseView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
+from sqlalchemy.orm import joinedload
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from wtforms import form, fields, validators
-from wtforms.fields import TextAreaField, IntegerField
+from wtforms.fields import IntegerField
 
 app = Flask(__name__)
 app.config["JWT_TOKEN_LOCATION"] = ["query_string"]
@@ -337,31 +338,16 @@ class StarRatingField(IntegerField):
     widget = StarRatingWidget()
 
 
-class HomeworkSubmissionAdminView(ModelView):
-    form_columns = ['homework', 'student', 'file_path', 'grade', 'comments']
+class HomeworkReviewView(BaseView):
+    @expose('/')
+    @login_required
+    def index(self):
+        submissions = HomeworkSubmission.query.options(
+            joinedload(HomeworkSubmission.homework).joinedload(Homework.course),
+            joinedload(HomeworkSubmission.student)
+        ).all()
 
-    column_list = ['homework', 'student', 'file_path', 'grade', 'comments']
-    column_searchable_list = ['student.username', 'homework.title']
-    column_filters = ['homework.course.name']
-
-    def _list_thumbnail(self, context, model, name):
-        if not model.file_path:
-            return ''
-        return Markup(f'<audio controls><source src="{url_for("static", filename=model.file_path)}" type="audio/mpeg"></audio>')
-
-    form_overrides = {
-        'comments': TextAreaField,
-        'grade': StarRatingField
-    }
-    form_widget_args = {
-        'comments': {
-            'rows': 5,
-            'style': 'color: black;'
-        }
-    }
-    column_formatters = {
-        'file_path': _list_thumbnail
-    }
+        return self.render('admin/homework_review.html', submissions=submissions)
 
 
 class MyModelView(ModelView):
@@ -377,7 +363,7 @@ class MyModelView(ModelView):
 admin = admin.Admin(app, name='Stream Neuropunk Academy', index_view=MyAdminIndexView(), base_template='admin/my_master.html',
                     template_mode='bootstrap4', url='/admin')
 
-admin.add_view(HomeworkSubmissionAdminView(HomeworkSubmission, db.session, name="Проверка Домашек", endpoint="homeworksubmissionadmin"))
+admin.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
 
 admin.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
 admin.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))

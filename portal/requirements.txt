@@ -13,3 +13,4 @@ itsdangerous
 Jinja2
 MarkupSafe
 zipp
+SQLAlchemy

@@ -1,10 +1,13 @@
 flask[async]
 flask-admin[async]
 flask-login[async]
+Flask-SQLAlchemy
+flask-jwt-extended
 werkzeug
 wtforms
-Flask-SQLAlchemy
-gunicorn
-PyMySQL
 MarkupSafe
-flask-jwt-extended
+SQLAlchemy
+PyMySQL
+itsdangerous
+Jinja2
+zipp
