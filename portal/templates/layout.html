@@ -16,7 +16,7 @@
             </button>
             <a class="navbar-brand" href="{{ url_for('views.index') }}">
                 <img src="../static/images/LOGONOTITLE1.png" alt="" width="50" height="30" class="d-inline-block align-text-top">
-                Neuropunk Academy
+                Нейропанк Академия
             </a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -24,16 +24,16 @@
                         <a class="nav-link" href="{{ url_for('views.index') }}"><i class="fas fa-home"></i> Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('howto') }}"><i class="fas fa-solid fa-question"></i> Как это работает</a>
+                        <a class="nav-link" href="{{ url_for('views.howto') }}"><i class="fas fa-solid fa-question"></i> Как это работает</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('stream') }}"><i class="fas fa-solid fa-tv"></i> Трансляции</a>
+                        <a class="nav-link" href="{{ url_for('views.stream') }}"><i class="fas fa-solid fa-tv"></i> Трансляции</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('courses') }}"><i class="fas fa-solid fa-question"></i>Курсы</a>
+                        <a class="nav-link" href="{{ url_for('views.courses') }}"><i class="fas fa-solid fa-question"></i>Курсы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}"><i class="fas fa-solid fa-user"></i> О нас</a>
+                        <a class="nav-link" href="{{ url_for('views.about') }}"><i class="fas fa-solid fa-user"></i> О нас</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-right">
@@ -44,17 +44,17 @@
                     </li>
                         {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Профиль</a>
+                        <a class="nav-link" href="{{ url_for('views.profile') }}"><i class="fas fa-user-circle"></i>Профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Выйти</a>
+                        <a class="nav-link" href="{{ url_for('views.logout') }}"><i class="fas fa-sign-out-alt"></i>Выйти</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Войти</a>
+                        <a class="nav-link" href="{{ url_for('views.login') }}">Войти</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('register') }}">Регистрация</a>
+                        <a class="nav-link" href="{{ url_for('views.register') }}">Регистрация</a>
                     </li>
                     {% endif %}
                 </ul>

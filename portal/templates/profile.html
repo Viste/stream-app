@@ -35,7 +35,7 @@
         <h3>Доступные Курсы</h3>
         {% for course in courses %}
         <div>
-            <p><a class="course-link" href="{{ url_for('course_detail', course_id=course.id) }}">{{ course.name }}</a></p>
+            <p><a class="course-link" href="{{ url_for('views.course_detail', course_id=course.id) }}">{{ course.name }}</a></p>
         </div>
         {% endfor %}
     </div>
