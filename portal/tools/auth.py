@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import request, jsonify, session
+from flask import request, jsonify, session, current_app
 from flask_login import LoginManager, login_user, logout_user
 from models.base import Customer
 from werkzeug.security import check_password_hash
@@ -9,7 +9,7 @@ from werkzeug.security import check_password_hash
 def require_api_key(view_function):
     @wraps(view_function)
     def decorated_function(*args, **kwargs):
-        if request.headers.get('X-API-Key') and request.headers.get('X-API-Key') == app.config['API_KEY']:
+        if request.headers.get('X-API-Key') and request.headers.get('X-API-Key') == current_app.config['API_KEY']:
             return view_function(*args, **kwargs)
         else:
             return jsonify({"message": "Unauthorized"}), 401
