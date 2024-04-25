@@ -8,14 +8,65 @@
         {% for broadcast in live_broadcasts %}
         <div class="col-md-{{ 12 // live_broadcasts|length }}">
             <h3>{{ broadcast.course.name }}</h3>
-            <video id="live_video_{{ loop.index }}" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="360">
-                <source src="https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8" type="application/x-mpegURL">
-            </video>
-            <div>Live</div> <!-- Отображение статуса Live -->
-            <div id="viewers_count_{{ loop.index }}">Зрителей: загрузка...</div> <!-- Счетчик зрителей -->
+            <div id="dplayer-{{ loop.index }}" class="video" style="width: 100%;"></div>
+            <div id="status-info-{{ loop.index }}"></div>
+            <div id="viewers-info-{{ loop.index }}"></div>
             <script>
-                var player{{ loop.index }} = videojs('live_video_{{ loop.index }}');
-                player{{ loop.index }}.play();
+                document.addEventListener('DOMContentLoaded', function() {
+                    function createApiBackend(url, onMessage) {
+                        var ws = new WebSocket(url);
+                        ws.onmessage = function(event) {
+                            onMessage(JSON.parse(event.data));
+                        };
+                        ws.onclose = function() {
+                            setTimeout(function() { createApiBackend(url, onMessage); }, 5000); // Переподключение
+                        };
+                        return {
+                            send: function(data) {
+                                if (ws.readyState === WebSocket.OPEN) {
+                                    ws.send(JSON.stringify(data));
+                                }
+                            }
+                        };
+                    }
+
+                    var dp = new DPlayer({
+                        container: document.getElementById('dplayer-{{ loop.index }}'),
+                        live: true,
+                        autoplay: false,
+                        airplay: true,
+                        chromecast: true,
+                        video: {
+                            quality: [
+                                {name: 'HD', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8', type: 'hls'},
+                                {name: '720p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_720p2628kbs.m3u8', type: 'hls'},
+                                {name: '480p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_480p1128kbs.m3u8', type: 'hls'},
+                                {name: '360p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_360p878kbs.m3u8', type: 'hls'},
+                                {name: '240p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_240p528kbs.m3u8', type: 'hls'}
+                            ],
+                            defaultQuality: 0,
+                        },
+                        hlsjsConfig: {
+                            startLevel: 0,
+                            autoStartLoad: true,
+                            maxBufferLength: 5,
+                            maxMaxBufferLength: 10,
+                            liveSyncDurationCount: 1,
+                            liveMaxLatencyDurationCount: 2,
+                            capLevelToPlayerSize: true
+                        },
+                        apiBackend: createApiBackend('ws://localhost:1207', function(data) {
+                            if (data.type === 'status') {
+                                var statusText = data.live ? 'Трансляция активна' : 'Трансляция не активна';
+                                document.getElementById('status-info-{{ loop.index }}').textContent = statusText;
+                            }
+                            if (data.type === 'viewers') {
+                                var viewersText = 'Зрителей: ' + data.viewers;
+                                document.getElementById('viewers-info-{{ loop.index }}').textContent = viewersText;
+                            }
+                        })
+                    });
+                });
             </script>
         </div>
         {% endfor %}
@@ -24,19 +75,4 @@
     <p>В данный момент нет активных трансляций.</p>
     {% endif %}
 </div>
-
-<script>
-function updateViewers() {
-    {% for broadcast in live_broadcasts %}
-    fetch('https://live.pprfnk.tech/api/stats')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('viewers_count_{{ loop.index }}').textContent = 'Зрителей: ' + data.viewers;
-        })
-        .catch(error => console.error('Ошибка при получении данных о зрителях:', error));
-    {% endfor %}
-}
-
-setInterval(updateViewers, 5000); // Обновление каждые 5 секунд
-</script>
 {% endblock %}

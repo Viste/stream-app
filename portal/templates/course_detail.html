@@ -14,20 +14,21 @@
     <!-- Трансляции и записи -->
     <h3>Записи Трансляций</h3>
     {% for broadcast in broadcasts %}
-    <div class="mb-4">
-        <video id="recorded_video_{{ loop.index }}" class="video-js vjs-city-skin" controls preload="auto" width="960" height="600">
-            <source src="https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}" type="video/mp4">
-        </video>
-    </div>
-    {% endfor %}
-
+    <div class="mb-4" id="dplayer-{{ loop.index }}"></div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        {% for broadcast in broadcasts %}
-        var player{{ loop.index }} = videojs('recorded_video_{{ loop.index }}');
-        {% endfor %}
+    document.addEventListener('DOMContentLoaded', function () {
+        var dp{{ loop.index }} = new DPlayer({
+            container: document.getElementById('dplayer-{{ loop.index }}'),
+            video: {
+                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}',
+                type: 'video/mp4'
+            },
+            preload: true,
+            autoplay: false
+        });
     });
     </script>
+    {% endfor %}
 
     <!-- Домашние задания -->
     <h2>Домашние задания</h2>
