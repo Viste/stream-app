@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
-COPY server.js package.json /app/
+COPY portal/server.js portal/package.json /app/
 RUN npm install
 
 COPY portal/ /app
