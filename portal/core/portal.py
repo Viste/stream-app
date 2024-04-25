@@ -75,6 +75,7 @@ def about():
 
 
 @views.route('/courses')
+@login_required
 def courses():
     allowed_courses = current_user.allowed_courses.split(',')
     course_item = Course.query.filter(Course.short_name.in_(allowed_courses)).all()
@@ -82,6 +83,7 @@ def courses():
 
 
 @views.route('/course/<int:course_id>')
+@login_required
 def course_detail(course_id):
     course = Course.query.get_or_404(course_id)
     programs = CourseProgram.query.filter_by(course_id=course.id).all()
