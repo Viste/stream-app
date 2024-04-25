@@ -8,36 +8,14 @@
         {% for broadcast in live_broadcasts %}
         <div class="col-md-{{ 12 // live_broadcasts|length }}">
             <h3>{{ broadcast.course.name }}</h3>
-            <div id="dplayer-{{ loop.index }}" class="video" style="width: 100%;"></div>
+            <video id="live_video_{{ loop.index }}" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="360">
+                <source src="https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8" type="application/x-mpegURL">
+            </video>
+            <div>Live</div> <!-- Отображение статуса Live -->
+            <div id="viewers_count_{{ loop.index }}">Зрителей: загрузка...</div> <!-- Счетчик зрителей -->
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var dp = new DPlayer({
-                        container: document.getElementById('dplayer-{{ loop.index }}'),
-                        video: {
-                            quality: [
-                                {name: 'HD', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8', type: 'hls'},
-                                {name: '720p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_720p2628kbs.m3u8', type: 'hls'},
-                                {name: '480p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_480p1128kbs.m3u8', type: 'hls'},
-                                {name: '360p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_360p878kbs.m3u8', type: 'hls'},
-                                {name: '240p', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index_240p528kbs.m3u8', type: 'hls'}
-                            ],
-                            preload: 'auto',
-                            autoplay: false,
-                            defaultQuality: 0,
-                            pic: 'PATH_TO_PREVIEW_IMAGE_IF_NEEDED'
-                        },
-                        hlsjsConfig: {
-                            // hls.js specific options
-                            startLevel: 0,
-                            autoStartLoad: true,
-                            maxBufferLength: 5, // Уменьшение максимальной длины буфера
-                            maxMaxBufferLength: 10, // Максимальная длина буфера, которую `hls.js` будет поддерживать
-                            liveSyncDurationCount: 1, // Уменьшение количества сегментов, необходимых для начала воспроизведения
-                            liveMaxLatencyDurationCount: 2, // Максимальное количество сегментов, которое может отставать от реального времени
-                            capLevelToPlayerSize: true
-                        }
-                    });
-                });
+                var player{{ loop.index }} = videojs('live_video_{{ loop.index }}');
+                player{{ loop.index }}.play();
             </script>
         </div>
         {% endfor %}
@@ -46,4 +24,19 @@
     <p>В данный момент нет активных трансляций.</p>
     {% endif %}
 </div>
+
+<script>
+function updateViewers() {
+    {% for broadcast in live_broadcasts %}
+    fetch('https://live.pprfnk.tech/api/stats')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('viewers_count_{{ loop.index }}').textContent = 'Зрителей: ' + data.viewers;
+        })
+        .catch(error => console.error('Ошибка при получении данных о зрителях:', error));
+    {% endfor %}
+}
+
+setInterval(updateViewers, 5000); // Обновление каждые 5 секунд
+</script>
 {% endblock %}
