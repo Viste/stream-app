@@ -6,8 +6,8 @@ db = SQLAlchemy()
 
 class Broadcast(db.Model):
     __tablename__ = 'broadcasts'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
     video_path = db.Column(db.String(255))
     is_live = db.Column(db.Boolean, default=False)
     course = db.relationship('Course', backref=db.backref('broadcasts', lazy=True))
@@ -19,7 +19,7 @@ class Broadcast(db.Model):
 
 class Customer(db.Model):
     __tablename__ = 'customers'
-    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    id = db.Column(db.BigInteger, primary_key=True, unique=True, autoincrement=True)
     telegram_id = db.Column(db.String(255), unique=True)
     username = db.Column(db.String(255), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
@@ -51,10 +51,10 @@ class Customer(db.Model):
 
 class Course(db.Model):
     __tablename__ = 'courses'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True, unique=True)
     name = db.Column(db.String(255))
     short_name = db.Column(db.String(255))
-    description = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255))
     mariadb_engine = "InnoDB"
 
@@ -65,7 +65,7 @@ class Course(db.Model):
 class CourseProgram(db.Model):
     __tablename__ = 'course_programs'
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     course = db.relationship('Course', backref=db.backref('programs', lazy=True))
@@ -75,7 +75,7 @@ class CourseProgram(db.Model):
 class Homework(db.Model):
     __tablename__ = 'homeworks'
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     course = db.relationship('Course', backref=db.backref('homeworks', lazy=True))
@@ -86,7 +86,7 @@ class HomeworkSubmission(db.Model):
     __tablename__ = 'homework_submissions'
     id = db.Column(db.Integer, primary_key=True)
     homework_id = db.Column(db.Integer, db.ForeignKey('homeworks.id'), nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
+    student_id = db.Column(db.BigInteger, db.ForeignKey('customers.id'), nullable=False)
     file_path = db.Column(db.String(255))
     grade = db.Column(db.Integer)
     comments = db.Column(db.Text)
