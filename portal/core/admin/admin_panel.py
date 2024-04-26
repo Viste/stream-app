@@ -46,12 +46,29 @@ class HomeworkReviewView(BaseView):
             joinedload(HomeworkSubmission.student)
         ).all()
 
-        # Группировка по названию курса
         courses_dict = defaultdict(list)
         for submission in submissions:
             courses_dict[submission.homework.course.name].append(submission)
 
         return self.render('admin/homework_review.html', courses_dict=courses_dict)
+
+    @expose('/grade/<int:submission_id>/', methods=['POST'])
+    @login_required
+    def homeworkreview_grade(self, submission_id):
+        submission = HomeworkSubmission.query.get(submission_id)
+        submission.grade = request.form['grade']
+        submission.reviewer_id = current_user.id
+        db.session.commit()
+        return redirect(url_for('.index'))
+
+    @expose('/comment/<int:submission_id>/', methods=['POST'])
+    @login_required
+    def homeworkreview_comment(self, submission_id):
+        submission = HomeworkSubmission.query.get(submission_id)
+        submission.comments = request.form['comments']
+        submission.reviewer_id = current_user.id
+        db.session.commit()
+        return redirect(url_for('.index'))
 
 
 class MyModelView(ModelView):

@@ -6,7 +6,7 @@
 В директории portal докерфаил с Flask и всей python Web-частью.  
 В директории rtmp декерфил с openresy+rtmp-module конфиги, статик файлы для дебага и сбора статы.
 
-для генерации миграций используй:
+!!!НЕ ЗАБУДЬ ИЗМЕНИТЬ В КОНФИГЕ ХОСТ С КУБЕРА НА ЛОКАЛХОСТ!!! для генерации миграций используй:
 ```bash
 kubectl port-forward svc/pprfnkdb-primary 3306:3306 -n mariadb
 flask db migrate

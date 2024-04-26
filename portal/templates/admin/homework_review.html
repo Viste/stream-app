@@ -15,24 +15,34 @@
         </tr>
     </thead>
     <tbody>
-        {% for submission in submissions %}
-        <tr>
-            <td>{{ submission.student.username }}</td>
-            <td>{{ submission.homework.title }}</td>
-            <td>
-                {% if submission.file_path %}
-                <audio controls>
-                    <source src="{{ url_for('static', filename=submission.file_path) }}" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио элемент.
-                </audio>
-                {% else %}
-                Нет файла
-                {% endif %}
-            </td>
-            <td>{{ submission.grade }}</td>
-            <td>{{ submission.comments }}</td>
-        </tr>
-        {% endfor %}
+{% for submission in submissions %}
+<tr>
+    <td>{{ submission.student.username }}</td>
+    <td>{{ submission.homework.title }}</td>
+    <td>
+        {% if submission.file_path %}
+        <audio controls>
+            <source src="{{ url_for('static', filename=submission.file_path) }}" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио элемент.
+        </audio>
+        {% else %}
+        Нет файла
+        {% endif %}
+    </td>
+    <td>
+        <form method="post" action="{{ url_for('admin.homeworkreview_grade', submission_id=submission.id) }}">
+            <input type="number" name="grade" value="{{ submission.grade }}" min="0" max="10">
+            <input type="submit" value="Сохранить">
+        </form>
+    </td>
+    <td>
+        <form method="post" action="{{ url_for('admin.homeworkreview_comment', submission_id=submission.id) }}">
+            <textarea name="comments">{{ submission.comments }}</textarea>
+            <input type="submit" value="Сохранить">
+        </form>
+    </td>
+</tr>
+{% endfor %}
     </tbody>
 </table>
 {% endfor %}

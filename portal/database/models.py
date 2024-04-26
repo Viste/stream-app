@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import expression
 
 db = SQLAlchemy()
 
@@ -7,9 +8,10 @@ class Broadcast(db.Model):
     __tablename__ = 'broadcasts'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
-    video_path = db.Column(db.String)
+    video_path = db.Column(db.String(255))
     is_live = db.Column(db.Boolean, default=False)
     course = db.relationship('Course', backref=db.backref('broadcasts', lazy=True))
+    mariadb_engine = "InnoDB"
 
     def __repr__(self):
         return f'<Broadcast {self.id} for course {self.course.name}>'
@@ -18,14 +20,15 @@ class Broadcast(db.Model):
 class Customer(db.Model):
     __tablename__ = 'customers'
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    telegram_id = db.Column(db.String, unique=True)
-    username = db.Column(db.String, nullable=False, unique=True)
-    email = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String)
-    allowed_courses = db.Column(db.String, nullable=False, default='academy')
+    telegram_id = db.Column(db.String(255), unique=True)
+    username = db.Column(db.String(255), nullable=False, unique=True)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    password = db.Column(db.String(255))
+    allowed_courses = db.Column(db.String(255), nullable=False, default='academy')
     is_moderator = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
     is_banned = db.Column(db.Boolean)
+    mariadb_engine = "InnoDB"
 
     @property
     def is_authenticated(self):
@@ -49,10 +52,11 @@ class Customer(db.Model):
 class Course(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
-    name = db.Column(db.String)
-    short_name = db.Column(db.String)
-    description = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String)
+    name = db.Column(db.String(255))
+    short_name = db.Column(db.String(255))
+    description = db.Column(db.String(255), nullable=False)
+    image_url = db.Column(db.String(255))
+    mariadb_engine = "InnoDB"
 
     def __repr__(self):
         return f'<Course {self.name}>'
@@ -65,6 +69,7 @@ class CourseProgram(db.Model):
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     course = db.relationship('Course', backref=db.backref('programs', lazy=True))
+    mariadb_engine = "InnoDB"
 
 
 class Homework(db.Model):
@@ -74,6 +79,7 @@ class Homework(db.Model):
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     course = db.relationship('Course', backref=db.backref('homeworks', lazy=True))
+    mariadb_engine = "InnoDB"
 
 
 class HomeworkSubmission(db.Model):
@@ -84,5 +90,110 @@ class HomeworkSubmission(db.Model):
     file_path = db.Column(db.String(255))
     grade = db.Column(db.Integer)
     comments = db.Column(db.Text)
+    reviewer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))  # ID преподавателя
+    reviewer = db.relationship('Customer', foreign_keys=[reviewer_id])  # Связь с преподавателем
     homework = db.relationship('Homework', backref=db.backref('submissions', lazy=True))
-    student = db.relationship('Customer', backref=db.backref('submissions', lazy=True))
+    student = db.relationship('Customer', foreign_keys=[student_id], backref=db.backref('submissions', lazy=True))
+    mariadb_engine = "InnoDB"
+
+
+class Calendar(db.Model):
+    __tablename__ = "calendar"
+
+    id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True, unique=True)
+    end_time = db.Column(db.TIMESTAMP, unique=True, nullable=False)
+    mariadb_engine = "InnoDB"
+
+
+class StreamEmails(db.Model):
+    __tablename__ = "stream_emails"
+
+    id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True)
+    stream_id = db.Column(db.Integer, nullable=False, autoincrement=False, unique=True)
+    email = db.Column(db.String(255), nullable=False, unique=False)
+    mariadb_engine = "InnoDB"
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.BigInteger, primary_key=True, index=True, autoincrement=True, unique=True)
+    telegram_id: int = db.Column(db.BigInteger, nullable=False, unique=True)
+    telegram_username = db.Column(db.String(255), nullable=True, unique=True)
+    balance_amount = db.Column(db.Float, nullable=False, default=0)
+    used_tokens = db.Column(db.Integer, nullable=False, default=0)
+    subscription_start = db.Column(db.DateTime, nullable=True)
+    subscription_end = db.Column(db.DateTime, nullable=True)
+    subscription_status = db.Column(db.String(50), nullable=False, default='inactive')
+    mariadb_engine = "InnoDB"
+
+
+class NeuropunkPro(db.Model):
+    __tablename__ = "neuropunk_pro"
+
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    telegram_id = db.Column(db.BigInteger, nullable=False, unique=True)
+    telegram_username = db.Column(db.String(255), nullable=True, unique=True)
+    email = db.Column(db.String(255), nullable=True)
+    subscription_start = db.Column(db.DateTime, nullable=True)
+    subscription_end = db.Column(db.DateTime, nullable=True)
+    subscription_status = db.Column(db.String(50), nullable=False, default='inactive')
+    mariadb_engine = "InnoDB"
+
+
+class ChatMember(db.Model):
+    __tablename__ = "chat_members"
+
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    telegram_id = db.Column(db.BigInteger, nullable=False)
+    telegram_username = db.Column(db.String(255), nullable=True)
+    chat_name = db.Column(db.String(255), nullable=False)
+    chat_id = db.Column(db.BigInteger, nullable=False)
+    status = db.Column(db.String(50), nullable=False, default='active')
+    banned = db.Column(db.Boolean, default=False, server_default=expression.false())
+    mariadb_engine = "InnoDB"
+
+
+class Config(db.Model):
+    __tablename__ = 'config'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    key_name = db.Column(db.String(255), nullable=False)
+    value = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text)
+    mariadb_engine = "InnoDB"
+
+
+class Zoom(db.Model):
+    __tablename__ = "zoom"
+
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    telegram_id = db.Column(db.BigInteger, nullable=False, unique=True)
+    telegram_username = db.Column(db.String(255), nullable=True, unique=True)
+    email = db.Column(db.String(255), nullable=True)
+    mariadb_engine = "InnoDB"
+
+
+class Admins(db.Model):
+    __tablename__ = 'admins'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True)
+    telegram_id: int = db.Column(db.BigInteger, nullable=False, unique=True)
+    password_hash = db.Column(db.String(256))
+    is_admin = db.Column(db.Boolean, default=False)
+    mariadb_engine = "InnoDB"
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return self.is_admin
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
