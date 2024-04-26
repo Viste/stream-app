@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from api.api import api
 from core.admin.admin_panel import admin
 from core.portal import views
-from models.base import db
+from database.models import db
 from tools.auth import login_manager
 from tools.config import Config
 

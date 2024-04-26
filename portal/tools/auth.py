@@ -1,8 +1,8 @@
 from functools import wraps
 
+from database.models import Customer
 from flask import request, jsonify, session, current_app
 from flask_login import LoginManager, login_user, logout_user
-from models.base import Customer
 from werkzeug.security import check_password_hash
 
 

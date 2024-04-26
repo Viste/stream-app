@@ -1,10 +1,10 @@
 import os
 from datetime import timedelta
 
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
-from models.base import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram
 from tools.auth import authenticate_user, logout
 from werkzeug.utils import secure_filename
 

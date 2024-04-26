@@ -1,11 +1,11 @@
 from collections import defaultdict
 
+from database.models import db, Course, Customer, Broadcast, Homework, CourseProgram, HomeworkSubmission
 from flask import request, redirect, url_for, session
 from flask_admin import Admin, expose, AdminIndexView, BaseView, helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
-from models.base import db, Course, Customer, Broadcast, Homework, CourseProgram, HomeworkSubmission
 from sqlalchemy.orm import joinedload
 from tools.forms import LoginForm
 

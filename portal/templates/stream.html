@@ -55,12 +55,14 @@
                             liveMaxLatencyDurationCount: 2,
                             capLevelToPlayerSize: true
                         },
-                        apiBackend: createApiBackend('ws://https://academy.pprfnk.tech/ws', function(data) {
-                            if (data.type === 'status') {
+                        apiBackend: createApiBackend('wss://academy.pprfnk.tech/ws', function(data) {
+                            if (data.type === 'status')
+                            {
                                 var statusText = data.live ? 'Трансляция активна' : 'Трансляция не активна';
                                 document.getElementById('status-info-{{ loop.index }}').textContent = statusText;
                             }
-                            if (data.type === 'viewers') {
+                            if (data.type === 'viewers')
+                            {
                                 var viewersText = 'Зрителей: ' + data.viewers;
                                 document.getElementById('viewers-info-{{ loop.index }}').textContent = viewersText;
                             }

@@ -1,4 +1,4 @@
-from models.base import db, Customer
+from database.models import db, Customer
 from werkzeug.security import check_password_hash
 from wtforms import validators, fields, form
 

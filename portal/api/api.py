@@ -1,5 +1,5 @@
+from database.models import db, Broadcast, Course
 from flask import Blueprint, jsonify, request
-from models.base import db, Broadcast, Course
 from tools.auth import require_api_key
 
 api = Blueprint('api', __name__)
