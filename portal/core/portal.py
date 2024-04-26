@@ -106,7 +106,7 @@ def submit_homework(homework_id):
     # Разрешаем загрузку только если загрузок меньше 2
     if existing_submissions_count >= 2:
         flash('Вы уже загрузили максимальное количество домашних заданий для этой темы.', 'error')
-        return redirect(url_for('course_detail', course_id=Homework.query.get(homework_id).course_id))
+        return redirect(url_for('views.course_detail', course_id=Homework.query.get(homework_id).course_id))
 
     file = request.files['file']
     if file:
@@ -125,4 +125,4 @@ def submit_homework(homework_id):
     else:
         flash('Ошибка загрузки файла.', 'error')
 
-    return redirect(url_for('course_detail', course_id=Homework.query.get(homework_id).course_id))
+    return redirect(url_for('views.course_detail', course_id=Homework.query.get(homework_id).course_id))
