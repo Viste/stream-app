@@ -19,6 +19,5 @@ RUN npm install
 COPY portal/ /app
 
 EXPOSE 5000
-
-CMD ["node", "server.js", "&"]
+EXPOSE 12
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "wsgi:app"]

@@ -55,7 +55,7 @@
                             liveMaxLatencyDurationCount: 2,
                             capLevelToPlayerSize: true
                         },
-                        apiBackend: createApiBackend('ws://localhost:1207', function(data) {
+                        apiBackend: createApiBackend('ws://https://academy.pprfnk.tech/ws', function(data) {
                             if (data.type === 'status') {
                                 var statusText = data.live ? 'Трансляция активна' : 'Трансляция не активна';
                                 document.getElementById('status-info-{{ loop.index }}').textContent = statusText;
