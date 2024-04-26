@@ -2,6 +2,7 @@ flask[async]
 flask-admin[async]
 flask-login[async]
 Flask-SQLAlchemy
+Flask-Migrate
 flask-jwt-extended
 werkzeug
 wtforms
