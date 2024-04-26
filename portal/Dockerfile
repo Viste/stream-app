@@ -17,8 +17,11 @@ COPY portal/server.js portal/package.json /app/
 RUN npm install
 
 COPY portal/ /app
+COPY portal/start.sh /app/start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 5000
 EXPOSE 1207
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "main:app", "&", "\node", "server.js"]
+# Запуск скрипта
+CMD ["/app/start.sh"]
