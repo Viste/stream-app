@@ -21,4 +21,4 @@ COPY portal/ /app
 EXPOSE 5000
 EXPOSE 1207
 
-CMD ["node", "server.js", "&", ";", "gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "main:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "-w", "8", "main:app", "&", "\node", "server.js"]
