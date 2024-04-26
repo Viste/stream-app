@@ -18,7 +18,7 @@ RUN npm install
 
 COPY portal/ /app
 COPY portal/start.sh /app/start.sh
-RUN chmod +x /start.sh
+RUN chmod +x /app/start.sh
 
 EXPOSE 5000
 EXPOSE 1207
