@@ -97,14 +97,32 @@ def course_detail(course_id):
 @views.route('/submit_homework/<int:homework_id>', methods=['POST'])
 @login_required
 def submit_homework(homework_id):
+    # Проверяем, сколько уже есть загрузок для данного домашнего задания от этого студента
+    existing_submissions_count = HomeworkSubmission.query.filter_by(
+        homework_id=homework_id,
+        student_id=current_user.id
+    ).count()
+
+    # Разрешаем загрузку только если загрузок меньше 2
+    if existing_submissions_count >= 2:
+        flash('Вы уже загрузили максимальное количество домашних заданий для этой темы.', 'error')
+        return redirect(url_for('course_detail', course_id=Homework.query.get(homework_id).course_id))
+
     file = request.files['file']
     if file:
         filename = secure_filename(file.filename)
         file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
         db_path = "storage/" + filename
-        submission = HomeworkSubmission(homework_id=homework_id, student_id=current_user.id, file_path=db_path)
+        submission = HomeworkSubmission(
+            homework_id=homework_id,
+            student_id=current_user.id,
+            file_path=db_path
+        )
         db.session.add(submission)
         db.session.commit()
         flash('Домашнее задание успешно отправлено!', 'success')
+    else:
+        flash('Ошибка загрузки файла.', 'error')
+
     return redirect(url_for('course_detail', course_id=Homework.query.get(homework_id).course_id))
