@@ -109,7 +109,7 @@ class StreamEmails(db.Model):
     __tablename__ = "stream_emails"
 
     id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True)
-    stream_id = db.Column(db.Integer, nullable=False, autoincrement=False, unique=True)
+    stream_id = db.Column(db.Integer, nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=False)
     mariadb_engine = "InnoDB"
 
@@ -176,7 +176,7 @@ class Zoom(db.Model):
 class Admins(db.Model):
     __tablename__ = 'admins'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(50), unique=True)
     telegram_id: int = db.Column(db.BigInteger, nullable=False, unique=True)
     password_hash = db.Column(db.String(256))
