@@ -30,13 +30,13 @@
         {% endif %}
     </td>
     <td>
-        <form method="post" action="{{ url_for('admin.homeworkreview_grade', submission_id=submission.id) }}">
+        <form method="post" action="{{ url_for('homeworkreview.homeworkreview_grade', submission_id=submission.id) }}">
             <input type="number" name="grade" value="{{ submission.grade }}" min="0" max="10">
             <input type="submit" value="Сохранить">
         </form>
     </td>
     <td>
-        <form method="post" action="{{ url_for('admin.homeworkreview_comment', submission_id=submission.id) }}">
+        <form method="post" action="{{ url_for('homeworkreview.homeworkreview_comment', submission_id=submission.id) }}">
             <textarea name="comments">{{ submission.comments }}</textarea>
             <input type="submit" value="Сохранить">
         </form>
