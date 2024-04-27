@@ -59,7 +59,7 @@ class HomeworkReviewView(BaseView):
         submission.grade = request.form['grade']
         submission.reviewer_name = current_user.name
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('homeworkreview.homeworkreview_grade'))
 
     @expose('/comment/<int:submission_id>/', methods=['POST'])
     @login_required
@@ -68,7 +68,7 @@ class HomeworkReviewView(BaseView):
         submission.comments = request.form['comments']
         submission.reviewer_name = current_user.name
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('homeworkreview.homeworkreview_grade'))
 
 
 class MyModelView(ModelView):
