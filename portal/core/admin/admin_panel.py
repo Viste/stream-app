@@ -57,7 +57,7 @@ class HomeworkReviewView(BaseView):
     def homeworkreview_grade(self, submission_id):
         submission = HomeworkSubmission.query.get(submission_id)
         submission.grade = request.form['grade']
-        submission.reviewer_id = current_user.id
+        submission.reviewer_name = current_user.name
         db.session.commit()
         return redirect(url_for('.index'))
 
@@ -66,7 +66,7 @@ class HomeworkReviewView(BaseView):
     def homeworkreview_comment(self, submission_id):
         submission = HomeworkSubmission.query.get(submission_id)
         submission.comments = request.form['comments']
-        submission.reviewer_id = current_user.id
+        submission.reviewer_name = current_user.name
         db.session.commit()
         return redirect(url_for('.index'))
 

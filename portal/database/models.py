@@ -64,7 +64,7 @@ class Course(db.Model):
 
 class CourseProgram(db.Model):
     __tablename__ = 'course_programs'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -74,7 +74,7 @@ class CourseProgram(db.Model):
 
 class Homework(db.Model):
     __tablename__ = 'homeworks'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -84,14 +84,13 @@ class Homework(db.Model):
 
 class HomeworkSubmission(db.Model):
     __tablename__ = 'homework_submissions'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     homework_id = db.Column(db.Integer, db.ForeignKey('homeworks.id'), nullable=False)
     student_id = db.Column(db.BigInteger, db.ForeignKey('customers.id'), nullable=False)
     file_path = db.Column(db.String(255))
     grade = db.Column(db.Integer)
     comments = db.Column(db.Text)
-    reviewer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))  # ID преподавателя
-    reviewer = db.relationship('Customer', foreign_keys=[reviewer_id])  # Связь с преподавателем
+    reviewer_name = db.Column(db.String(255), nullable=False)  # ID преподавателя
     homework = db.relationship('Homework', backref=db.backref('submissions', lazy=True))
     student = db.relationship('Customer', foreign_keys=[student_id], backref=db.backref('submissions', lazy=True))
     mariadb_engine = "InnoDB"
@@ -100,8 +99,8 @@ class HomeworkSubmission(db.Model):
 class Calendar(db.Model):
     __tablename__ = "calendar"
 
-    id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True, unique=True)
-    end_time = db.Column(db.TIMESTAMP, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    end_time = db.Column(db.TIMESTAMP, nullable=False)
     mariadb_engine = "InnoDB"
 
 
@@ -109,7 +108,7 @@ class StreamEmails(db.Model):
     __tablename__ = "stream_emails"
 
     id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True)
-    stream_id = db.Column(db.Integer, nullable=False, unique=True)
+    stream_id = db.Column(db.Integer, nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=False)
     mariadb_engine = "InnoDB"
 
