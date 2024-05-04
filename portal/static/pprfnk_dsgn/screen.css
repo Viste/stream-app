@@ -186,8 +186,8 @@
 
     .mainnavbar a:not(.active) {
         font-size: 14px;
-        height: 16px;
-        padding: 30px 20px;
+        height: auto;
+        padding: 30px 18px;
     }
 
     .logo a img {
@@ -230,7 +230,7 @@
     }
 
     .pageHeaderBlock {
-        height: 82px;
+        height: auto;
         padding: 25px 62px;
     }
 
@@ -799,5 +799,30 @@
         line-height: 33.48px;
         text-align: left;
         padding-right: 15px;
+    }
+    .btn {
+        width: auto;
+        height: auto;
+    }
+    .download-button span {
+        position: relative;
+        top: -7px;
+    }
+    .buyb-bottom .buyb-right > span:nth-child(1) {
+        padding-right: 5px;
+        top: 7px;
+        position: relative;
+    }
+    .nt-coine {
+        top: 0px;
+    }
+    footer .copyright {
+        width: 84% !important;
+        max-width: 1024px !important;
+        padding-left: inherit;
+        margin: 0 auto;
+    }
+    .mobilemenuburger a.active, .mainnavbar a.active {
+        height: auto;
     }
 }
