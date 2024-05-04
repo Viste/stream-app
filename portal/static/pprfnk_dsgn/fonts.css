@@ -1,0 +1,25 @@
+/* Обычный */
+@font-face {
+    font-family: 'EuropeExt Normal';
+    src: url(fonts/europeextnormal.ttf);
+}
+
+@font-face {
+    font-family: 'EuropeExt';
+    src: url(fonts/europeext.otf);
+}
+
+@font-face {
+    font-family: 'EuropeExt Bold';
+    src: url(fonts/europeext_bold.otf);
+}
+
+@font-face {
+    font-family: 'EuropeExt Bolder';
+    src: url(fonts/europeextbold.ttf);
+}
+
+@font-face {
+    font-family: 'EuropeExt BoldItalic';
+    src: url(fonts/europeext_bold_italic.otf);
+}
