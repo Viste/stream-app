@@ -505,7 +505,8 @@
     }
 
     .pageHeaderBlock {
-        height: 130px;
+        min-height: 130px;
+        height: auto;
         padding: 30px 0;
     }
 
@@ -592,7 +593,7 @@
     }
 
     .buyb-top {
-        height: 32px;
+        height: auto;
     }
 
     .pe-previewImage .annotation {
@@ -621,6 +622,10 @@
     }
     .mmnmnh-logo svg {
         display: block;
+    }
+    .buybtn .btn {
+        width: 135px;
+        height: auto;
     }
 }
 
