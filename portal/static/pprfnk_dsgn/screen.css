@@ -770,6 +770,12 @@
     }
 }
 @media screen and (width < 1025px) {
+    .mmnmnh-close {
+        flex-basis: 75px;
+        padding: 20px;
+        width: 75px;
+        height: inherit;
+    }
     .logo a {
         max-width: 50%;
     }
