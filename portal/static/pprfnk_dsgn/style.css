@@ -159,10 +159,9 @@ header {
 
 .pageHeaderBlock .b-balance, .pageHeaderBlock .b-infofacts {
     display: flex;
-    width: 66.5%;
+    width: 63%;
     margin: 0 auto;
     max-width: 1248px;
-    width: 100%;
 }
 
 .pageHeaderBlock .b-balance {
@@ -285,13 +284,12 @@ header {
 }
 
 .buybtn .btn {
-    width: 95px;
-    height: 22px;
+    width: 135px;
+    height: auto;
     display: block;
-    border: 1px solid;
     padding: 14px 15px;
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 .buybtn .btn:hover {
@@ -440,6 +438,8 @@ footer .copyright {
 
 .buyb-bottom .buyb-right span:nth-child(1) {
     padding-right: 5px;
+    top: 7px;
+    position: relative;
 }
 
 .buyb-bottom .buyb-right span:nth-child(2) {
