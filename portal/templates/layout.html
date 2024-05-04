@@ -1,81 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pprfnk_dsgn/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pprfnk_dsgn/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pprfnk_dsgn/screen.css') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
-<body class="loggedin d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('views.index') }}">
-                <img src="../static/images/LOGONOTITLE1.png" alt="" width="50" height="30" class="d-inline-block align-text-top">
-                Нейропанк Академия
-            </a>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.index') }}"><i class="fas fa-home"></i> Главная</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.howto') }}"><i class="fas fa-solid fa-question"></i> Как это работает</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.stream') }}"><i class="fas fa-solid fa-tv"></i> Трансляции</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.courses') }}"><i class="fas fa-solid fa-question"></i>Курсы</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.about') }}"><i class="fas fa-solid fa-user"></i> О нас</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav navbar-right">
-                    {% if session.loggedin == True %}
-                        {% if current_user.is_admin == True %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.index') }}"><i class="fas fa-user-circle"></i>Админка</a>
-                    </li>
-                        {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.profile') }}"><i class="fas fa-user-circle"></i>Профиль</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.logout_view') }}"><i class="fas fa-sign-out-alt"></i>Выйти</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.login') }}">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('views.register') }}">Регистрация</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="content">
-        {% block content %}
-        {% endblock %}
+<body>
+<header class="headerWrapper">
+    <div class="logo">
+        <a href="{{ url_for('views.index') }}">
+            <svg width="156" height="44" viewBox="0 0 156 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.5 0C33.3764 0 43 9.85239 43 22C43 34.1476 33.3715 44 21.5 44C9.62848 44 0 34.1476 0 22C0 9.85239 9.62359 0 21.5 0ZM21.2894 11.5663L23.7431 14.077L20.976 16.9084L19.6683 15.5704H15.7993L14.4917 16.9084L11.7246 14.077L14.1783 11.5663H21.2845H21.2894ZM32.4655 15.1695L39.0869 21.9449C39.0526 12.0323 31.1922 4.00911 21.5 4.00911C11.8079 4.00911 3.9131 12.0674 3.9131 22.005V22.0752L10.7353 15.0943L13.5024 17.9257C12.4984 18.9531 11.4944 19.9804 10.4904 21.0077L13.7326 24.3253L10.9655 27.1567L10.8431 27.0314L7.72336 23.8392L4.60854 27.0264C6.73406 34.5235 13.4926 40.0009 21.5 40.0009C29.5074 40.0009 36.3296 34.4733 38.4208 26.9262L30.8444 19.1736H26.28L18.4783 27.1567L15.7112 24.3253C18.6937 21.2733 21.6763 18.2214 24.6589 15.1695H32.4606H32.4655ZM14.7219 25.3426L23.0035 33.8169L21.5686 35.2852H18.9043L11.9548 28.174L14.7219 25.3426Z"
+                      fill="white"/>
+                <path d="M56.4664 27H53.3624L59.2504 15.896H63.1864L69.0264 27H65.9064L64.4824 24.2H57.9064L56.4664 27ZM58.9784 22.104H63.4104L61.2984 17.976H61.1704L58.9784 22.104ZM72.3768 19.096V21.928H73.3528L76.0248 19.096H79.0168L75.3208 22.76L79.3528 27H76.1848L73.3528 23.576H72.3768V27H69.7208V19.096H72.3768ZM82.8161 21.384H80.2881C80.2881 20.088 80.9921 19.096 83.4881 19.096H87.4081C89.9041 19.096 90.7681 20.344 90.7681 21.88V27H88.1121V26.104C87.6641 26.696 87.3921 27 86.4321 27H82.8801C81.2641 27 80.2241 26.36 80.2241 24.984V24.024C80.2241 22.712 80.9441 21.928 83.4241 21.928H86.6401C87.4241 21.928 87.8241 22.184 88.1121 22.696V21.704C88.1121 20.904 87.6641 20.744 86.6561 20.744H83.8401C82.9921 20.744 82.8161 20.824 82.8161 21.128V21.384ZM84.0801 23.576C83.1521 23.576 82.8161 23.784 82.8161 24.472C82.8161 25.112 83.1201 25.352 84.0801 25.352H86.8161C87.7921 25.352 88.1121 25.128 88.1121 24.472C88.1121 23.832 87.7921 23.576 86.8161 23.576H84.0801ZM92.9515 25.176C93.7035 24.408 94.0235 23.464 94.0235 22.216V19.096H103.112V25.176H104.28V29.384H101.848V27H94.4715V29.384H92.0395V25.176H92.9515ZM100.456 25.176V20.92H96.5835V22.424C96.5835 23.464 96.3435 24.408 95.7675 25.176H100.456ZM112.723 22.152C112.723 21.384 112.371 20.712 111.235 20.712H108.786C107.747 20.712 107.443 21.384 107.443 22.152H112.723ZM115.267 23.624H107.443V23.928C107.443 24.616 107.619 25.352 108.707 25.352H111.779C112.419 25.352 112.723 25.032 112.723 24.408H115.267C115.267 25.8 114.611 27 111.939 27H108.051C105.827 27 104.787 25.704 104.787 23.976V21.976C104.787 20.584 105.731 19.064 108.099 19.064H111.875C114.483 19.064 115.267 20.696 115.267 22.28V23.624ZM116.822 19.096H120.822L123.35 25.176H123.718L126.246 19.096H130.246V27H127.862V20.92H127.526L124.902 27H122.166L119.542 20.92H119.206V27H116.822V19.096ZM132.02 27V19.096H134.404V25.176H134.692L138.724 19.096H142.516V27H140.132V20.92H139.78L135.876 27H132.02ZM152.19 24.168H149.934L147.342 27H144.078L146.878 24.168C145.294 24.168 144.286 23.336 144.286 22.072V21.096C144.286 19.72 145.342 19.096 146.958 19.096H154.846V27H152.19V24.168ZM152.19 22.52V20.744H148.158C147.198 20.744 146.878 20.968 146.878 21.608C146.878 22.296 147.23 22.52 148.158 22.52H152.19Z"
+                      fill="white"/>
+            </svg>
+        </a>
     </div>
 
-    <footer class="footer mt-auto py-3 bg-dark text-white">
-        <div class="container">
-            <span class="text-muted">© 2024 pprfnk.tech </span>
+    {% if session.loggedin == True %}
+    <button id="mobprofileitem" class="mobprofileitem" onclick="location.href='{{ url_for('views.profile') }}'">
+        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink">
+            <rect width="25" height="25" fill="url(#pattern0_628_376)"/>
+            <defs>
+                <pattern id="pattern0_628_376" patternContentUnits="objectBoundingBox" width="1" height="1">
+                    <use xlink:href="#image0_628_376" transform="scale(0.015625)"/>
+                </pattern>
+                <image id="image0_628_376" width="64" height="64"
+                       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAEAQAAABQ8GUWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAAAqo0jMgAAAAlwSFlzAAAAYAAAAGAA8GtCzwAAAAd0SU1FB+cHCxQuOwOXMS8AAANKSURBVHja7ZvPLzNBHIe/oweR6K0ErYZQEv0XaNyoUvUrEi7i4IZ/QeLA1cWPEAc3bqS9NE78A43ESSKSNhJx0WpU0nY+72H1fUXyMtvO7HRjn/NkO89jZ3e6W0QOvxtm5YeB+/3EJieJIhGiri6Cz2fMIpMhenggxONE5+esIZ3WHUauOLxe4OAAKJXwI+Uy+NkZ0NWle96S5GMx4PX1Z/Gv5HJANKp7/jXKr68D5bJ5+c9nw9qabo8q5WOx2uQ/RbDbmQDu81V32n+3HDo6dHuJB8DxsTz5D/jhoW4vMXnu94td7c1SKoF/3DYl0iA/QSxG5HLJP67LZewh6j0AC4fly1cYG6v/ANTbqy5AT48NArS1qQvg9doggEo4t0GAx0dl/pB/bAUB7u+VBWDyjy0/ABIJZQEoHld3bFn+vLNTzUaoWFSxEVITAUdH8gPs7+v2MhHA6zW+wMgimwXa23V7mYwQDstZCuUy+MSEbp/qIvC1tZofiGB1VbdHbREQjVa3HLJZ8PFx3fOXE4G3tAA7O0CxKPZXPzmxas1b/Fjc5yM2OUmIRIi6u4l93NaQyRibnESCcHHBGjIZK+fl4ODwe7HkIgje3EwsFCIKhYiCQaJAgKi1lai52RiRzxOenojd3RHd3hJdXRGur1lDPq87UPXSYAwIh433fO/v5vcBhQJwegqMjgLM0rtV7fJ8bg64ual9G1whlQKmp3V7CYgHAuCXl/LEv8CTSXCVD11rkcfMDPDyokz+L7kcsLCg2/eTOGPAxoZ68a9sb2u/Nhjye3vWy1fY3dUaAdja0idfYXNTk/z8vG71fywuWivPAwG57/9rJZsF5L82+yaAwltdtfBk0iL52Vndrv9nakqtPBiTu8OTTSql9K5gPOmtc/jIiBknk6/GlpeV1ZUFW1oyNVx0ILjbTez5maixUbfj9xQKRB4PY29vIqPFzwA2NFT/8kRETU2EwUHR0SaWQCikW02c4WEFAYJB3VrCsIEBBQH6+nR7CYP+fgUBPB7dXirmaiJA5QGmDWBut/BQ0YEAoNvLVAMmtiO02c/k5OME0D0B3TgBdE9AN04A3RPQjYkAdvrZivh/npoIsLJijwjptDFXBwcR/gCSS/PSrqKTNQAAAABJRU5ErkJggg=="/>
+            </defs>
+        </svg>
+    </button>
+    {% endif %}
+    <button id="mobmenuburger" class="mobilemenuburger">
+        <svg width="26" height="18" viewBox="0 0 26 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="26" height="2" fill="#D9D9D9"/>
+            <rect y="8" width="26" height="2" fill="#D9D9D9"/>
+            <rect y="16" width="26" height="2" fill="#D9D9D9"/>
+        </svg>
+    </button>
+    <div class="mainnavbar">
+        <a href="{{ url_for('views.index') }}" {% if request.path== '/' %}class="active"{% endif %}>Главная</a>
+        <a href="{{ url_for('views.howto') }}" {% if request.path== '/howto' %}class="active"{% endif %}>Как это
+        работает</a>
+        <a href="{{ url_for('views.stream') }}" {% if request.path== '/stream' %}class="active"{% endif
+        %}>Трансляция</a>
+        <a href="{{ url_for('views.courses') }}" {% if request.path== '/courses' %}class="active"{% endif %}>Курсы</a>
+        <a href="{{ url_for('views.sport') }}" {% if request.path== '/sport' %}class="active"{% endif %}>Спорт</a>
+        <a href="{{ url_for('views.about') }}" {% if request.path== '/about' %}class="active"{% endif %}>О нас</a>
+    </div>
+    <div class="mobmenuburgermainnavbar">
+        <div class="mmbmn-header">
+            <div class="mmnmnh-logo">
+                <svg width="156" height="44" viewBox="0 0 156 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.5 0C33.3764 0 43 9.85239 43 22C43 34.1476 33.3715 44 21.5 44C9.62848 44 0 34.1476 0 22C0 9.85239 9.62359 0 21.5 0ZM21.2894 11.5663L23.7431 14.077L20.976 16.9084L19.6683 15.5704H15.7993L14.4917 16.9084L11.7246 14.077L14.1783 11.5663H21.2845H21.2894ZM32.4655 15.1695L39.0869 21.9449C39.0526 12.0323 31.1922 4.00911 21.5 4.00911C11.8079 4.00911 3.9131 12.0674 3.9131 22.005V22.0752L10.7353 15.0943L13.5024 17.9257C12.4984 18.9531 11.4944 19.9804 10.4904 21.0077L13.7326 24.3253L10.9655 27.1567L10.8431 27.0314L7.72336 23.8392L4.60854 27.0264C6.73406 34.5235 13.4926 40.0009 21.5 40.0009C29.5074 40.0009 36.3296 34.4733 38.4208 26.9262L30.8444 19.1736H26.28L18.4783 27.1567L15.7112 24.3253C18.6937 21.2733 21.6763 18.2214 24.6589 15.1695H32.4606H32.4655ZM14.7219 25.3426L23.0035 33.8169L21.5686 35.2852H18.9043L11.9548 28.174L14.7219 25.3426Z"
+                          fill="white"/>
+                    <path d="M56.4664 27H53.3624L59.2504 15.896H63.1864L69.0264 27H65.9064L64.4824 24.2H57.9064L56.4664 27ZM58.9784 22.104H63.4104L61.2984 17.976H61.1704L58.9784 22.104ZM72.3768 19.096V21.928H73.3528L76.0248 19.096H79.0168L75.3208 22.76L79.3528 27H76.1848L73.3528 23.576H72.3768V27H69.7208V19.096H72.3768ZM82.8161 21.384H80.2881C80.2881 20.088 80.9921 19.096 83.4881 19.096H87.4081C89.9041 19.096 90.7681 20.344 90.7681 21.88V27H88.1121V26.104C87.6641 26.696 87.3921 27 86.4321 27H82.8801C81.2641 27 80.2241 26.36 80.2241 24.984V24.024C80.2241 22.712 80.9441 21.928 83.4241 21.928H86.6401C87.4241 21.928 87.8241 22.184 88.1121 22.696V21.704C88.1121 20.904 87.6641 20.744 86.6561 20.744H83.8401C82.9921 20.744 82.8161 20.824 82.8161 21.128V21.384ZM84.0801 23.576C83.1521 23.576 82.8161 23.784 82.8161 24.472C82.8161 25.112 83.1201 25.352 84.0801 25.352H86.8161C87.7921 25.352 88.1121 25.128 88.1121 24.472C88.1121 23.832 87.7921 23.576 86.8161 23.576H84.0801ZM92.9515 25.176C93.7035 24.408 94.0235 23.464 94.0235 22.216V19.096H103.112V25.176H104.28V29.384H101.848V27H94.4715V29.384H92.0395V25.176H92.9515ZM100.456 25.176V20.92H96.5835V22.424C96.5835 23.464 96.3435 24.408 95.7675 25.176H100.456ZM112.723 22.152C112.723 21.384 112.371 20.712 111.235 20.712H108.786C107.747 20.712 107.443 21.384 107.443 22.152H112.723ZM115.267 23.624H107.443V23.928C107.443 24.616 107.619 25.352 108.707 25.352H111.779C112.419 25.352 112.723 25.032 112.723 24.408H115.267C115.267 25.8 114.611 27 111.939 27H108.051C105.827 27 104.787 25.704 104.787 23.976V21.976C104.787 20.584 105.731 19.064 108.099 19.064H111.875C114.483 19.064 115.267 20.696 115.267 22.28V23.624ZM116.822 19.096H120.822L123.35 25.176H123.718L126.246 19.096H130.246V27H127.862V20.92H127.526L124.902 27H122.166L119.542 20.92H119.206V27H116.822V19.096ZM132.02 27V19.096H134.404V25.176H134.692L138.724 19.096H142.516V27H140.132V20.92H139.78L135.876 27H132.02ZM152.19 24.168H149.934L147.342 27H144.078L146.878 24.168C145.294 24.168 144.286 23.336 144.286 22.072V21.096C144.286 19.72 145.342 19.096 146.958 19.096H154.846V27H152.19V24.168ZM152.19 22.52V20.744H148.158C147.198 20.744 146.878 20.968 146.878 21.608C146.878 22.296 147.23 22.52 148.158 22.52H152.19Z"
+                          fill="white"/>
+                </svg>
+            </div>
+            <div class="mmnmnh-close" id="mmnmnhclosemenu">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1.51367" y="0.100464" width="26" height="2" transform="rotate(45 1.51367 0.100464)"
+                          fill="#D9D9D9"/>
+                    <rect width="26" height="2"
+                          transform="matrix(-0.707107 0.707107 0.707107 0.707107 18.4844 0.100464)" fill="#D9D9D9"/>
+                </svg>
+            </div>
         </div>
-    </footer>
+        <div>
+            <a href="{{ url_for('views.index') }}" {% if request.path== '/' %}class="active"{% endif %}>Главная</a>
+            <a href="{{ url_for('views.howto') }}" {% if request.path== '/howto' %}class="active"{% endif %}>Как это
+            работает</a>
+            <a href="{{ url_for('views.stream') }}" {% if request.path== '/stream' %}class="active"{% endif
+            %}>Трансляция</a>
+            <a href="{{ url_for('views.courses') }}" {% if request.path== '/courses' %}class="active"{% endif
+            %}>Курсы</a>
+            <a href="{{ url_for('views.sport') }}" {% if request.path== '/sport' %}class="active"{% endif %}>Спорт</a>
+            <a href="{{ url_for('views.about') }}" {% if request.path== '/about' %}class="active"{% endif %}>О нас</a>
+        </div>
+    </div>
+    <div class="profile">
+        {% if session.loggedin == True %}
+        {% if current_user.is_admin == True %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.index') }}"><i class="fas fa-user-circle"></i>Админка</a>
+        </li>
+        {% endif %}
+        <div class="b-profile">
+            <a href="{{ url_for('views.profile') }}" {% if request.path== '/profile' %}class="active"{% endif %}>Профиль
+            <div class="b-profile-ico">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <rect width="25" height="25" fill="url(#pattern0_577_1172)"/>
+                    <defs>
+                        <pattern id="pattern0_577_1172" patternContentUnits="objectBoundingBox" width="1"
+                                 height="1">
+                            <use xlink:href="#image0_577_1172" transform="scale(0.015625)"/>
+                        </pattern>
+                        <image id="image0_577_1172" width="64" height="64"
+                               xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAEAQAAABQ8GUWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAAAqo0jMgAAAAlwSFlzAAAAYAAAAGAA8GtCzwAAAAd0SU1FB+cHCxQuOwOXMS8AAANKSURBVHja7ZvPLzNBHIe/oweR6K0ErYZQEv0XaNyoUvUrEi7i4IZ/QeLA1cWPEAc3bqS9NE78A43ESSKSNhJx0WpU0nY+72H1fUXyMtvO7HRjn/NkO89jZ3e6W0QOvxtm5YeB+/3EJieJIhGiri6Cz2fMIpMhenggxONE5+esIZ3WHUauOLxe4OAAKJXwI+Uy+NkZ0NWle96S5GMx4PX1Z/Gv5HJANKp7/jXKr68D5bJ5+c9nw9qabo8q5WOx2uQ/RbDbmQDu81V32n+3HDo6dHuJB8DxsTz5D/jhoW4vMXnu94td7c1SKoF/3DYl0iA/QSxG5HLJP67LZewh6j0AC4fly1cYG6v/ANTbqy5AT48NArS1qQvg9doggEo4t0GAx0dl/pB/bAUB7u+VBWDyjy0/ABIJZQEoHld3bFn+vLNTzUaoWFSxEVITAUdH8gPs7+v2MhHA6zW+wMgimwXa23V7mYwQDstZCuUy+MSEbp/qIvC1tZofiGB1VbdHbREQjVa3HLJZ8PFx3fOXE4G3tAA7O0CxKPZXPzmxas1b/Fjc5yM2OUmIRIi6u4l93NaQyRibnESCcHHBGjIZK+fl4ODwe7HkIgje3EwsFCIKhYiCQaJAgKi1lai52RiRzxOenojd3RHd3hJdXRGur1lDPq87UPXSYAwIh433fO/v5vcBhQJwegqMjgLM0rtV7fJ8bg64ual9G1whlQKmp3V7CYgHAuCXl/LEv8CTSXCVD11rkcfMDPDyokz+L7kcsLCg2/eTOGPAxoZ68a9sb2u/Nhjye3vWy1fY3dUaAdja0idfYXNTk/z8vG71fywuWivPAwG57/9rJZsF5L82+yaAwltdtfBk0iL52Vndrv9nakqtPBiTu8OTTSql9K5gPOmtc/jIiBknk6/GlpeV1ZUFW1oyNVx0ILjbTez5maixUbfj9xQKRB4PY29vIqPFzwA2NFT/8kRETU2EwUHR0SaWQCikW02c4WEFAYJB3VrCsIEBBQH6+nR7CYP+fgUBPB7dXirmaiJA5QGmDWBut/BQ0YEAoNvLVAMmtiO02c/k5OME0D0B3TgBdE9AN04A3RPQjYkAdvrZivh/npoIsLJijwjptDFXBwcR/gCSS/PSrqKTNQAAAABJRU5ErkJggg=="/>
+                    </defs>
+                </svg>
+            </div>
+            </a>
+        </div>
+        <div class="b-exit">
+            <a href="{{ url_for('views.logout_view') }}">Выход</a>
+        </div>
+        {% else %}
+        <div class="b-profile">
+            <a class="nav-link" href="{{ url_for('views.login') }}">Войти</a>
+        </div>
+        <div class="b-exit">
+            <a class="nav-link" href="{{ url_for('views.register') }}">Регистрация</a>
+        </div>
+        {% endif %}
 
-    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </div>
+</header>
+<div class="pageHeaderBlock">
+    {% clock pageHeaderBlock %}
+    {% endblock %}
+</div>
+<div class="mainWrapper">
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="b-articles">
+    {% block BottomArticles %}
+    {% endblock %}
+</div>
+<footer>
+    <div class="copyright">© 2024 <a target="_blank" href="https://www.pprfnk.tech/">pprfnk.tech</a></div>
+</footer>
+<div id="faderout">
+    <div class="popup">
+        <div class="popupHeaderBlock">
+            <div class="titlePopupBlock"></div>
+            <div class="closePopupButton">
+                <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect opacity="0.1" width="55" height="55" fill="#D9D9D9"/>
+                    <path d="M16 16L27.5 27.5M39 39L27.5 27.5M27.5 27.5L39 16M27.5 27.5L16 39" stroke="white"
+                          stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+        <div class="popupContent"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="{{ url_for('static', filename='pprfnk_dsgn/script.js') }}"></script>
 </body>
 </html>

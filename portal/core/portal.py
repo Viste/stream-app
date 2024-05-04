@@ -74,6 +74,11 @@ def about():
     return render_template('about.html')
 
 
+@views.route('/sport')
+def sport():
+    return render_template('sport.html')
+
+
 @views.route('/courses')
 @login_required
 def courses():
