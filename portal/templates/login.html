@@ -1,26 +1,33 @@
-
 {% extends 'layout.html' %}
 
 {% block title %}Войти{% endblock %}
 
+{% block pageHeaderBlock %}
+<h1>Вход</h1>
+{% endblock %}
+
 {% block content %}
 <div class="login">
-	<h1>Вход</h1>
-	<div class="links">
-		<a href="{{ url_for('views.login') }}" class="active">Войти</a>
-		<a href="{{ url_for('views.register') }}">Регистрация</a>
-	</div>
-	<form action="{{ url_for('views.login') }}" method="post">
-		<label for="username">
-			<i class="fas fa-user"></i>
-		</label>
-		<input type="text" name="username" placeholder="Username" id="username" required>
-		<label for="password">
-			<i class="fas fa-lock"></i>
-		</label>
-		<input type="password" name="password" placeholder="Password" id="password" required>
-		<div class="msg">{{ msg }}</div>
-		<input type="submit" value="Вход">
-	</form>
+    <div class="links">
+        <a class="btn active btn-outline-primary" data-bs-toggle="button" aria-pressed="true" role="button" href="{{ url_for('views.login') }}" class="active">Войти</a>
+        <a class="btn btn-outline-primary" role="button" href="{{ url_for('views.register') }}">Регистрация</a>
+    </div>
+    <form id="formLoginPage" action="{{ url_for('views.login') }}" method="post">
+        <div><label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+            <input type="text" name="username" placeholder="Username" id="username" required>
+        </div>
+        <div>
+            <label for="password">
+                <i class="fas fa-lock"></i>
+            </label>
+            <input type="password" name="password" placeholder="Password" id="password" required>
+        </div>
+        <div class="msg">{{ msg }}</div>
+        <div>
+			<button type="submit" class="btn btn-primary mt-3">Вход</button>
+        </div>
+    </form>
 </div>
 {% endblock %}

@@ -463,6 +463,7 @@ footer .copyright {
 .mainWrapper {
     width: 65.5%;
     margin: 0 auto;
+    min-height: calc(100vh - calc(calc(calc(75px + 83px) + 110px) + 110px));
 }
 
 .nt-coine {
@@ -576,4 +577,13 @@ button#mobprofileitem {
     position: relative;
     max-width: 640px;
     margin: 0 auto;
+}
+#formLoginPage {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.login .links > a:hover {
+
 }
