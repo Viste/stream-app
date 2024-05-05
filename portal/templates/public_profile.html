@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Публичный Профиль</h2>
+    <div class="profile-section">
+        <h4>Информация о пользователе</h4>
+        <p><strong>Логин:</strong> {{ user.username }}</p>
+    </div>
+    <div class="profile-section">
+        <h3>Пройденные Курсы</h3>
+        {% for course in courses %}
+        <div>
+            <p>{{ course.name }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="profile-section">
+        <h3>Статистика по домашним заданиям</h3>
+        <p><strong>Общее количество сделанных домашних заданий:</strong> {{ total_submissions }}</p>
+        <p><strong>Средняя оценка:</strong> {{ average_grade|round(2) }}</p>
+    </div>
+</div>
+{% endblock %}
