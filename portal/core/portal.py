@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
@@ -53,6 +53,17 @@ def profile():
     return redirect(url_for('login'))
 
 
+@views.route('/public_profile/<int:user_id>')
+def public_profile(user_id):
+    user = Customer.query.get_or_404(user_id)
+    courses = Course.query.filter(Course.short_name.in_(user.allowed_courses.split(','))).all()
+    submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
+    total_submissions = len(submissions)
+    average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
+
+    return render_template('public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade)
+
+
 @views.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():
@@ -61,6 +72,12 @@ def stream():
     live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
     print("Live Broadcasts:", live_broadcasts)
     return render_template('stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
+
+
+@views.route('/students')
+def students():
+    users = Customer.query.all()  # Получаем всех пользователей
+    return render_template('students.html', users=users)
 
 
 @views.route('/howto')
