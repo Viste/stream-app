@@ -603,3 +603,9 @@ button#mobprofileitem {
     background-color: #FFF;
     color: #000;
 }
+#formLoginPage .frmgroup {
+    display: flex;
+}
+#formLoginPage .frmgroup label {
+    padding-top: 1px;
+}

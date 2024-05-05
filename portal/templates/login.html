@@ -13,21 +13,26 @@
 
     </div>-->
     <form id="formLoginPage" action="{{ url_for('views.login') }}" method="post">
-        <div><label for="username">
-            <i class="fas fa-user"></i>
-        </label>
+        <div class="frmgroup">
+            <label for="username">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                </svg>
+            </label>
             <input class="form-control" type="text" name="username" placeholder="Логин" id="username" required>
         </div>
-        <div>
+        <div class="frmgroup">
             <label for="password">
-                <i class="fas fa-lock"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+                </svg>
             </label>
             <input class="form-control" type="password" name="password" placeholder="Пароль" id="password" required>
         </div>
         <div class="msg">{{ msg }}</div>
         <div class="blockbuttons links">
-			<button type="submit" class="btn techbutton mt-2">Вход</button>
-            <a class="btn techbutton" role="button" href="{{ url_for('views.register') }}">Регистрация</a>
+            <button type="submit" class="btn techbutton mt-2 mx-1">Вход</button>
+            <a class="btn techbutton mt-2 mx-1" role="button" href="{{ url_for('views.register') }}">Регистрация</a>
         </div>
     </form>
 </div>
