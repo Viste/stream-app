@@ -587,3 +587,7 @@ button#mobprofileitem {
 .login .links > a:hover {
 
 }
+.pageHeaderBlock h1 {
+    width: 84%;
+    margin: 0 auto;
+}
