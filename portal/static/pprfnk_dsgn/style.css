@@ -53,7 +53,7 @@ body {
 .mobilemenuburger a.active, .mainnavbar a.active {
     background: #332407;
     border-bottom: 2px solid #FFB524;
-    height: 75px;
+    height: 76px;
 }
 
 header {
@@ -571,4 +571,9 @@ button#mobprofileitem {
     background: #000;
     box-shadow: 0px 0px 2px 1px #CCC;
     z-index: 999;
+}
+.carousel {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
 }
