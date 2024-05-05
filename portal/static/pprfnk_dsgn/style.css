@@ -598,14 +598,20 @@ button#mobprofileitem {
     width: 135px;
     height: auto;
     padding: 14px 15px;
+    color: #FFF;
 }
 .btn.techbutton:hover {
     background-color: #FFF;
     color: #000;
 }
 #formLoginPage .frmgroup {
+    padding-top: 10px;
     display: flex;
 }
+#formLoginPage .frmgroup:first-child {
+    padding-top:0;
+}
 #formLoginPage .frmgroup label {
-    padding-top: 1px;
+    padding-top: 5px;
+    padding-right: 10px;
 }
