@@ -107,6 +107,8 @@ def submit_homework(homework_id):
         student_id=current_user.id
     ).count()
 
+    reviewer_name = "Не назначен"
+
     if existing_submissions_count >= 2:
         flash('Вы уже загрузили максимальное количество домашних заданий для этой темы.', 'error')
         return redirect(url_for('views.course_detail', course_id=Homework.query.get(homework_id).course_id))
@@ -120,7 +122,8 @@ def submit_homework(homework_id):
         submission = HomeworkSubmission(
             homework_id=homework_id,
             student_id=current_user.id,
-            file_path=db_path
+            file_path=db_path,
+            reviewer_name=reviewer_name
         )
         db.session.add(submission)
         db.session.commit()
