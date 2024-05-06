@@ -68,14 +68,18 @@ def public_profile(user_id):
 @views.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    form = EditProfileForm(obj=current_user)
-    if form.validate_on_submit():
-        if form.avatar.data:
-            avatar_file = form.avatar.data
-            filename = secure_filename(avatar_file.filename)
-            avatar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            current_user.avatar_url = url_for('static', filename='uploads/' + filename)
-        form.populate_obj(current_user)
+    form = EditProfileForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        if 'avatar' in request.files:
+            avatar = request.files['avatar']
+            if avatar.filename != '':
+                filename = secure_filename(avatar.filename)
+                avatar.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                current_user.avatar_url = url_for('static', filename='uploads/' + filename)
+        current_user.city = form.city.data
+        current_user.headphones = form.headphones.data
+        current_user.sound_card = form.sound_card.data
+        current_user.pc_setup = form.pc_setup.data
         db.session.commit()
         flash('Профиль успешно обновлен.', 'success')
         return redirect(url_for('views.profile'))

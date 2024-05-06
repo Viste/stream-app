@@ -1,4 +1,5 @@
 from database.models import db, Customer
+from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash
 from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms import validators, fields, form
@@ -28,19 +29,19 @@ class LoginForm(form.Form):
         return db.session.query(Customer).filter_by(username=self.login.data).first()
 
 
-class ChangePasswordForm(form.Form):
+class ChangePasswordForm(FlaskForm):
     current_password = PasswordField('Текущий пароль', validators=[DataRequired()])
     new_password = PasswordField('Новый пароль', validators=[DataRequired(), Length(min=6)])
     confirm_password = PasswordField('Подтвердите пароль', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Сменить пароль')
 
 
-class ChangeEmailForm(form.Form):
+class ChangeEmailForm(FlaskForm):
     new_email = StringField('Новый Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Сменить Email')
 
 
-class EditProfileForm(form.Form):
+class EditProfileForm(FlaskForm):
     avatar = FileField('Аватар', validators=[Optional()])
     city = StringField('Город', validators=[Optional()])
     headphones = StringField('Наушники', validators=[Optional()])
