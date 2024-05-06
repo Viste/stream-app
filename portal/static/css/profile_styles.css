@@ -49,6 +49,7 @@
 .star-rating {
     color: gold;
 }
+
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -58,10 +59,12 @@
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
+    font-weight: bold;
 }
 
 .button:hover {
     background-color: #0056b3;
+    cursor: pointer;
 }
 
 .course-button {
@@ -73,8 +76,10 @@
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
+    font-weight: bold;
 }
 
 .course-button:hover {
     background-color: #1e7e34;
+    cursor: pointer;
 }
