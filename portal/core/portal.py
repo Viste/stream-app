@@ -75,7 +75,7 @@ def edit_profile():
             if avatar.filename != '':
                 filename = secure_filename(avatar.filename)
                 avatar.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-                current_user.avatar_url = url_for('static', filename='uploads/' + filename)
+                current_user.avatar_url = url_for('static', filename='storage/' + filename)
         current_user.city = form.city.data
         current_user.headphones = form.headphones.data
         current_user.sound_card = form.sound_card.data
