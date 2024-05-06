@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_styles.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <h1 class="page-title">Редактирование профиля</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="profile-section">
+            <label for="avatar">Аватар:</label>
+            <input type="file" id="avatar" name="avatar">
+            <img src="{{ account.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150">
+            
+            <label for="city">Город:</label>
+            <input type="text" id="city" name="city" value="{{ account.city }}">
+            
+            <label for="headphones">Наушники:</label>
+            <input type="text" id="headphones" name="headphones" value="{{ account.headphones }}">
+            
+            <label for="sound_card">Звуковая карта:</label>
+            <input type="text" id="sound_card" name="sound_card" value="{{ account.sound_card }}">
+            
+            <label for="pc_setup">Сэтап ПК:</label>
+            <input type="text" id="pc_setup" name="pc_setup" value="{{ account.pc_setup }}">
+            
+            <button type="submit">Сохранить изменения</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

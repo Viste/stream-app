@@ -64,6 +64,25 @@ def public_profile(user_id):
     return render_template('public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade)
 
 
+@views.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    if request.method == 'POST':
+        current_user.city = request.form['city']
+        current_user.headphones = request.form['headphones']
+        current_user.sound_card = request.form['sound_card']
+        current_user.pc_setup = request.form['pc_setup']
+        if 'avatar' in request.files:
+            avatar = request.files['avatar']
+            if avatar.filename != '':
+                filename = secure_filename(avatar.filename)
+                avatar.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                current_user.avatar_url = url_for('static', filename='uploads/' + filename)
+        db.session.commit()
+        return redirect(url_for('views.profile'))
+    return render_template('edit_profile.html', account=current_user)
+
+
 @views.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():

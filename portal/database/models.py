@@ -28,6 +28,11 @@ class Customer(db.Model):
     is_moderator = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
     is_banned = db.Column(db.Boolean)
+    avatar_url = db.Column(db.String(255), nullable=True)
+    city = db.Column(db.String(255), nullable=True)
+    headphones = db.Column(db.String(255), nullable=True)
+    sound_card = db.Column(db.String(255), nullable=True)
+    pc_setup = db.Column(db.String(255), nullable=True)
     mariadb_engine = "InnoDB"
 
     @property

@@ -8,8 +8,16 @@
 <div class="profile-page">
     <h1 class="page-title">Профиль</h1>
     <div class="profile-section">
+        <img src="{{ account.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150">
         <div class="detail-item">Логин: {{ account.username }}</div>
         <div class="detail-item">Почта: {{ account.email }}</div>
+        <div class="detail-item">Город: {{ account.city or 'Не указан' }}</div>
+        <div class="detail-item">Наушники: {{ account.headphones or 'Не указаны' }}</div>
+        <div class="detail-item">Звуковая карта: {{ account.sound_card or 'Не указана' }}</div>
+        <div class="detail-item">Сэтап ПК: {{ account.pc_setup or 'Не указан' }}</div>
+        <a href="{{ url_for('views.edit_profile') }}">Редактировать профиль</a>
+        <a href="{{ url_for('views.change_password') }}">Сменить пароль</a>
+        <a href="{{ url_for('views.change_email') }}">Сменить почту</a>
     </div>
     <div class="profile-section">
         <h3>Доступные Курсы</h3>
