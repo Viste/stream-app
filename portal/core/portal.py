@@ -83,7 +83,7 @@ def edit_profile():
         db.session.commit()
         flash('Профиль успешно обновлен.', 'success')
         return redirect(url_for('views.profile'))
-    return render_template('edit_profile.html', form=form)
+    return render_template('edit_profile.html', form=form, account=current_user)
 
 
 @views.route('/change_password', methods=['GET', 'POST'])
