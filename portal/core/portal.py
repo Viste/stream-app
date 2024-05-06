@@ -77,7 +77,11 @@ def stream():
 @views.route('/students')
 def students():
     users = Customer.query.all()  # Получаем всех пользователей
-    return render_template('students.html', users=users)
+    for user in users:
+        submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
+        total_submissions = len(submissions)
+        average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
+        return render_template('students.html', users=users, total_submissions=total_submissions, average_grade=average_grade)
 
 
 @views.route('/howto')
