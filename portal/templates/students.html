@@ -11,11 +11,17 @@
         {% for data in user_data %}
         <div class="student-card">
             <a href="{{ url_for('views.public_profile', user_id=data.user.id) }}" class="student-link">
+                <img src="{{ data.user.avatar_url }}" alt="Avatar" class="student-avatar">
                 <div class="student-name">{{ data.user.username }}</div>
                 <div class="student-info">
                     Пройденные курсы: {{ data.user.courses|length }}
                     <br>
                     Средний балл: {{ data.average_grade|round(2) }}
+                </div>
+                <div class="student-hover-info">
+                    Город: {{ data.user.city }}
+                    <br>
+                    Наушники: {{ data.user.headphones }}
                 </div>
             </a>
         </div>
