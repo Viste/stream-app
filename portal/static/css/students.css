@@ -47,3 +47,47 @@
     font-size: 14px;
     opacity: 0.8;
 }
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.student-card {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.student-card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.student-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.student-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.student-info {
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.student-card:hover .student-info {
+    opacity: 1;
+}

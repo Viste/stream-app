@@ -7,19 +7,20 @@
 {% block content %}
 <div class="students-page">
     <h1 class="page-title">Наши студенты</h1>
-    <div class="students-list">
-        {% for user in users %}
+    <div class="students-grid">
+        {% for data in user_data %}
         <div class="student-card">
-            <a href="{{ url_for('views.public_profile', user_id=user.id) }}" class="student-link">
-                <div class="student-name">{{ user.username }}</div>
+            <a href="{{ url_for('views.public_profile', user_id=data.user.id) }}" class="student-link">
+                <div class="student-name">{{ data.user.username }}</div>
                 <div class="student-info">
-                    Пройденные курсы: {{ user.courses|length }}
+                    Пройденные курсы: {{ data.user.courses|length }}
                     <br>
-                    Средний балл: {{ average_grade|round(2) }}
+                    Средний балл: {{ data.average_grade|round(2) }}
                 </div>
             </a>
         </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
 {% endblock %}
