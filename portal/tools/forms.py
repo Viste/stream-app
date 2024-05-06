@@ -1,6 +1,8 @@
 from database.models import db, Customer
 from werkzeug.security import check_password_hash
+from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms import validators, fields, form
+from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 
 
 class LoginForm(form.Form):
@@ -24,3 +26,24 @@ class LoginForm(form.Form):
 
     def get_user(self):
         return db.session.query(Customer).filter_by(username=self.login.data).first()
+
+
+class ChangePasswordForm(form.Form):
+    current_password = PasswordField('Текущий пароль', validators=[DataRequired()])
+    new_password = PasswordField('Новый пароль', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Подтвердите пароль', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Сменить пароль')
+
+
+class ChangeEmailForm(form.Form):
+    new_email = StringField('Новый Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Сменить Email')
+
+
+class EditProfileForm(form.Form):
+    avatar = FileField('Аватар', validators=[Optional()])
+    city = StringField('Город', validators=[Optional()])
+    headphones = StringField('Наушники', validators=[Optional()])
+    sound_card = StringField('Звуковая карта', validators=[Optional()])
+    pc_setup = StringField('Сэтап ПК', validators=[Optional()])
+    submit = SubmitField('Сохранить изменения')

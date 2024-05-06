@@ -6,6 +6,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
 from tools.auth import authenticate_user, logout
+from tools.forms import ChangePasswordForm, ChangeEmailForm, EditProfileForm
 from werkzeug.utils import secure_filename
 
 views = Blueprint('views', __name__)
@@ -67,20 +68,47 @@ def public_profile(user_id):
 @views.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    if request.method == 'POST':
-        current_user.city = request.form['city']
-        current_user.headphones = request.form['headphones']
-        current_user.sound_card = request.form['sound_card']
-        current_user.pc_setup = request.form['pc_setup']
-        if 'avatar' in request.files:
-            avatar = request.files['avatar']
-            if avatar.filename != '':
-                filename = secure_filename(avatar.filename)
-                avatar.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-                current_user.avatar_url = url_for('static', filename='uploads/' + filename)
+    form = EditProfileForm(obj=current_user)
+    if form.validate_on_submit():
+        if form.avatar.data:
+            avatar_file = form.avatar.data
+            filename = secure_filename(avatar_file.filename)
+            avatar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            current_user.avatar_url = url_for('static', filename='uploads/' + filename)
+        form.populate_obj(current_user)
         db.session.commit()
+        flash('Профиль успешно обновлен.', 'success')
         return redirect(url_for('views.profile'))
-    return render_template('edit_profile.html', account=current_user)
+    return render_template('edit_profile.html', form=form)
+
+
+@views.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = current_user
+        if user and user.check_password(form.current_password.data):
+            user.set_password(form.new_password.data)
+            db.session.commit()
+            flash('Ваш пароль был успешно изменен.', 'success')
+            return redirect(url_for('views.profile'))
+        else:
+            flash('Неверный текущий пароль.', 'danger')
+    return render_template('change_password.html', form=form)
+
+
+@views.route('/change_email', methods=['GET', 'POST'])
+@login_required
+def change_email():
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        user = current_user
+        user.email = form.new_email.data
+        db.session.commit()
+        flash('Ваш Email был успешно изменен.', 'success')
+        return redirect(url_for('views.profile'))
+    return render_template('change_email.html', form=form)
 
 
 @views.route('/stream', methods=['GET', 'POST'])
