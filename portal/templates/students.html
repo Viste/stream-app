@@ -1,14 +1,25 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/students.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2>Наши студенты</h2>
-    <ul class="list-group">
+<div class="students-page">
+    <h1 class="page-title">Наши студенты</h1>
+    <div class="students-list">
         {% for user in users %}
-        <li class="list-group-item">
-            <a href="{{ url_for('views.public_profile', user_id=user.id) }}">{{ user.username }}</a>
-        </li>
+        <div class="student-card">
+            <a href="{{ url_for('views.public_profile', user_id=user.id) }}" class="student-link">
+                <div class="student-name">{{ user.username }}</div>
+                <div class="student-info">
+                    Пройденные курсы: {{ user.courses|length }}
+                    <br>
+                    Средний балл: {{ user.average_grade|round(2) }}
+                </div>
+            </a>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

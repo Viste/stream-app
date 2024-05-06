@@ -1,24 +1,27 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_styles.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2>Публичный Профиль</h2>
+<div class="profile-page">
+    <h1 class="page-title">Публичный Профиль</h1>
     <div class="profile-section">
-        <h4>Информация о пользователе</h4>
-        <p><strong>Логин:</strong> {{ user.username }}</p>
+        <div class="detail-item">Логин: {{ user.username }}</div>
     </div>
     <div class="profile-section">
         <h3>Пройденные Курсы</h3>
         {% for course in courses %}
         <div>
-            <p>{{ course.name }}</p>
+            <div class="detail-item">{{ course.name }}</div>
         </div>
         {% endfor %}
     </div>
     <div class="profile-section">
         <h3>Статистика по домашним заданиям</h3>
-        <p><strong>Общее количество сделанных домашних заданий:</strong> {{ total_submissions }}</p>
-        <p><strong>Средняя оценка:</strong> {{ average_grade|round(2) }}</p>
+        <div class="detail-item">Общее количество сделанных домашних заданий: {{ total_submissions }}</div>
+        <div class="detail-item">Средняя оценка: {{ average_grade|round(2) }}</div>
     </div>
 </div>
-{% endblock %}
+{% endblock %}§

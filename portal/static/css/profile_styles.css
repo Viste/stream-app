@@ -1,0 +1,51 @@
+/* profile_styles.css */
+.container, .students-page, .profile-page {
+    background-color: #121212;
+    color: #ffffff;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.page-title {
+    text-align: center;
+    color: #f0f0f0;
+    margin-bottom: 30px;
+}
+
+.profile-section, .student-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.profile-section:hover, .student-card:hover {
+    transform: translateY(-5px);
+    border-color: #646cff;
+}
+
+.student-link, .course-link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.course-link:hover {
+    text-decoration: underline;
+}
+
+.student-name, .detail-item {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.student-info, .detail-item {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.star-rating {
+    color: gold;
+}
