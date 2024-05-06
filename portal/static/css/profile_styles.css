@@ -49,3 +49,32 @@
 .star-rating {
     color: gold;
 }
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.course-button {
+    display: block;
+    padding: 8px 16px;
+    margin: 5px 0;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.course-button:hover {
+    background-color: #1e7e34;
+}
