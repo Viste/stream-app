@@ -155,7 +155,7 @@
 <div id="faderout">
     <div class="popup">
         <div class="popupHeaderBlock">
-            <div class="titlePopupBlock"></div>
+            <div class="titlePopupBlock">{% block PopupTitle %}{% endblock %}</div>
             <div class="closePopupButton">
                 <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect opacity="0.1" width="55" height="55" fill="#D9D9D9"/>
@@ -164,7 +164,7 @@
                 </svg>
             </div>
         </div>
-        <div class="popupContent"></div>
+        <div class="popupContent">{% block PopupContent %}{% endblock %}</div>
     </div>
 </div>
 
@@ -175,5 +175,6 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='pprfnk_dsgn/script.js') }}"></script>
+{% block ExtScriptBlock %}{% endblock %}
 </body>
 </html>
