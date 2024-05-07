@@ -14,6 +14,7 @@
     --footer-bg: #131313;
     --white-color: #ffffff;
     --active-menu-color: #ae7a14;
+    --ff-roboto: 'Roboto';
 }
 a:hover {
     color: inherit;
@@ -614,4 +615,24 @@ button#mobprofileitem {
 #formLoginPage .frmgroup label {
     padding-top: 5px;
     padding-right: 10px;
+}
+.labelLoginUsername {
+    font-family: var(--ff-roboto);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+.frmg-loginpage {
+    width: 404px;
+    height: 17px;
+    left: 536px;
+    top: 110px;
+    border: 2px solid #FFFFFF;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+
+}
+.frmg-loginpage .frmg-loginpage-inputtext {
+    width: 497px;
+    height: 50px;
 }
