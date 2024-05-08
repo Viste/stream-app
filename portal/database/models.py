@@ -201,3 +201,21 @@ class Admins(db.Model):
 
     def get_id(self):
         return str(self.id)
+
+
+class Achievement(db.Model):
+    __tablename__ = 'achievements'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    criteria = db.relationship('AchievementCriteria', backref='achievement', lazy=True)
+    mariadb_engine = "InnoDB"
+
+
+class AchievementCriteria(db.Model):
+    __tablename__ = 'achievement_criteria'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    achievement_id = db.Column(db.Integer, db.ForeignKey('achievements.id'), nullable=False)
+    criteria_type = db.Column(db.String(50), nullable=False)  # Например, 'average_grade', 'courses_completed'
+    threshold = db.Column(db.Float, nullable=False)  # Порог для достижения
+    mariadb_engine = "InnoDB"

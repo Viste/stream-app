@@ -37,5 +37,14 @@
         </div>
         {% endfor %}
     </div>
+    <div class="profile-section">
+        <h3>Ваши достижения</h3>
+        {% for achievement in achievements %}
+            <div class="detail-item">Звание: {{ achievement.title }}</div>
+            <div class="detail-item">Описание: {{ achievement.description }}</div>
+        {% else %}
+            <div class="detail-item">Звание: Нет достижений</div>
+        {% endfor %}
+</div>
 </div>
 {% endblock %}

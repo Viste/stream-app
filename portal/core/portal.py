@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
@@ -47,10 +47,12 @@ def profile():
     if current_user:
         allowed_course_short_names = current_user.allowed_courses.split(',')
         user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-        submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).join(Homework, Homework.id == HomeworkSubmission.homework_id).join(Course, Course.id == Homework.id).add_columns(
-            Course.name, HomeworkSubmission.grade, HomeworkSubmission.comments).all()
-        print(submissions)
-        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions)
+        submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).all()
+        total_submissions = len(submissions)
+        average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
+        achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
+
+        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements)
     return redirect(url_for('login'))
 
 
@@ -61,8 +63,9 @@ def public_profile(user_id):
     submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
     total_submissions = len(submissions)
     average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
+    achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
 
-    return render_template('public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade)
+    return render_template('public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade, achievements=achievements)
 
 
 @views.route('/edit_profile', methods=['GET', 'POST'])

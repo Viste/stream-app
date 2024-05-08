@@ -28,5 +28,14 @@
         <div class="detail-item">Общее количество сделанных домашних заданий: {{ total_submissions }}</div>
         <div class="detail-item">Средняя оценка: {{ average_grade|round(2) }}</div>
     </div>
+<div class="profile-section">
+    <h3>Достижения</h3>
+    {% for achievement in achievements %}
+    <div class="detail-item">Звание: {{ achievement.title }}</div>
+    <div class="detail-item">Описание: {{ achievement.description }}</div>
+    {% else %}
+    <div class="detail-item">Звание: Нет достижений</div>
+    {% endfor %}
+</div>
 </div>
 {% endblock %}
