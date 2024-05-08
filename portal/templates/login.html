@@ -20,12 +20,12 @@
         <div class="msg">{{ msg }}</div>
         <div class="lb-forgotpassword"><a href="#forgotpassword">Забыли свой пароль?</a></div>
         <div class="blockbuttons links">
-            <button id="loginButton" type="submit" class="btn mt-2 mx-1">Вход</button>
+            <button id="loginButton" type="submit" class="btn">Вход</button>
         </div>
         <div class="lb-createaccount">У вас нет аккаунта? <a href="{{ url_for('views.register') }}">Создать</a></div>
     </form>
 </div>
 {% endblock %}
 {% block ExtScriptBlock %}
-<script>window.$(document).ready(() => {setTimeout(() => {$('#faderout').show()}, 420)})</script>
+<script>window.$(document).ready(() => {setTimeout(() => {$('#faderout').show();$('.popup .popupHeaderBlock .closePopupButton').css('opacity', '0')}, 420)})</script>
 {% endblock %}

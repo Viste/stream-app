@@ -660,6 +660,12 @@ font-family: var(--ff-roboto);
     color: #FFF;
 }
 .lb-forgotpassword {
+    padding: 0 0 15px 0;
+    width: 100%;
 }
 .lb-createaccount {
+    width: 100%;
+    text-align: center;
+    padding-top: 22px;
+    height: 44px;
 }
