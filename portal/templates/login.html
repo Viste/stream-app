@@ -18,9 +18,11 @@
             <input class="form-control frmg-loginpage-inputtext" type="password" name="password" placeholder="Пароль" id="password" required>
         </div>
         <div class="msg">{{ msg }}</div>
+        <div class="lb-forgotpassword"><a href="#forgotpassword">Забыли свой пароль?</a></div>
         <div class="blockbuttons links">
             <button id="loginButton" type="submit" class="btn mt-2 mx-1">Вход</button>
         </div>
+        <div class="lb-createaccount">У вас нет аккаунта? <a href="{{ url_for('views.register') }}">Создать</a></div>
     </form>
 </div>
 {% endblock %}
