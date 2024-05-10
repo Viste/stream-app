@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
@@ -159,10 +159,8 @@ def about():
 @views.route('/sport')
 @login_required
 def sport():
-    # Получаем данные о балансе и истории покупок
-    balance = current_user.balance_amount
-    purchases = Purchase.query.filter_by(user_id=current_user.id).all()
-    return render_template('sport.html', balance=balance, purchases=purchases)
+    balance = GlobalBalance.get_balance()
+    return render_template('sport.html', balance=balance)
 
 
 @views.route('/courses')

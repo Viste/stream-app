@@ -6,13 +6,36 @@ db = SQLAlchemy()
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
     item_name = db.Column(db.String(255))
     download_url = db.Column(db.String(255))
     customer = db.relationship('Customer', backref='purchases')
 
     def __repr__(self):
-        return f'<Purchase {self.item_name} by {self.customer.username}>'
+        return f'<Purchase {self.item_name} by {self.customers.username}>'
+
+
+class GlobalBalance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    balance = db.Column(db.Float, default=0.0)
+
+    @staticmethod
+    def get_balance():
+        balance_record = GlobalBalance.query.first()
+        if not balance_record:
+            balance_record = GlobalBalance(balance=0.0)
+            db.session.add(balance_record)
+            db.session.commit()
+        return balance_record.balance
+
+    @staticmethod
+    def update_balance(amount):
+        balance_record = GlobalBalance.query.first()
+        if not balance_record:
+            balance_record = GlobalBalance(balance=amount)
+        else:
+            balance_record.balance += amount
+        db.session.commit()
 
 
 class Broadcast(db.Model):

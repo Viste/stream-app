@@ -1,4 +1,4 @@
-from database.models import db, Customer, Purchase
+from database.models import db, Purchase, GlobalBalance
 from flask import request, redirect, url_for
 from flask_admin import Admin, expose, BaseView
 from flask_login import current_user, login_required
@@ -10,8 +10,17 @@ class ModeratorAdminView(BaseView):
     def index(self):
         if not current_user.is_moderator:
             return redirect(url_for('index'))
-        users = Customer.query.all()  # Получаем всех пользователей для управления балансом
-        return self.render('admin/moderator_dashboard.html', users=users)
+        balance = GlobalBalance.get_balance()
+        return self.render('admin/moderator_dashboard.html', balance=balance)
+
+    @expose('/update_balance', methods=['POST'])
+    @login_required
+    def update_balance(self):
+        if not current_user.is_moderator:
+            return redirect(url_for('index'))
+        amount = float(request.form['amount'])
+        GlobalBalance.update_balance(amount)
+        return redirect(url_for('.index'))
 
     @expose('/add_purchase', methods=['POST'])
     @login_required
