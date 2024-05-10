@@ -9,6 +9,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 from tools.forms import LoginForm
 
+next_broadcast_title = None
+
 
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
@@ -69,6 +71,16 @@ class HomeworkReviewView(BaseView):
         submission.reviewer_name = current_user.username
         db.session.commit()
         return redirect(url_for('.index'))
+
+
+class BroadcastTitleView(BaseView):
+    @expose('/', methods=['GET', 'POST'])
+    def index(self):
+        global next_broadcast_title
+        if request.method == 'POST':
+            next_broadcast_title = request.form['title']
+            return redirect(url_for('.index'))
+        return self.render('admin/set_broadcast_title.html')
 
 
 class MyModelView(ModelView):

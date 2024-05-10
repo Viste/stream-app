@@ -1,0 +1,9 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h2>Установка названия для следующей трансляции</h2>
+<form method="post" action="{{ url_for('admin.set_broadcast_title') }}">
+    <label for="title">Название трансляции:</label>
+    <input type="text" id="title" name="title" required>
+    <button type="submit">Установить название</button>
+</form>
+{% endblock %}

@@ -11,6 +11,7 @@ class Broadcast(db.Model):
     video_path = db.Column(db.String(255))
     is_live = db.Column(db.Boolean, default=False)
     course = db.relationship('Course', backref=db.backref('broadcasts', lazy=True))
+    title = db.Column(db.String(255))
     mariadb_engine = "InnoDB"
 
     def __repr__(self):

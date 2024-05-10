@@ -53,8 +53,11 @@ LABEL maintainer="Viste <viste@pprfnk.tech>"
 COPY --from=builder /usr/local/openresty /usr/local/openresty
 
 # Install runtime dependencies
-RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpeg  libxslt-dev libxml2 \
-    libxml2-dev python3 py3-requests py3-pip py3-setuptools bash luarocks lua-dev build-base gcc
+RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpeg libxslt-dev libxml2 \
+    libxml2-dev python3 py3-requests py3-pip py3-setuptools bash luarocks lua-dev build-base gcc \
+    musl-dev python3-dev libffi-dev openssl-dev
+
+pip install --upgrade google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2 \
 
 RUN /usr/bin/luarocks-5.1 install lua-resty-http
 RUN /usr/bin/luarocks-5.1 install lua-cjson
