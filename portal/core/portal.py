@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
@@ -51,8 +51,9 @@ def profile():
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
+        purchases = Purchase.query.filter_by(user_id=current_user.id).all()
 
-        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements)
+        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases)
     return redirect(url_for('login'))
 
 
@@ -156,8 +157,12 @@ def about():
 
 
 @views.route('/sport')
+@login_required
 def sport():
-    return render_template('sport.html')
+    # Получаем данные о балансе и истории покупок
+    balance = current_user.balance_amount
+    purchases = Purchase.query.filter_by(user_id=current_user.id).all()
+    return render_template('sport.html', balance=balance, purchases=purchases)
 
 
 @views.route('/courses')

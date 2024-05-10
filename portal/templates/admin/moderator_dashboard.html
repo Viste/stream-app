@@ -1,0 +1,14 @@
+{% extends 'admin/master.html' %}
+
+{% block content %}
+<h1>Модераторская панель</h1>
+<form action="{{ url_for('moderator.add_purchase') }}" method="post">
+    <label for="user_id">ID пользователя:</label>
+    <input type="text" name="user_id" required>
+    <label for="item_name">Название товара:</label>
+    <input type="text" name="item_name" required>
+    <label for="download_url">URL для скачивания:</label>
+    <input type="text" name="download_url" required>
+    <button type="submit">Добавить покупку</button>
+</form>
+{% endblock %}

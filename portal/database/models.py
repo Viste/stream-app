@@ -4,6 +4,17 @@ from sqlalchemy.sql import expression
 db = SQLAlchemy()
 
 
+class Purchase(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    item_name = db.Column(db.String(255))
+    download_url = db.Column(db.String(255))
+    customer = db.relationship('Customer', backref='purchases')
+
+    def __repr__(self):
+        return f'<Purchase {self.item_name} by {self.customer.username}>'
+
+
 class Broadcast(db.Model):
     __tablename__ = 'broadcasts'
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)

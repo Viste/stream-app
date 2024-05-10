@@ -45,6 +45,15 @@
         {% else %}
             <div class="detail-item">Звание: Нет достижений</div>
         {% endfor %}
-</div>
+    </div>
+    <div class="profile-section">
+        <h3>История покупок</h3>
+        {% for purchase in purchases %}
+            <div>
+                <div class="detail-item">Товар: {{ purchase.item_name }}</div>
+                <div class="detail-item"><a href="{{ purchase.download_url }}">Скачать</a></div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
