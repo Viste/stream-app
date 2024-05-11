@@ -99,6 +99,11 @@
     </div>
     <div class="profile">
         {% if session.loggedin == True %}
+        {% if current_user.is_moderator == True %}
+        <div id="adminButton">
+            <a class="nav-link" href="{{ url_for('mod.index') }}"><i class="fas fa-user-circle"></i>Админка</a>
+        </div>
+        {% endif %}
         {% if current_user.is_admin == True %}
         <div id="adminButton">
             <a class="nav-link" href="{{ url_for('admin.index') }}"><i class="fas fa-user-circle"></i>Админка</a>

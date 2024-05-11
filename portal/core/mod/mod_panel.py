@@ -64,7 +64,7 @@ class ModeratorAdminView(BaseView):
         return redirect(url_for('.index'))
 
 
-admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyModIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod')
+mod = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyModIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod')
 
 
-admin.add_view(ModeratorAdminView(name='Модераторская панель', endpoint='moderator'))
+mod.add_view(ModeratorAdminView(name='Модераторская панель', endpoint='moderator'))
