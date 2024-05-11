@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% if current_user.is_admin == True %}
-{% pprint(courses) %}
+{% print vars(courses) %}
 {% endif %}
 <div class="container">
     <h1>Курсы</h1>
