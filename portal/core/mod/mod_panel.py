@@ -1,6 +1,6 @@
 from database.models import db, Purchase, GlobalBalance
 from flask import request, redirect, url_for, session
-from flask_admin import Admin, expose, AdminIndexView, BaseView, helpers
+from flask_admin import expose, AdminIndexView, BaseView, helpers, Admin
 from flask_login import login_user, logout_user, current_user, login_required
 from tools.forms import ModLoginForm
 
@@ -32,7 +32,7 @@ class MyModIndexView(AdminIndexView):
         return redirect(url_for('.login_view'))
 
 
-class ModeratorAdminView(BaseView):
+class ModeratorView(BaseView):
     @expose('/')
     @login_required
     def index(self):
@@ -64,7 +64,7 @@ class ModeratorAdminView(BaseView):
         return redirect(url_for('.index'))
 
 
-mod = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyModIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
+mod = Admin(name='Модераторская Нейропанк Академия', index_view=MyModIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
 
 
-mod.add_view(ModeratorAdminView(name='Модераторская панель', endpoint='moderator'))
+mod.add_view(ModeratorView(name='Управление Физкоином', endpoint='moderator'))

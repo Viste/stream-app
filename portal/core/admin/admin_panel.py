@@ -93,7 +93,7 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyAdminIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/admin', endpoint='admin')
+admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyAdminIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/admin')
 
 admin.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
 
