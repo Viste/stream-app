@@ -1,8 +1,7 @@
 from collections import defaultdict
 
+import flask_admin as moderator
 from flask import request, redirect, url_for, session
-from flask_admin import Admin as Moderator
-from flask_admin import expose, AdminIndexView, BaseView, helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
@@ -12,52 +11,52 @@ from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Hom
 from tools.forms import ModLoginForm
 
 
-class MyModIndexView(AdminIndexView):
-    @expose('/')
+class MyModIndexView(moderator.AdminIndexView):
+    @moderator.expose('/')
     @login_required
     def index(self):
         if not current_user.is_authenticated:
             return redirect(url_for('mod.login_view'))
-        return super(MyModIndexView, self).index()
+        return super(MyModIndexView(endpoint='moderator'), self).index()
 
-    @expose('/login/', methods=('GET', 'POST'))
+    @moderator.expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
         form = ModLoginForm(request.form)
-        if helpers.validate_form_on_submit(form):
+        if moderator.helpers.validate_form_on_submit(form):
             user = form.get_user()
             login_user(user)
 
         if current_user.is_authenticated:
-            return redirect(url_for('.index'))
+            return redirect(url_for('mod.index'))
         self._template_args['form'] = form
         return super(MyModIndexView, self).render('mod/login.html')
 
-    @expose('/logout/')
+    @moderator.expose('/logout/')
     def logout_view(self):
         logout_user()
         session.clear()
         return redirect(url_for('mod.login_view'))
 
 
-class ModeratorView(BaseView):
-    @expose('/')
+class ModeratorView(moderator.BaseView):
+    @moderator.expose('/')
     @login_required
     def index(self):
         if not current_user.is_moderator:
-            return redirect(url_for('index'))
+            return redirect(url_for('.index'))
         balance = GlobalBalance.get_balance()
-        return self.render('admin/moderator_dashboard.html', balance=balance)
+        return self.render('mod/moderator_dashboard.html', balance=balance)
 
-    @expose('/update_balance', methods=['POST'])
+    @moderator.expose('/update_balance', methods=['POST'])
     @login_required
     def update_balance(self):
         if not current_user.is_moderator:
-            return redirect(url_for('index'))
+            return redirect(url_for('mod.index'))
         amount = float(request.form['amount'])
         GlobalBalance.update_balance(amount)
-        return redirect(url_for('mod.index'))
+        return redirect(url_for('.index'))
 
-    @expose('/add_purchase', methods=['POST'])
+    @moderator.expose('/add_purchase', methods=['POST'])
     @login_required
     def add_purchase(self):
         if not current_user.is_moderator:
@@ -68,11 +67,11 @@ class ModeratorView(BaseView):
         purchase = Purchase(user_id=user_id, item_name=item_name, download_url=download_url)
         db.session.add(purchase)
         db.session.commit()
-        return redirect(url_for('mod.index'))
+        return redirect(url_for('.index'))
 
 
-class HomeworkReviewView(BaseView):
-    @expose('/')
+class HomeworkReviewView(moderator.BaseView):
+    @moderator.expose('/')
     @login_required
     def index(self):
         submissions = HomeworkSubmission.query.options(
@@ -86,23 +85,23 @@ class HomeworkReviewView(BaseView):
 
         return self.render('mod/homework_review.html', courses_dict=courses_dict)
 
-    @expose('/grade/<int:submission_id>/', methods=['POST'])
+    @moderator.expose('/grade/<int:submission_id>/', methods=['POST'])
     @login_required
     def homeworkreview_grade(self, submission_id):
         submission = HomeworkSubmission.query.get(submission_id)
         submission.grade = request.form['grade']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('mod.index'))
+        return redirect(url_for('.index'))
 
-    @expose('/comment/<int:submission_id>/', methods=['POST'])
+    @moderator.expose('/comment/<int:submission_id>/', methods=['POST'])
     @login_required
     def homeworkreview_comment(self, submission_id):
         submission = HomeworkSubmission.query.get(submission_id)
         submission.comments = request.form['comments']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('mod.index'))
+        return redirect(url_for('.index'))
 
 
 class MyModelView(ModelView):
@@ -115,8 +114,4 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-moderator = Moderator(name='moderator', index_view=MyModIndexView(endpoint='mod'), base_template='mod/master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
 
-
-moderator.add_view(ModeratorView(name='Управление Физкоином', endpoint='moderator'))
-moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
