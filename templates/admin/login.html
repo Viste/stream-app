@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Admin Panel</title>
+    <title>Панель Администратора</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="card mt-5">
                     <div class="card-header">
-                        <h3>Login to Admin Panel</h3>
+                        <h3>Панель Администратора Вход</h3>
                     </div>
                     <div class="card-body">
                         {% with messages = get_flashed_messages() %}
@@ -23,16 +23,16 @@
                             </div>
                           {% endif %}
                         {% endwith %}
-                        <form method="POST" action="{{ url_for('.login_view') }}">
+                        <form method="POST" action="{{ url_for('admin.login_view') }}">
                             <div class="form-group">
-                                <label for="login">Username</label>
+                                <label for="login">Логин</label>
                                 <input type="text" class="form-control" id="login" name="login" placeholder="Username" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Пароль</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="submit" class="btn btn-primary">Вход</button>
                         </form>
                     </div>
                 </div>

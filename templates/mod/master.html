@@ -1,5 +1,3 @@
-{% extends 'admin/base.html' %}
-
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_custom.css') }}">
@@ -14,7 +12,7 @@
   </a>
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="btn" href="{{ url_for('admin.logout_view') }}">Log out</a>
+    <a class="btn" href="{{ url_for('mod.logout_view') }}">Log out</a>
   </div>
 </div>
 {% endif %}
