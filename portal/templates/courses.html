@@ -1,15 +1,75 @@
 {% extends 'layout.html' %}
+{% block pageHeaderBlock%}
+<h1 class="courseHeaderOne">КУРСЫ</h1>
+<div class="submenu">
+    <a href="#c-all" data-bs-toggle="tab" class="active-tab active">Все</a>
+    <a href="#с-underway" data-bs-toggle="tab">Идет набор</a>
+    <a href="#c-running-now" data-bs-toggle="tab">Идет сейчас</a>
+    <a href="#c-recorded" data-bs-toggle="tab">Доступен в записи</a>
+    <a href="#c-completed" data-bs-toggle="tab">Завершен</a>
+</div>
+{% endblock %}
 {% block content %}
-<div class="container">
-    <h1>Курсы</h1>
-    {% for course in courses %}
-    <div class="row">
-        <div class="col-4">
-            <h2>{{ course.name }}</h2>
-            <p>{{ course.description }}</p>
-            <a href="{{ url_for('views.course_detail', course_id=course.id) }}" class="btn btn-primary">Подробнее</a>
+<div class="coursecontainer tab-content container">
+    <div id="c-all" class="tab-pane fade show active">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-4">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+                   class="btn btn-primary">Подробнее1</a>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
+    <div id="c-underway" class="tab-pane fade">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-4">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+                   class="btn btn-primary">Подробнее2</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="c-running-now" class="tab-pane fade">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-4">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+                   class="btn btn-primary">Подробнее3</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="c-recorded" class="tab-pane fade">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-4">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+                   class="btn btn-primary">Подробнее4</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="c-completed" class="tab-pane fade">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-4">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+                   class="btn btn-primary">Подробнее5</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

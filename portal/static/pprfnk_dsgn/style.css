@@ -15,6 +15,7 @@
     --white-color: #ffffff;
     --active-menu-color: #ae7a14;
     --ff-roboto: 'Roboto';
+    --ff-europeext: 'EuropeExt';
 }
 a:hover {
     color: inherit;
@@ -668,4 +669,11 @@ font-family: var(--ff-roboto);
     text-align: center;
     padding-top: 22px;
     height: 44px;
+}
+.courseHeaderOne {
+    font-family: var(--ff-europeext);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 27px;
+    text-align: left;
 }
