@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 {% block pageHeaderBlock%}
-<h1 class="courseHeaderOne">КУРСЫ</h1>
-<div class="submenu">
-    <a href="#c-all" data-bs-toggle="tab" class="active-tab active">Все</a>
-    <a href="#с-underway" data-bs-toggle="tab">Идет набор</a>
-    <a href="#c-running-now" data-bs-toggle="tab">Идет сейчас</a>
-    <a href="#c-recorded" data-bs-toggle="tab">Доступен в записи</a>
-    <a href="#c-completed" data-bs-toggle="tab">Завершен</a>
+<div class="headerBlockCourses">
+    <h1 class="courseHeaderOne">КУРСЫ</h1>
+    <div class="submenu">
+        <a href="#c-all" data-bs-toggle="tab" class="active-tab active">Все</a>
+        <a href="#с-underway" data-bs-toggle="tab">Идет набор</a>
+        <a href="#c-running-now" data-bs-toggle="tab">Идет сейчас</a>
+        <a href="#c-recorded" data-bs-toggle="tab">Доступен в записи</a>
+        <a href="#c-completed" data-bs-toggle="tab">Завершен</a>
+    </div>
 </div>
 {% endblock %}
 {% block content %}

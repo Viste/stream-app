@@ -676,4 +676,8 @@ font-family: var(--ff-roboto);
     font-weight: 700;
     line-height: 27px;
     text-align: left;
+    color: #FFF;
+}
+.headerBlockCourses {
+    display: flex;
 }
