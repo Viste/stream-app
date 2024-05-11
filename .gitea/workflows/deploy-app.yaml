@@ -4,9 +4,6 @@ on:
   push:
     branches: [ 'master' ]
 
-  pull_request:
-    branches: [ 'master' ]
-
 jobs:
   build-image:
     runs-on: self-hosted
@@ -36,7 +33,7 @@ jobs:
       - name: Build and push stream app
         uses: docker/build-push-action@master
         with:
-          file: portal/Dockerfile
+          file: Dockerfile
           push: true
           tags: vistee/pprfnk:stream-academy
           cache-from: type=local,src=/tmp/.buildx-cache

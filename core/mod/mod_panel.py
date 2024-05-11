@@ -1,28 +1,28 @@
 from collections import defaultdict
 
-from database.models import db, Course, Customer, Broadcast, Homework, CourseProgram, HomeworkSubmission
 from flask import request, redirect, url_for, session
-from flask_admin import Admin, expose, AdminIndexView, BaseView, helpers
+from flask_admin import Admin as mod
+from flask_admin import expose, AdminIndexView, BaseView, helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
-from tools.forms import LoginForm
 
-next_broadcast_title = None
+from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Homework
+from tools.forms import ModLoginForm
 
 
-class MyAdminIndexView(AdminIndexView):
+class MyModIndexView(AdminIndexView):
     @expose('/')
     @login_required
     def index(self):
         if not current_user.is_authenticated:
             return redirect(url_for('.login_view'))
-        return super(MyAdminIndexView, self).index()
+        return super(MyModIndexView, self).index()
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
-        form = LoginForm(request.form)
+        form = ModLoginForm(request.form)
         if helpers.validate_form_on_submit(form):
             user = form.get_user()
             login_user(user)
@@ -30,13 +30,45 @@ class MyAdminIndexView(AdminIndexView):
         if current_user.is_authenticated:
             return redirect(url_for('.index'))
         self._template_args['form'] = form
-        return super(MyAdminIndexView, self).render('admin/login.html')
+        return super(MyModIndexView, self).render('mod/login.html')
 
     @expose('/logout/')
     def logout_view(self):
         logout_user()
         session.clear()
         return redirect(url_for('.login_view'))
+
+
+class ModeratorView(BaseView):
+    @expose('/')
+    @login_required
+    def index(self):
+        if not current_user.is_moderator:
+            return redirect(url_for('index'))
+        balance = GlobalBalance.get_balance()
+        return self.render('admin/moderator_dashboard.html', balance=balance)
+
+    @expose('/update_balance', methods=['POST'])
+    @login_required
+    def update_balance(self):
+        if not current_user.is_moderator:
+            return redirect(url_for('index'))
+        amount = float(request.form['amount'])
+        GlobalBalance.update_balance(amount)
+        return redirect(url_for('.index'))
+
+    @expose('/add_purchase', methods=['POST'])
+    @login_required
+    def add_purchase(self):
+        if not current_user.is_moderator:
+            return redirect(url_for('index'))
+        user_id = request.form['user_id']
+        item_name = request.form['item_name']
+        download_url = request.form['download_url']
+        purchase = Purchase(user_id=user_id, item_name=item_name, download_url=download_url)
+        db.session.add(purchase)
+        db.session.commit()
+        return redirect(url_for('.index'))
 
 
 class HomeworkReviewView(BaseView):
@@ -52,7 +84,7 @@ class HomeworkReviewView(BaseView):
         for submission in submissions:
             courses_dict[submission.homework.course.name].append(submission)
 
-        return self.render('admin/homework_review.html', courses_dict=courses_dict)
+        return self.render('mod/homework_review.html', courses_dict=courses_dict)
 
     @expose('/grade/<int:submission_id>/', methods=['POST'])
     @login_required
@@ -73,16 +105,6 @@ class HomeworkReviewView(BaseView):
         return redirect(url_for('.index'))
 
 
-class BroadcastTitleView(BaseView):
-    @expose('/', methods=['GET', 'POST'])
-    def index(self):
-        global next_broadcast_title
-        if request.method == 'POST':
-            next_broadcast_title = request.form['title']
-            return redirect(url_for('.index'))
-        return self.render('admin/set_broadcast_title.html')
-
-
 class MyModelView(ModelView):
     form_base_class = SecureForm
 
@@ -93,13 +115,8 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-admins = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyAdminIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/admin', endpoint='admin')
+mod = mod(name='moderator', index_view=MyModIndexView(endpoint='mod'), base_template='mod/master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
 
-admins.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
 
-admins.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
-admins.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))
-admins.add_view(MyModelView(Broadcast, db.session, category="Таблицы", name="Трансляции"))
-admins.add_view(MyModelView(Homework, db.session, category="Таблицы", name="Домашки"))
-admins.add_view(MyModelView(CourseProgram, db.session, category="Таблицы", name="Программа курсов"))
-admins.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
+mod.add_view(ModeratorView(name='Управление Физкоином', endpoint='moderator'))
+mod.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))

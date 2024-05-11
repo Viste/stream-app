@@ -1,13 +1,14 @@
 import os
 from datetime import timedelta
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
+from werkzeug.utils import secure_filename
+
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
 from tools.auth import authenticate_user, logout
 from tools.forms import ChangePasswordForm, ChangeEmailForm, EditProfileForm
-from werkzeug.utils import secure_filename
 
 views = Blueprint('views', __name__)
 
@@ -15,7 +16,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def index():
     slider_elements = Course.query.all()
-    return render_template('index.html', courses=slider_elements)
+    return render_template('../templates/index.html', courses=slider_elements)
 
 
 @views.route('/login', methods=['GET', 'POST'])
@@ -27,7 +28,7 @@ def login():
             return redirect(url_for('.index'))
         else:
             flash('Invalid username or password')
-    return render_template('login.html')
+    return render_template('../templates/login.html')
 
 
 @views.route('/logout')
@@ -38,7 +39,7 @@ def logout_view():
 
 @views.route('/register')
 def register():
-    return render_template('register.html')
+    return render_template('../templates/register.html')
 
 
 @views.route('/profile')
@@ -53,7 +54,7 @@ def profile():
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
         purchases = Purchase.query.filter_by(user_id=current_user.id).all()
 
-        return render_template('profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases)
+        return render_template('../templates/profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases)
     return redirect(url_for('login'))
 
 
@@ -66,7 +67,7 @@ def public_profile(user_id):
     average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
     achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
 
-    return render_template('public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade, achievements=achievements)
+    return render_template('../templates/public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade, achievements=achievements)
 
 
 @views.route('/edit_profile', methods=['GET', 'POST'])
@@ -87,7 +88,7 @@ def edit_profile():
         db.session.commit()
         flash('Профиль успешно обновлен.', 'success')
         return redirect(url_for('views.profile'))
-    return render_template('edit_profile.html', form=form, account=current_user)
+    return render_template('../templates/edit_profile.html', form=form, account=current_user)
 
 
 @views.route('/change_password', methods=['GET', 'POST'])
@@ -103,7 +104,7 @@ def change_password():
             return redirect(url_for('views.profile'))
         else:
             flash('Неверный текущий пароль.', 'danger')
-    return render_template('change_password.html', form=form)
+    return render_template('../templates/change_password.html', form=form)
 
 
 @views.route('/change_email', methods=['GET', 'POST'])
@@ -116,7 +117,7 @@ def change_email():
         db.session.commit()
         flash('Ваш Email был успешно изменен.', 'success')
         return redirect(url_for('views.profile'))
-    return render_template('change_email.html', form=form)
+    return render_template('../templates/change_email.html', form=form)
 
 
 @views.route('/stream', methods=['GET', 'POST'])
@@ -126,7 +127,7 @@ def stream():
     available_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
     live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
     print("Live Broadcasts:", live_broadcasts)
-    return render_template('stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
+    return render_template('../templates/stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
 
 
 @views.route('/students')
@@ -142,25 +143,25 @@ def students():
             'total_submissions': total_submissions,
             'average_grade': average_grade
         })
-    return render_template('students.html', user_data=user_data)
+    return render_template('../templates/students.html', user_data=user_data)
 
 
 @views.route('/howto')
 @login_required
 def howto():
-    return render_template('howto.html', account=current_user)
+    return render_template('../templates/howto.html', account=current_user)
 
 
 @views.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('../templates/about.html')
 
 
 @views.route('/sport')
 @login_required
 def sport():
     balance = GlobalBalance.get_balance()
-    return render_template('sport.html', balance=balance)
+    return render_template('../templates/sport.html', balance=balance)
 
 
 @views.route('/courses')
@@ -168,7 +169,7 @@ def sport():
 def courses():
     allowed_courses = current_user.allowed_courses.split(',')
     course_item = Course.query.filter(Course.short_name.in_(allowed_courses)).all()
-    return render_template('courses.html', courses=course_item)
+    return render_template('../templates/courses.html', courses=course_item)
 
 
 @views.route('/course/<int:course_id>')
@@ -180,7 +181,7 @@ def course_detail(course_id):
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
     identity = {'user_id': current_user.id}
     token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
-    return render_template('course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts)
+    return render_template('../templates/course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts)
 
 
 @views.route('/submit_homework/<int:homework_id>', methods=['POST'])

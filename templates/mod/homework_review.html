@@ -1,0 +1,50 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h2>Проверка Домашек</h2>
+
+{% for course_name, submissions in courses_dict.items() %}
+<h3>{{ course_name }}</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Студент</th>
+            <th>Домашнее задание</th>
+            <th>Аудио</th>
+            <th>Оценка</th>
+            <th>Комментарии</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for submission in submissions %}
+<tr>
+    <td>{{ submission.student.username }}</td>
+    <td>{{ submission.homework.title }}</td>
+    <td>
+        {% if submission.file_path %}
+        <audio controls>
+            <source src="{{ url_for('static', filename=submission.file_path) }}" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио элемент.
+        </audio>
+        {% else %}
+        Нет файла
+        {% endif %}
+    </td>
+    <td>
+        <form method="post" action="{{ url_for('homeworkreview.homeworkreview_grade', submission_id=submission.id) }}">
+            <input type="number" name="grade" value="{{ submission.grade }}" min="0" max="10">
+            <input type="submit" value="Сохранить">
+        </form>
+    </td>
+    <td>
+        <form method="post" action="{{ url_for('homeworkreview.homeworkreview_comment', submission_id=submission.id) }}">
+            <textarea name="comments">{{ submission.comments }}</textarea>
+            <input type="submit" value="Сохранить">
+        </form>
+    </td>
+</tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+{% endblock %}

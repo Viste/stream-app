@@ -1,9 +1,10 @@
-from database.models import db, Customer
 from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash
 from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms import validators, fields, form
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
+
+from database.models import db, Customer
 
 
 class LoginForm(form.Form):

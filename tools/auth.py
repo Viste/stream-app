@@ -1,9 +1,10 @@
 from functools import wraps
 
-from database.models import Customer
 from flask import request, jsonify, session, current_app
 from flask_login import LoginManager, login_user, logout_user
 from werkzeug.security import check_password_hash
+
+from database.models import Customer
 
 
 def require_api_key(view_function):
