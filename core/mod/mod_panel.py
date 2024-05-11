@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from flask import request, redirect, url_for, session
-from flask_admin import Admin as mod
+from flask_admin import Admin as Moderator
 from flask_admin import expose, AdminIndexView, BaseView, helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
@@ -115,8 +115,8 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-mod = mod(name='moderator', index_view=MyModIndexView(endpoint='mod'), base_template='mod/master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
+moderator = Moderator(name='moderator', index_view=MyModIndexView(endpoint='mod'), base_template='mod/master.html', template_mode='bootstrap4', url='/mod', endpoint='mod')
 
 
-mod.add_view(ModeratorView(name='Управление Физкоином', endpoint='moderator'))
-mod.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
+moderator.add_view(ModeratorView(name='Управление Физкоином', endpoint='moderator'))
+moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
