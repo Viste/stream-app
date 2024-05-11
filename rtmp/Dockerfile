@@ -57,7 +57,9 @@ RUN apk add --no-cache libgcc libstdc++ pcre zlib openssl geoip libxslt gd ffmpe
     libxml2-dev python3 py3-requests py3-pip py3-setuptools bash luarocks lua-dev build-base gcc \
     musl-dev python3-dev libffi-dev openssl-dev
 
-RUN pip install --upgrade google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2 \
+RUN pip install --upgrade google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
+
+#RUN apk add --no-cache py3-google-api-python-client py3-google-auth py3-google-auth-oauthlib py3-google-auth-httplib2
 
 RUN /usr/bin/luarocks-5.1 install lua-resty-http
 RUN /usr/bin/luarocks-5.1 install lua-cjson
