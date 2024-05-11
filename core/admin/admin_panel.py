@@ -18,7 +18,7 @@ class MyAdminIndexView(AdminIndexView):
     @login_required
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('.login_view'))
+            return redirect(url_for('admin.login_view'))
         return super(MyAdminIndexView, self).index()
 
     @expose('/login/', methods=('GET', 'POST'))
@@ -29,7 +29,7 @@ class MyAdminIndexView(AdminIndexView):
             login_user(user)
 
         if current_user.is_authenticated:
-            return redirect(url_for('.index'))
+            return redirect(url_for('admin.index'))
         self._template_args['form'] = form
         return super(MyAdminIndexView, self).render('admin/login.html')
 
@@ -37,7 +37,7 @@ class MyAdminIndexView(AdminIndexView):
     def logout_view(self):
         logout_user()
         session.clear()
-        return redirect(url_for('.login_view'))
+        return redirect(url_for('admin.login_view'))
 
 
 class HomeworkReviewView(BaseView):
@@ -62,7 +62,7 @@ class HomeworkReviewView(BaseView):
         submission.grade = request.form['grade']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('admin.index'))
 
     @expose('/comment/<int:submission_id>/', methods=['POST'])
     @login_required
@@ -71,7 +71,7 @@ class HomeworkReviewView(BaseView):
         submission.comments = request.form['comments']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('admin.index'))
 
 
 class BroadcastTitleView(BaseView):
@@ -80,7 +80,7 @@ class BroadcastTitleView(BaseView):
         global next_broadcast_title
         if request.method == 'POST':
             next_broadcast_title = request.form['title']
-            return redirect(url_for('.index'))
+            return redirect(url_for('admin.index'))
         return self.render('admin/set_broadcast_title.html')
 
 

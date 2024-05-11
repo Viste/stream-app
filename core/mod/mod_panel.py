@@ -17,7 +17,7 @@ class MyModIndexView(AdminIndexView):
     @login_required
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('.login_view'))
+            return redirect(url_for('mod.login_view'))
         return super(MyModIndexView, self).index()
 
     @expose('/login/', methods=('GET', 'POST'))
@@ -36,7 +36,7 @@ class MyModIndexView(AdminIndexView):
     def logout_view(self):
         logout_user()
         session.clear()
-        return redirect(url_for('.login_view'))
+        return redirect(url_for('mod.login_view'))
 
 
 class ModeratorView(BaseView):
@@ -55,7 +55,7 @@ class ModeratorView(BaseView):
             return redirect(url_for('index'))
         amount = float(request.form['amount'])
         GlobalBalance.update_balance(amount)
-        return redirect(url_for('.index'))
+        return redirect(url_for('mod.index'))
 
     @expose('/add_purchase', methods=['POST'])
     @login_required
@@ -68,7 +68,7 @@ class ModeratorView(BaseView):
         purchase = Purchase(user_id=user_id, item_name=item_name, download_url=download_url)
         db.session.add(purchase)
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('mod.index'))
 
 
 class HomeworkReviewView(BaseView):
@@ -93,7 +93,7 @@ class HomeworkReviewView(BaseView):
         submission.grade = request.form['grade']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('mod.index'))
 
     @expose('/comment/<int:submission_id>/', methods=['POST'])
     @login_required
@@ -102,7 +102,7 @@ class HomeworkReviewView(BaseView):
         submission.comments = request.form['comments']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('mod.index'))
 
 
 class MyModelView(ModelView):
