@@ -93,13 +93,13 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyAdminIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/admin')
+admins = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyAdminIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/admin', endpoint='admin')
 
-admin.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
+admins.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
 
-admin.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
-admin.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))
-admin.add_view(MyModelView(Broadcast, db.session, category="Таблицы", name="Трансляции"))
-admin.add_view(MyModelView(Homework, db.session, category="Таблицы", name="Домашки"))
-admin.add_view(MyModelView(CourseProgram, db.session, category="Таблицы", name="Программа курсов"))
-admin.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
+admins.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
+admins.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))
+admins.add_view(MyModelView(Broadcast, db.session, category="Таблицы", name="Трансляции"))
+admins.add_view(MyModelView(Homework, db.session, category="Таблицы", name="Домашки"))
+admins.add_view(MyModelView(CourseProgram, db.session, category="Таблицы", name="Программа курсов"))
+admins.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
