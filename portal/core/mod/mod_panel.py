@@ -1,7 +1,35 @@
 from database.models import db, Purchase, GlobalBalance
-from flask import request, redirect, url_for
-from flask_admin import Admin, expose, BaseView
-from flask_login import current_user, login_required
+from flask import request, redirect, url_for, session
+from flask_admin import Admin, expose, AdminIndexView, BaseView, helpers
+from flask_login import login_user, logout_user, current_user, login_required
+from tools.forms import ModLoginForm
+
+
+class MyModIndexView(AdminIndexView):
+    @expose('/')
+    @login_required
+    def index(self):
+        if not current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+        return super(MyModIndexView, self).index()
+
+    @expose('/login/', methods=('GET', 'POST'))
+    def login_view(self):
+        form = ModLoginForm(request.form)
+        if helpers.validate_form_on_submit(form):
+            user = form.get_user()
+            login_user(user)
+
+        if current_user.is_authenticated:
+            return redirect(url_for('.index'))
+        self._template_args['form'] = form
+        return super(MyModIndexView, self).render('admin/login.html')
+
+    @expose('/logout/')
+    def logout_view(self):
+        logout_user()
+        session.clear()
+        return redirect(url_for('.login_view'))
 
 
 class ModeratorAdminView(BaseView):
@@ -36,7 +64,7 @@ class ModeratorAdminView(BaseView):
         return redirect(url_for('.index'))
 
 
-admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=ModeratorAdminView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod')
+admin = Admin(name='Админ Панель. Нейропанк Академия', index_view=MyModIndexView(), base_template='admin/my_master.html', template_mode='bootstrap4', url='/mod')
 
 
 admin.add_view(ModeratorAdminView(name='Модераторская панель', endpoint='moderator'))
