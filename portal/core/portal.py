@@ -8,6 +8,7 @@ from flask_login import current_user, login_required
 from tools.auth import authenticate_user, logout
 from tools.forms import ChangePasswordForm, ChangeEmailForm, EditProfileForm
 from werkzeug.utils import secure_filename
+from pprint import pprint
 
 views = Blueprint('views', __name__)
 
