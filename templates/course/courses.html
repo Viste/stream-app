@@ -17,11 +17,12 @@
 </div>
 {% endblock %}
 {% block content %}
+{{ all_courses }}
 <div class="coursecontainer tab-content container">
     <!-- Контейнер с курсами "Все" -->
     <div id="npacall" role="tabpanel" class="tab-pane fade show active">
         <div class="row">
-            {% for course in all_courses %}
+            {% for course in courses %}
             <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
