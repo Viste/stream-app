@@ -711,7 +711,17 @@ font-family: var(--ff-roboto);
 .courseElement {
     width: 387px;
     height: 690px;
-    padding: 1px 1px 0px 1px;
+    padding: 20px 18px;
+    border: 1px solid rgba(217, 217, 217, 0.7);
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.courseElement:nth-child(3n) {
+    margin-right: 0;
+}
+.courseElement .ElementImageB {
+    width: 385px;
+    height: 385px;
 }
 .courseElement .ElementImageB img {
     max-width: 385px;
@@ -737,6 +747,7 @@ font-family: var(--ff-roboto);
     text-align: left;
     max-width: 347px;
     width: 100%;
+    color: #b2b2b2;
 }
 .statusCourse {
     height: 24px;
@@ -748,6 +759,7 @@ font-family: var(--ff-roboto);
     width: auto;
     padding: 0 15px;
     border-radius: 10px;
+    width: max-content;
 }
 .statusCourse.SC-runningnow {
     background: #639630;
