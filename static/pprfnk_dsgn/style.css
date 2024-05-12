@@ -713,3 +713,42 @@ font-family: var(--ff-roboto);
     height: 690px;
     padding: 1px 1px 0px 1px;
 }
+.courseElement .ElementImageB img {
+    max-width: 385px;
+    max-height: 385px;
+    width: 100%;
+    height: auto;
+}
+.courseElement .courseTitle {
+    font-family: var(--ff-europeext);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+    color: #ffffff;
+    max-width: 347px;
+    width: 100%;
+}
+.courseElement .courseDescription {
+    font-family: var(--ff-roboto);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    max-width: 347px;
+    width: 100%;
+}
+.statusCourse {
+    height: 24px;
+    font-family: var(--ff-roboto);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
+    width: auto;
+    padding: 0 15px;
+    border-radius: 10px;
+}
+.statusCourse.SC-runningnow {
+    background: #639630;
+}
