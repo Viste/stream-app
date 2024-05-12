@@ -169,7 +169,8 @@ def sport():
 def courses():
     allowed_courses = current_user.allowed_courses.split(',')
     course_item = Course.query.filter(Course.short_name.in_(allowed_courses)).all()
-    return render_template('course/courses.html', courses=course_item)
+    all_courses = db.query(Course).all()
+    return render_template('course/courses.html', courses=course_item, all_courses=all_courses)
 
 
 @views.route('/course/<int:course_id>')
