@@ -1,6 +1,6 @@
 {% extends 'mod/master.html' %}
 
-{% block content %}
+{% block body %}
 <h1>Модераторская панель</h1>
 <h2>Текущий баланс: {{ balance }}</h2>
 <form action="{{ url_for('moderator.update_balance') }}" method="post">
@@ -17,4 +17,4 @@
     <input type="text" name="download_url" required>
     <button type="submit">Добавить покупку</button>
 </form>
-{% endblock %}
+{% endblock body %}

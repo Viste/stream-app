@@ -43,7 +43,7 @@ class ModeratorView(moderator.BaseView):
     @login_required
     def index(self):
         if not current_user.is_moderator:
-            return redirect(url_for('.index'))
+            return redirect(url_for('moderator.index'))
         balance = GlobalBalance.get_balance()
         return self.render('mod/moderator_dashboard.html', balance=balance)
 
@@ -51,23 +51,23 @@ class ModeratorView(moderator.BaseView):
     @login_required
     def update_balance(self):
         if not current_user.is_moderator:
-            return redirect(url_for('.index'))
+            return redirect(url_for('moderator.index'))
         amount = float(request.form['amount'])
         GlobalBalance.update_balance(amount)
-        return redirect(url_for('.index'))
+        return redirect(url_for('moderator.index'))
 
     @moderator.expose('/add_purchase', methods=['POST'])
     @login_required
     def add_purchase(self):
         if not current_user.is_moderator:
-            return redirect(url_for('index'))
+            return redirect(url_for('moderator.index'))
         user_id = request.form['user_id']
         item_name = request.form['item_name']
         download_url = request.form['download_url']
         purchase = Purchase(user_id=user_id, item_name=item_name, download_url=download_url)
         db.session.add(purchase)
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('moderator.index'))
 
 
 class HomeworkReviewView(moderator.BaseView):
@@ -92,7 +92,7 @@ class HomeworkReviewView(moderator.BaseView):
         submission.grade = request.form['grade']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('moderator.index'))
 
     @moderator.expose('/comment/<int:submission_id>/', methods=['POST'])
     @login_required
@@ -101,7 +101,7 @@ class HomeworkReviewView(moderator.BaseView):
         submission.comments = request.form['comments']
         submission.reviewer_name = current_user.username
         db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('moderator.index'))
 
 
 class MyModelView(ModelView):
