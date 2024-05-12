@@ -116,5 +116,5 @@ class MyModelView(ModelView):
 
 moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4')
 
-moderator.add_view(ModeratorView(name='Управление Физкоином', endpoint='mod_coin'))
+moderator.add_view(ModeratorView(name='Управление Физкоином'))
 moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
