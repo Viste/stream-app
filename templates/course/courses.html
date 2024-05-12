@@ -18,6 +18,7 @@
 {% endblock %}
 {% block content %}
 <div class="coursecontainer tab-content container">
+    <!-- Контейнер с курсами "Все" -->
     <div id="c-all" role="tabpanel" class="tab-pane fade show active">
         <div class="row">
             {% for course in courses %}
@@ -30,7 +31,8 @@
             {% endfor %}
         </div>
     </div>
-    <div id="c-underway" role="tabpanel" class="tab-pane fade">
+    <!-- Контейнер с курсами "Идет набор" -->
+    <div id="с-underway" role="tabpanel" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
