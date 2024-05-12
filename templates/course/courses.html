@@ -23,65 +23,81 @@
         <div class="row">
             {% for course in all_courses %}
             <div class="col-4 courseElement">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
-                   class="btn btn-primary">Подробнее</a>
+                <div class="ElementImageB">
+                    <a title="{{ course.name }}" href="{{ url_for('views.course_detail', course_id=course.id) }}">
+                        <img src="{{ course.image_url }}" alt="{{ course.name }}">
+                    </a>
+                </div>
+                <div class="statusCourse SC-runningnow"></div>
+                <div class="courseTitle">
+                    <h2>{{ course.name }}</h2>
+                </div>
+                <div class="courseDescription">
+                    <p>{{ course.description }}</p>
+                </div>
+                <div class="courseOrderBlock">
+                    <div class="cob-price">12 000 р.</div>
+                    <div class="cob-buyorinfo">
+                        <a title="Подробнее о курсе {{ course.name }}"
+                           href="{{ url_for('views.course_detail', course_id=course.id) }}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-    <!-- Контейнер с курсами "Идет набор" -->
-    <div id="npaсunderway" role="tabpanel" class="tab-pane fade">
-        <div class="row">
-            {% for course in courses %}
-            <div class="col-4 courseElement">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
-                   class="btn btn-primary">Подробнее2</a>
-            </div>
-            {% endfor %}
+</div>
+<!-- Контейнер с курсами "Идет набор" -->
+<div id="npaсunderway" role="tabpanel" class="tab-pane fade">
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-4 courseElement">
+            <h2>{{ course.name }}</h2>
+            <p>{{ course.description }}</p>
+            <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+               class="btn btn-primary">Подробнее2</a>
         </div>
+        {% endfor %}
     </div>
-    <!-- Контейнер с курсами "Идет сейчас" -->
-    <div id="npacrunningnow" role="tabpanel" class="tab-pane fade">
-        <div class="row">
-            {% for course in courses %}
-            <div class="col-4 courseElement">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
-                   class="btn btn-primary">Подробнее3</a>
-            </div>
-            {% endfor %}
+</div>
+<!-- Контейнер с курсами "Идет сейчас" -->
+<div id="npacrunningnow" role="tabpanel" class="tab-pane fade">
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-4 courseElement">
+            <h2>{{ course.name }}</h2>
+            <p>{{ course.description }}</p>
+            <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+               class="btn btn-primary">Подробнее3</a>
         </div>
+        {% endfor %}
     </div>
-    <!-- Контейнер с курсами "Доступен в записи" -->
-    <div id="npacrecorded" role="tabpanel" class="tab-pane fade">
-        <div class="row">
-            {% for course in courses %}
-            <div class="col-4 courseElement">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
-                   class="btn btn-primary">Подробнее4</a>
-            </div>
-            {% endfor %}
+</div>
+<!-- Контейнер с курсами "Доступен в записи" -->
+<div id="npacrecorded" role="tabpanel" class="tab-pane fade">
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-4 courseElement">
+            <h2>{{ course.name }}</h2>
+            <p>{{ course.description }}</p>
+            <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+               class="btn btn-primary">Подробнее4</a>
         </div>
+        {% endfor %}
     </div>
-    <!-- Контейнер с курсами "Завершен" -->
-    <div id="npaccompleted" role="tabpanel" class="tab-pane fade">
-        <div class="row">
-            {% for course in courses %}
-            <div class="col-4 courseElement">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-                <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
-                   class="btn btn-primary">Подробнее5</a>
-            </div>
-            {% endfor %}
+</div>
+<!-- Контейнер с курсами "Завершен" -->
+<div id="npaccompleted" role="tabpanel" class="tab-pane fade">
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-4 courseElement">
+            <h2>{{ course.name }}</h2>
+            <p>{{ course.description }}</p>
+            <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
+               class="btn btn-primary">Подробнее5</a>
         </div>
+        {% endfor %}
     </div>
+</div>
 </div>
 {% endblock %}
