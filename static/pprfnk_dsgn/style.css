@@ -694,13 +694,22 @@ font-family: var(--ff-roboto);
     width: 68%;
     margin: 0 auto;
 }
+.submenu {
+    padding-left: 30px;
+    padding-top: 2px;
+}
 .submenu a {
     padding: 0 10px;
     transition: 0.2s;
 }
-.submenu a {
+.submenu a:hover {
     color: #FFB524;
 }
 .submenu a.active-tab {
     color: #FFB524;
+}
+.courseElement {
+    width: 387px;
+    height: 690px;
+    padding: 1px 1px 0px 1px;
 }

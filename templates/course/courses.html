@@ -16,7 +16,7 @@
     <div id="c-all" class="tab-pane fade show active">
         <div class="row">
             {% for course in courses %}
-            <div class="col-4">
+            <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
                 <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
@@ -28,7 +28,7 @@
     <div id="c-underway" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
-            <div class="col-4">
+            <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
                 <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
@@ -40,7 +40,7 @@
     <div id="c-running-now" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
-            <div class="col-4">
+            <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
                 <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
@@ -52,7 +52,7 @@
     <div id="c-recorded" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
-            <div class="col-4">
+            <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
                 <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
@@ -64,7 +64,7 @@
     <div id="c-completed" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
-            <div class="col-4">
+            <div class="col-4 courseElement">
                 <h2>{{ course.name }}</h2>
                 <p>{{ course.description }}</p>
                 <a href="{{ url_for('views.course_detail', course_id=course.id) }}"
