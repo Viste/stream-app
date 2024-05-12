@@ -101,7 +101,7 @@
         {% if session.loggedin == True %}
         {% if current_user.is_moderator == True %}
         <div id="modButton">
-            <a class="nav-link" href="{{ url_for('moderator.index') }}"><i class="fas fa-user-circle"></i>Админка</a>
+            <a class="nav-link" href="{{ url_for('moderator.index') }}"><i class="fas fa-user-circle"></i>Модераторская</a>
         </div>
         {% endif %}
         {% if current_user.is_admin == True %}

@@ -17,7 +17,7 @@ class MyModIndexView(moderator.AdminIndexView):
     def index(self):
         if not current_user.is_authenticated:
             return redirect(url_for('moderator.login_view'))
-        return super(MyModIndexView(), self).index()
+        return super(MyModIndexView, self).index()
 
     @moderator.expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
