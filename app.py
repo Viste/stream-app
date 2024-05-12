@@ -21,7 +21,7 @@ app.register_blueprint(views)
 app.register_blueprint(api, url_prefix='/api')
 
 
-moderator.init_app(app, endpoint='mod', index_view=MyModIndexView(endpoint='moderator', url='/moderator'))
+moderator.init_app(app, endpoint='moderator', index_view=MyModIndexView(endpoint='moderator', url='/moderator'))
 admins.init_app(app, index_view=MyAdminIndexView(endpoint='admin', url='/admin'))
 
 if __name__ == "__main__":
