@@ -51,7 +51,7 @@ class ModeratorView(moderator.BaseView):
     @login_required
     def update_balance(self):
         if not current_user.is_moderator:
-            return redirect(url_for('mod.index'))
+            return redirect(url_for('.index'))
         amount = float(request.form['amount'])
         GlobalBalance.update_balance(amount)
         return redirect(url_for('.index'))
