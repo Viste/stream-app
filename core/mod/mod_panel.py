@@ -16,8 +16,8 @@ class MyModIndexView(moderator.AdminIndexView):
     @login_required
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('mod.login_view'))
-        return super(MyModIndexView(endpoint='moderator'), self).index()
+            return redirect(url_for('moderator.login_view'))
+        return super(MyModIndexView(), self).index()
 
     @moderator.expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
@@ -27,7 +27,7 @@ class MyModIndexView(moderator.AdminIndexView):
             login_user(user)
 
         if current_user.is_authenticated:
-            return redirect(url_for('mod.index'))
+            return redirect(url_for('moderator.index'))
         self._template_args['form'] = form
         return super(MyModIndexView, self).render('mod/login.html')
 
@@ -35,7 +35,7 @@ class MyModIndexView(moderator.AdminIndexView):
     def logout_view(self):
         logout_user()
         session.clear()
-        return redirect(url_for('mod.login_view'))
+        return redirect(url_for('moderator.login_view'))
 
 
 class ModeratorView(moderator.BaseView):
@@ -114,4 +114,7 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
+moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4')
 
+moderator.add_view(ModeratorView(name='Управление Физкоином', endpoint='mod_coin'))
+moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))

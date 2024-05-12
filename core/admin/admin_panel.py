@@ -7,7 +7,7 @@ from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 
-from database.models import db, Homework, HomeworkSubmission
+from database.models import db, Homework, HomeworkSubmission, Course, Broadcast, Customer, Achievement, AchievementCriteria, CourseProgram
 from tools.forms import LoginForm
 
 next_broadcast_title = None
@@ -92,3 +92,17 @@ class MyModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
+
+
+admins = admin.Admin(name='Панель Администратора. Нейропанк Академия', base_template='admin/master.html', template_mode='bootstrap4')
+
+admins.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
+admins.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
+admins.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))
+admins.add_view(MyModelView(Broadcast, db.session, category="Таблицы", name="Трансляции"))
+admins.add_view(MyModelView(Homework, db.session, category="Таблицы", name="Домашки"))
+admins.add_view(MyModelView(CourseProgram, db.session, category="Таблицы", name="Программа курсов"))
+admins.add_view(MyModelView(Achievement, db.session, category="Таблицы", name="Достижения"))
+admins.add_view(MyModelView(AchievementCriteria, db.session, category="Таблицы", name="Критерии достижений"))
+admins.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
+

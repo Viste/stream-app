@@ -23,7 +23,7 @@
                             </div>
                           {% endif %}
                         {% endwith %}
-                        <form method="POST" action="{{ url_for('mod.login_view') }}">
+                        <form method="POST" action="{{ url_for('moderator.login_view') }}">
                             <div class="form-group">
                                 <label for="login">Логин</label>
                                 <input type="text" class="form-control" id="login" name="login" placeholder="Username" required>
