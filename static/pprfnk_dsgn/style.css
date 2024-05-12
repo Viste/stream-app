@@ -722,6 +722,8 @@ font-family: var(--ff-roboto);
 .courseElement .ElementImageB {
     width: 385px;
     height: 385px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 .courseElement .ElementImageB img {
     max-width: 385px;
@@ -730,6 +732,7 @@ font-family: var(--ff-roboto);
     height: auto;
 }
 .courseElement .courseTitle {
+    padding: 0 18px;
     font-family: var(--ff-europeext);
     font-size: 18px;
     font-weight: 700;
@@ -740,6 +743,7 @@ font-family: var(--ff-roboto);
     width: 100%;
 }
 .courseElement .courseDescription {
+    padding: 0 18px;
     font-family: var(--ff-roboto);
     font-size: 18px;
     font-weight: 400;
@@ -756,11 +760,16 @@ font-family: var(--ff-roboto);
     font-weight: 700;
     line-height: 24px;
     text-align: left;
-    width: auto;
     padding: 0 15px;
     border-radius: 10px;
     width: max-content;
 }
 .statusCourse.SC-runningnow {
     background: #639630;
+}
+.courseOrderBlock {
+    padding: 0 18px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
