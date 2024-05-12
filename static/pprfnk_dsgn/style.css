@@ -711,7 +711,7 @@ font-family: var(--ff-roboto);
 .courseElement {
     width: 387px;
     height: 690px;
-    padding: 20px 18px;
+    padding: 20px 0;
     border: 1px solid rgba(217, 217, 217, 0.7);
     margin-right: 20px;
     margin-bottom: 20px;
@@ -731,7 +731,7 @@ font-family: var(--ff-roboto);
     width: 100%;
     height: auto;
 }
-.courseElement .courseTitle {
+.courseElement .courseTitle h2 {
     padding: 0 18px;
     font-family: var(--ff-europeext);
     font-size: 18px;
