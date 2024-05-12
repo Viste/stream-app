@@ -711,7 +711,7 @@ font-family: var(--ff-roboto);
 .courseElement {
     width: 387px;
     height: 690px;
-    padding: 20px 0;
+    padding-bottom: 20px;
     border: 1px solid rgba(217, 217, 217, 0.7);
     margin-right: 20px;
     margin-bottom: 20px;
@@ -763,6 +763,8 @@ font-family: var(--ff-roboto);
     padding: 0 15px;
     border-radius: 10px;
     width: max-content;
+    margin-bottom: 20px;
+    margin-left: 18px;
 }
 .statusCourse.SC-runningnow {
     background: #639630;
