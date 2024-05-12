@@ -114,7 +114,7 @@ class MyModelView(ModelView):
         return redirect(url_for('login'))
 
 
-moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4')
+moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4', static_url_path='moderator.static')
 
 moderator.add_view(ModeratorView(name='Управление Физкоином', endpoint='mod_coin'))
 moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
