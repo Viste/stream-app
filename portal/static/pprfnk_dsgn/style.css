@@ -677,7 +677,21 @@ font-family: var(--ff-roboto);
     line-height: 27px;
     text-align: left;
     color: #FFF;
+    width: max-content !important;
+    margin: 0 0 !important;
 }
 .headerBlockCourses {
     display: flex;
+    width: 68%;
+    margin: 0 auto;
+}
+.submenu a {
+    padding: 0 10px;
+    transition: 0.2s;
+}
+.submenu a {
+    color: #FFB524;
+}
+.submenu a.active-tab {
+    color: #FFB524;
 }
