@@ -1,19 +1,24 @@
 {% extends 'layout.html' %}
 {% block pageHeaderBlock%}
-<div class="headerBlockCourses">
-    <h1 class="courseHeaderOne">КУРСЫ</h1>
-    <div class="submenu">
-        <a href="#c-all" data-bs-toggle="tab" class="active-tab active">Все</a>
-        <a href="#с-underway" data-bs-toggle="tab">Идет набор</a>
-        <a href="#c-running-now" data-bs-toggle="tab">Идет сейчас</a>
-        <a href="#c-recorded" data-bs-toggle="tab">Доступен в записи</a>
-        <a href="#c-completed" data-bs-toggle="tab">Завершен</a>
+<div class="headerBlockCourses container-fluid">
+    <div class="col-2">
+        <h1 class="courseHeaderOne">КУРСЫ</h1>
     </div>
+    <div class="col-6">
+        <div id="coursestablist" class="nav submenu" role="tablist">
+            <a data-bs-target="#c-all" href="#c-all" data-bs-toggle="tab" class="active-tab active">Все</a>
+            <a data-bs-target="#с-underway" href="#с-underway" data-bs-toggle="tab">Идет набор</a>
+            <a data-bs-target="#c-running-now" href="#c-running-now" data-bs-toggle="tab">Идет сейчас</a>
+            <a data-bs-target="#c-recorded" href="#c-recorded" data-bs-toggle="tab">Доступен в записи</a>
+            <a data-bs-target="#c-completed" href="#c-completed" data-bs-toggle="tab">Завершен</a>
+        </div>
+    </div>
+    <div class="col-4"></div>
 </div>
 {% endblock %}
 {% block content %}
 <div class="coursecontainer tab-content container">
-    <div id="c-all" class="tab-pane fade show active">
+    <div id="c-all" role="tabpanel" class="tab-pane fade show active">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
@@ -25,7 +30,7 @@
             {% endfor %}
         </div>
     </div>
-    <div id="c-underway" class="tab-pane fade">
+    <div id="c-underway" role="tabpanel" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
@@ -37,7 +42,7 @@
             {% endfor %}
         </div>
     </div>
-    <div id="c-running-now" class="tab-pane fade">
+    <div id="c-running-now" role="tabpanel" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
@@ -49,7 +54,7 @@
             {% endfor %}
         </div>
     </div>
-    <div id="c-recorded" class="tab-pane fade">
+    <div id="c-recorded" role="tabpanel" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
@@ -61,7 +66,7 @@
             {% endfor %}
         </div>
     </div>
-    <div id="c-completed" class="tab-pane fade">
+    <div id="c-completed" role="tabpanel" class="tab-pane fade">
         <div class="row">
             {% for course in courses %}
             <div class="col-4 courseElement">
