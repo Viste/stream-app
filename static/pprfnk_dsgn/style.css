@@ -199,7 +199,9 @@ header {
 }
 
 .pe-previewImage img {
-    height: 330px;
+    width: 385px;
+    max-height: 385px;
+    height: auto;
 }
 
 .content-block .prod-elem {
@@ -250,7 +252,7 @@ header {
 
 .pe-previewImage {
     width: 385px;
-    height: 330px;
+    height: 385px;
 }
 
 .pe-list {
@@ -574,7 +576,7 @@ button#mobprofileitem {
 }
 #modButton {
     position: fixed;
-    top: 25%;
+    top: 30%;
     right: 0;
     list-style: none;
     background: #000;
