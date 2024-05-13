@@ -8,60 +8,36 @@
         {% for broadcast in live_broadcasts %}
         <div class="col-md-{{ 12 // live_broadcasts|length }}">
             <h3>{{ broadcast.course.name }}</h3>
-            <div id="dplayer-{{ loop.index }}" class="video" style="width: 100%;"></div>
-            <div id="status-info-{{ loop.index }}"></div>
-            <div id="viewers-info-{{ loop.index }}"></div>
+            <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
+            <div id="status-info-{{ loop.index }}">Трансляция активна</div>
+            <div id="viewers-info-{{ loop.index }}">Зрителей: {{ live_broadcasts|length }}</div>
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function createApiBackend(url, onMessage) {
-                        var ws = new WebSocket(url);
-                        ws.onmessage = function(event) {
-                            onMessage(JSON.parse(event.data));
-                        };
-                        ws.onclose = function() {
-                            setTimeout(function() { createApiBackend(url, onMessage); }, 5000); // Переподключение
-                        };
-                        return {
-                            send: function(data) {
-                                if (ws.readyState === WebSocket.OPEN) {
-                                    ws.send(JSON.stringify(data));
-                                }
-                            }
-                        };
-                    }
+                var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
+                    cloudName: 'di2pcyu5n',
+                    autoplay: true,
+                    autoplayMode: 'on-scroll',
+                    fluid: true,
+                    controls: true,
+                    aiHighlightsGraph: true,
+                    floatingWhenNotVisible: 'right',
+                    hideContextMenu: false,
+                    showJumpControls: true,
+                    pictureInPictureToggle: true,
+                    showLogo: true,
+                    logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
+                    logoOnclickUrl: 'https://pprfnk.tech/'
+                });
+                player.source('https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8', {
+                    sourceTypes: ['hls']
+                });
 
-                    var dp = new DPlayer({
-                        container: document.getElementById('dplayer-{{ loop.index }}'),
-                        live: true,
-                        mutex: false,
-                        autoplay: true,
-                        airplay: true,
-                        chromecast: true,
-                        preload: 'metadata',
-                        video: {
-                            quality: [
-                                {name: 'HD', url: 'https://live.pprfnk.tech/hls/{{ broadcast.course.short_name }}/index.m3u8', type: 'hls'},
-                            ],
-                            defaultQuality: 0,
-                        },
-                        hlsjsConfig: {
-                            startLevel: 0,
-                            autoStartLoad: true,
-                            maxBufferLength: 5,
-                            maxMaxBufferLength: 10,
-                            liveSyncDurationCount: 1,
-                            liveMaxLatencyDurationCount: 2,
-                            capLevelToPlayerSize: true
-                        },
-                        apiBackend: createApiBackend('wss://academy.pprfnk.tech/ws', function(data) {
-                            if (data.type === 'status')
-                            {
-                                var statusText = data.live ? 'Трансляция активна' : 'Трансляция не активна';
-                                document.getElementById('status-info-{{ loop.index }}').textContent = statusText;
-                                var viewersText = 'Зрителей: ' + data.viewers;
-                                document.getElementById('viewers-info-{{ loop.index }}').textContent = viewersText;
-                            }
-                        })
+                // Добавление индикатора "Live" с красной точкой
+                player.on('play', function() {
+                    player.overlay({
+                        content: '<div style="color: red; font-weight: bold;">live ●</div>',
+                        start: 0,
+                        end: 'end',
+                        align: 'top-left'
                     });
                 });
             </script>

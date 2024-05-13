@@ -14,20 +14,29 @@
     <!-- Трансляции и записи -->
     <h3>Записи Трансляций</h3>
     {% for broadcast in broadcasts %}
-    <div class="mb-4" id="dplayer-{{ loop.index }}"></div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var dp{{ loop.index }} = new DPlayer({
-            container: document.getElementById('dplayer-{{ loop.index }}'),
-            video: {
-                url: 'https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}',
-                type: 'video/mp4'
-            },
-            preload: true,
-            autoplay: false
-        });
-    });
-    </script>
+    <div class="mb-4">
+        <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
+        <script>
+            var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
+                cloudName: 'di2pcyu5n',
+                autoplay: true,
+                autoplayMode: 'on-scroll',
+                fluid: true,
+                controls: true,
+                aiHighlightsGraph: true,
+                floatingWhenNotVisible: 'right',
+                hideContextMenu: false,
+                showJumpControls: true,
+                pictureInPictureToggle: true,
+                showLogo: true,
+                logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
+                logoOnclickUrl: 'https://pprfnk.tech/'
+            });
+            player.source('https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}', {
+                sourceTypes: ['mp4']
+            });
+        </script>
+    </div>
     {% endfor %}
 
     <!-- Домашние задания -->
