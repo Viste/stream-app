@@ -4,7 +4,7 @@
 <h1>Панель управления модератора</h1>
 <h2>Текущий баланс: {{ balance }}</h2>
 <form action="{{ url_for('moderatorview.update_balance') }}" method="post">
-    <input type="text" name="amount" placeholder="Изменить баланс на" step="0.001">
+    <input type="text" name="amount" placeholder="Изменить баланс на" step="0.0001">
     <button type="submit">Обновить баланс</button>
 </form>
 
