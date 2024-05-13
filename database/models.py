@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import Numeric
 from sqlalchemy.sql import expression
 
 db = SQLAlchemy()
@@ -237,13 +237,15 @@ class Purchase(db.Model):
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     id = db.Column(db.BigInteger, primary_key=True, nullable=False, autoincrement=True)
-    user_id = db.Column(BIGINT(unsigned=True), db.ForeignKey('customers.id'), nullable=False)
     item_name = db.Column(db.String(255))
-    download_url = db.Column(db.String(255))
-    customer = db.relationship('Customer', backref=db.backref('purchases', lazy=True))
+    file_path = db.Column(db.String(255))
+    card_image_path = db.Column(db.String(255))
+    description = db.Column(db.Text)
+    price = db.Column(db.BigInteger)
+    is_purchased = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
-        return f'<Purchase {self.item_name} by {self.customer.username}>'
+        return f'<Purchase {self.item_name}>'
 
 
 class GlobalBalance(db.Model):
@@ -251,16 +253,16 @@ class GlobalBalance(db.Model):
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     id = db.Column(db.Integer, primary_key=True)
-    balance = db.Column(db.Float, default=0.0)
+    balance = db.Column(Numeric(20, 4), default=0)
 
     @staticmethod
     def get_balance():
         balance_record = GlobalBalance.query.first()
         if not balance_record:
-            balance_record = GlobalBalance(balance=0.0)
+            balance_record = GlobalBalance(balance=0)
             db.session.add(balance_record)
             db.session.commit()
-        return balance_record.balance
+        return float(balance_record.balance)
 
     @staticmethod
     def update_balance(amount):

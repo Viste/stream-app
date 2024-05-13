@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
@@ -161,7 +161,35 @@ def about():
 @login_required
 def sport():
     balance = GlobalBalance.get_balance()
-    return render_template('misc/sport.html', balance=balance)
+    products = Purchase.query.all()
+    return render_template('misc/sport.html', balance=balance, products=products)
+
+
+@views.route('/buy_product/<int:product_id>')
+@login_required
+def buy_product(product_id):
+    if not current_user.is_moderator:
+        return "Доступ запрещен", 403
+    product = Purchase.query.get(product_id)
+    if product and not product.is_purchased:
+        if GlobalBalance.get_balance() >= product.price:
+            product.is_purchased = True
+            db.session.commit()
+            return redirect(url_for('sport'))
+        else:
+            flash('Недостаточно средств для покупки', 'error')
+    return redirect(url_for('sport'))
+
+
+@views.route('/download_product/<int:product_id>')
+@login_required
+def download_product(product_id):
+    product = Purchase.query.get(product_id)
+    if product and product.is_purchased:
+        return send_from_directory(directory=os.path.dirname(product.file_path),
+                                   filename=os.path.basename(product.file_path),
+                                   as_attachment=True)
+    return "Товар не куплен", 403
 
 
 @views.route('/courses')
