@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Numeric
 from sqlalchemy.sql import expression
 
 db = SQLAlchemy()
@@ -252,7 +253,7 @@ class GlobalBalance(db.Model):
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     id = db.Column(db.Integer, primary_key=True)
-    balance = db.Column(db.BigInteger, default=0)
+    balance = db.Column(Numeric(20, 4), default=0)
 
     @staticmethod
     def get_balance():
@@ -261,7 +262,7 @@ class GlobalBalance(db.Model):
             balance_record = GlobalBalance(balance=0)
             db.session.add(balance_record)
             db.session.commit()
-        return balance_record.balance
+        return float(balance_record.balance)
 
     @staticmethod
     def update_balance(amount):
