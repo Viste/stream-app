@@ -9,6 +9,7 @@ from core.portal import views
 from database.models import db
 from tools.auth import login_manager
 from tools.config import Config
+from tools.utils import number_format
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -17,6 +18,7 @@ migrate = Migrate(app, db)
 login_manager.init_app(app)
 login_manager.login_view = 'views.login'
 jwt = JWTManager(app)
+app.template_filter('number_format')(number_format)
 app.register_blueprint(views)
 app.register_blueprint(api, url_prefix='/api')
 
