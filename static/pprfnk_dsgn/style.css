@@ -783,4 +783,21 @@ font-family: var(--ff-roboto);
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
+    height: 52px;
+}
+.courseOrderBlock .cob-price {
+    width: 196px;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    background: #2D2D2D;
+    font-size: 18px;
+    color: #FFF;
+    padding-top: 13px;
+}
+.courseOrderBlock .cob-buyorinfo {
+
+}
+.courseOrderBlock .cob-buyorinfo .btn-course {
+
 }
