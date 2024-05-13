@@ -1,8 +1,9 @@
 import os
 from collections import defaultdict
+from decimal import Decimal, InvalidOperation
 
 import flask_admin as moderator
-from flask import request, redirect, url_for, session, current_app, send_from_directory
+from flask import request, redirect, url_for, session, current_app, send_from_directory, flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
@@ -51,8 +52,12 @@ class ModeratorView(moderator.BaseView):
     @moderator.expose('/update_balance', methods=['POST'])
     @login_required
     def update_balance(self):
-        amount = float(request.form['amount'])
-        GlobalBalance.update_balance(amount)
+        try:
+            amount = Decimal(request.form['amount'])
+            GlobalBalance.update_balance(amount)
+        except InvalidOperation:
+            flash('Некорректное значение. Пожалуйста, введите число с точностью до двух знаков после запятой.', 'error')
+            return redirect(url_for('moderator.update_balance_view'))  # предполагается, что есть такой endpoint
         return redirect(url_for('moderator.index'))
 
     @moderator.expose('/buy_product/<int:product_id>/')
