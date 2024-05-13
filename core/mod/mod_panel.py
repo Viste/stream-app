@@ -57,7 +57,7 @@ class ModeratorView(moderator.BaseView):
             GlobalBalance.update_balance(amount)
         except InvalidOperation:
             flash('Некорректное значение. Пожалуйста, введите число с точностью до двух знаков после запятой.', 'error')
-            return redirect(url_for('moderator.update_balance_view'))  # предполагается, что есть такой endpoint
+            return redirect(url_for('moderatorview.update_balance'))
         return redirect(url_for('moderator.index'))
 
     @moderator.expose('/buy_product/<int:product_id>/')
