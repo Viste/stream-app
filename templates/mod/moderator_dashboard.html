@@ -1,20 +1,34 @@
-{% extends 'mod/master.html' %}
+{% extends 'admin/master.html' %}
 
 {% block body %}
-<h1>Модераторская панель</h1>
+<h1>Панель управления модератора</h1>
 <h2>Текущий баланс: {{ balance }}</h2>
-<form action="{{ url_for('moderatorview.update_balance') }}" method="post">
-    <label for="amount">Изменить баланс на:</label>
-    <input type="number" step="0.01" name="amount" required>
+<form action="{{ url_for('moderator.update_balance') }}" method="post">
+    <input type="number" name="amount" placeholder="Изменить баланс на">
     <button type="submit">Обновить баланс</button>
 </form>
-<form action="{{ url_for('moderatorview.add_purchase') }}" method="post">
-    <label for="user_id">ID пользователя:</label>
-    <input type="text" name="user_id" required>
-    <label for="item_name">Название товара:</label>
-    <input type="text" name="item_name" required>
-    <label for="download_url">URL для скачивания:</label>
-    <input type="text" name="download_url" required>
-    <button type="submit">Добавить покупку</button>
-</form>
-{% endblock body %}
+
+<h2>Список товаров</h2>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Цена</th>
+        <th>Действия</th>
+    </tr>
+{% for product in products %}
+<tr>
+    <td>{{ product.item_name }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.price }}</td>
+    <td>
+        {% if not product.is_purchased %}
+        <a href="{{ url_for('moderator.buy_product', product_id=product.id) }}">Купить</a>
+        {% else %}
+        <a href="{{ url_for('moderator.download_product', product_id=product.id) }}">Скачать</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block pageHeaderBlock %}
-<div class="b-balance">Баланс: <span class="bb-match">{{ balance }}</span>
+<div class="b-balance">Баланс: <span class="bb-match">{{ balance|number_format }}</span>
     <div class="balance-ico">
         <svg width="29" height="29" viewBox="0 0 507 504" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
