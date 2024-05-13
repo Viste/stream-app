@@ -818,6 +818,9 @@ font-family: var(--ff-roboto);
     text-align: center;
     border: 1px solid #FFF;
     transition: 0.4s;
+    width: 140px;
+    height: 50px;
+    margin-left: 10px;
 }
 .courseOrderBlock .cob-buyorinfo .btn-course:hover {
     background: #FFF;
