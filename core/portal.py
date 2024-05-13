@@ -184,8 +184,6 @@ def buy_product(product_id):
 @views.route('/download_product/<int:product_id>')
 @login_required
 def download_product(product_id):
-    if not current_user.is_moderator:
-        return "Доступ запрещен", 403
     product = Purchase.query.get(product_id)
     if product and product.is_purchased:
         return send_from_directory(directory=os.path.dirname(product.file_path),
