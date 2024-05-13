@@ -1,5 +1,3 @@
-import locale
-
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -14,7 +12,6 @@ from tools.config import Config
 from tools.utils import number_format
 
 app = Flask(__name__)
-locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 app.config.from_object(Config)
 
 db.init_app(app)
