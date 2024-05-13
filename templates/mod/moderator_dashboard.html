@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Панель управления модератора</h1>
 <h2>Текущий баланс: {{ balance }}</h2>
-<form action="{{ url_for('moderator.update_balance') }}" method="post">
+<form action="{{ url_for('moderatorview.update_balance') }}" method="post">
     <input type="number" name="amount" placeholder="Изменить баланс на">
     <button type="submit">Обновить баланс</button>
 </form>
@@ -23,9 +23,9 @@
     <td>{{ product.price }}</td>
     <td>
         {% if not product.is_purchased %}
-        <a href="{{ url_for('moderator.buy_product', product_id=product.id) }}">Купить</a>
+        <a href="{{ url_for('moderatorview.buy_product', product_id=product.id) }}">Купить</a>
         {% else %}
-        <a href="{{ url_for('moderator.download_product', product_id=product.id) }}">Скачать</a>
+        <a href="{{ url_for('moderatorview.download_product', product_id=product.id) }}">Скачать</a>
         {% endif %}
     </td>
 </tr>

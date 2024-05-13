@@ -13,15 +13,19 @@ from tools.utils import number_format
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
 db.init_app(app)
 migrate = Migrate(app, db)
+
 login_manager.init_app(app)
 login_manager.login_view = 'views.login'
+
 jwt = JWTManager(app)
+
 app.template_filter('number_format')(number_format)
+
 app.register_blueprint(views)
 app.register_blueprint(api, url_prefix='/api')
-
 
 moderator.init_app(app, endpoint='moderator', index_view=MyModIndexView(endpoint='moderator', url='/moderator', template='mod/index.html'))
 admins.init_app(app, index_view=MyAdminIndexView(endpoint='admin', url='/admin', template='admin/index.html'))
