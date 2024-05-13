@@ -157,6 +157,9 @@ header {
 
 .pageHeaderBlock .b-balance .balance-ico {
     padding-left: 10px;
+    height: 30px;
+    position: relative;
+    top: -3px;
 }
 
 .pageHeaderBlock .b-balance, .pageHeaderBlock .b-infofacts {
@@ -171,20 +174,19 @@ header {
     font-family: 'EuropeExt';
     font-size: 30px;
     font-weight: 700;
-    line-height: 33.48px;
+    line-height: 34px;
     text-align: left;
     max-width: 1248px;
     width: 100%;
 }
 
 .pageHeaderBlock .b-infofacts {
-    padding-top: 5px;
+    padding-top: 15px;
     font-family: 'Roboto';
     font-size: 18px;
     font-weight: 400;
     line-height: 21.09px;
     text-align: left;
-
 }
 
 .content-block {
@@ -359,13 +361,13 @@ header {
     background-color: #00C86C;
 }
 .b-balance .bb-match {
-    color:#fff;
-    padding-left: 5px;
+    color: #fff;
     font-family: 'EuropeExt';
     font-size: 30px;
     font-weight: 700;
-    line-height: 27.63px;
+    line-height: 33.48px;
     text-align: left;
+    padding-left: 12px;
 }
 
 .lacks-coin-message {
