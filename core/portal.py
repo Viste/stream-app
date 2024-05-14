@@ -44,7 +44,7 @@ def register():
 
 @views.route('/download_product/<int:product_id>')
 @login_required
-def download_product(product_id):
+def download_products(product_id):
     product = Purchase.query.get_or_404(product_id)
     if product.is_purchased:
         directory = os.path.dirname(product.file_path)
