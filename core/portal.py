@@ -42,17 +42,30 @@ def register():
     return render_template('profile/register.html')
 
 
+@views.route('/download_product/<int:product_id>')
+@login_required
+def download_product(product_id):
+    product = Purchase.query.get_or_404(product_id)
+    if product.is_purchased:
+        directory = os.path.dirname(product.file_path)
+        filename = os.path.basename(product.file_path)
+        return send_from_directory(directory=directory,
+                                   path=filename,
+                                   as_attachment=True)
+    return "Товар не куплен", 403
+
+
 @views.route('/profile')
 @login_required
 def profile():
-    if current_user:
+    if current_user and not current_user.is_banned:
         allowed_course_short_names = current_user.allowed_courses.split(',')
         user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
         submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
-        purchases = Purchase.query.filter_by(user_id=current_user.id).all()
+        purchases = Purchase.query.filter_by(is_purchased=True).all()
 
         return render_template('profile/profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases)
     return redirect(url_for('login'))
@@ -61,13 +74,13 @@ def profile():
 @views.route('/public_profile/<int:user_id>')
 def public_profile(user_id):
     user = Customer.query.get_or_404(user_id)
-    courses = Course.query.filter(Course.short_name.in_(user.allowed_courses.split(','))).all()
+    got_courses = Course.query.filter(Course.short_name.in_(user.allowed_courses.split(','))).all()
     submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
     total_submissions = len(submissions)
     average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
     achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
 
-    return render_template('profile/public_profile.html', user=user, courses=courses, total_submissions=total_submissions, average_grade=average_grade, achievements=achievements)
+    return render_template('profile/public_profile.html', user=user, courses=got_courses, total_submissions=total_submissions, average_grade=average_grade, achievements=achievements)
 
 
 @views.route('/edit_profile', methods=['GET', 'POST'])

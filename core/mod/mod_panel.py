@@ -84,8 +84,10 @@ class ModeratorView(moderator.BaseView):
     def download_product(self, product_id):
         product = Purchase.query.get(product_id)
         if product.is_purchased:
-            return send_from_directory(directory=os.path.dirname(product.file_path),
-                                       path=os.path.basename(product.file_path),
+            directory = os.path.dirname(product.file_path)
+            filename = os.path.basename(product.file_path)
+            return send_from_directory(directory=directory,
+                                       path=filename,
                                        as_attachment=True)
         return "Товар не куплен", 403
 
