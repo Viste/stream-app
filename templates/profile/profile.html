@@ -47,13 +47,13 @@
         {% endfor %}
     </div>
     <div class="profile-section">
-        <h3>История покупок</h3>
-        {% for purchase in purchases %}
-            <div>
-                <div class="detail-item">Товар: {{ purchase.item_name }}</div>
-                <div class="detail-item"><a href="{{ purchase.download_url }}">Скачать</a></div>
-            </div>
-        {% endfor %}
-    </div>
+    <h3>История покупок</h3>
+    {% for purchase in purchases %}
+        <div>
+            <div class="detail-item">Товар: {{ purchase.item_name }}</div>
+            <div class="detail-item"><a href="{{ url_for('download_products', product_id=purchase.id) }}">Скачать</a></div>
+        </div>
+    {% endfor %}
+   </div>
 </div>
 {% endblock %}

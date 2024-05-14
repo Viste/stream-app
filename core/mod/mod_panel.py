@@ -14,6 +14,11 @@ from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Hom
 from tools.forms import ModLoginForm
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif', 'rar', 'zip', '7z'}
+
+
 class MyModIndexView(moderator.AdminIndexView):
     @moderator.expose('/')
     @login_required
@@ -54,10 +59,13 @@ class ModeratorView(moderator.BaseView):
     def update_balance(self):
         try:
             amount = Decimal(request.form['amount'])
+            action = request.form['action']
+            if action == 'decrease':
+                amount = -amount
             GlobalBalance.update_balance(amount)
         except InvalidOperation:
-            flash('Некорректное значение. Пожалуйста, введите число с точностью до двух знаков после запятой.', 'error')
-            return redirect(url_for('moderatorview.update_balance'))
+            flash('Некорректное значение. Пожалуйста, введите число с точностью до четырех знаков после запятой.', 'error')
+            return redirect(url_for('moderatorview.index'))  # предполагается, что есть такой endpoint
         return redirect(url_for('moderator.index'))
 
     @moderator.expose('/buy_product/<int:product_id>/')
@@ -76,8 +84,10 @@ class ModeratorView(moderator.BaseView):
     def download_product(self, product_id):
         product = Purchase.query.get(product_id)
         if product.is_purchased:
-            return send_from_directory(directory=os.path.dirname(product.file_path),
-                                       path=os.path.basename(product.file_path),
+            directory = os.path.dirname(product.file_path)
+            filename = os.path.basename(product.file_path)
+            return send_from_directory(directory=directory,
+                                       path=filename,
                                        as_attachment=True)
         return "Товар не куплен", 403
 
@@ -150,8 +160,45 @@ class ProductUploadView(moderator.BaseView):
         return self.render('mod/upload_product.html')
 
 
+class ProductEditView(moderator.BaseView):
+    @moderator.expose('/')
+    @login_required
+    def index(self):
+        products = Purchase.query.all()
+        return self.render('mod/edit_products.html', products=products)
+
+    @moderator.expose('/edit/<int:product_id>/', methods=['GET', 'POST'])
+    @login_required
+    def edit_product(self, product_id):
+        product = Purchase.query.get_or_404(product_id)
+        if request.method == 'POST':
+            product.item_name = request.form['name']
+            product.description = request.form['description']
+            product.price = int(request.form['price'])
+
+            file = request.files.get('file')
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                product.file_path = file_path
+
+            card_image = request.files.get('card_image')
+            if card_image and allowed_file(card_image.filename):
+                card_image_filename = secure_filename(card_image.filename)
+                card_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], card_image_filename)
+                card_image.save(card_image_path)
+                product.card_image_path = card_image_path
+
+            db.session.commit()
+            flash('Товар успешно обновлен', 'success')
+            return redirect(url_for('product_edit.index'))
+        return self.render('mod/product_form.html', product=product)
+
+
 moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4')
 
 moderator.add_view(ModeratorView(name='Управление Физкоином'))
 moderator.add_view(ProductUploadView(name='Загрузка товара', endpoint='product_upload'))
+moderator.add_view(ProductEditView(name='Редактирование товара', endpoint='product_edit'))
 moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
