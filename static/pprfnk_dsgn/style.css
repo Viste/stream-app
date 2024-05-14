@@ -217,7 +217,7 @@ header {
 }
 
 .b-articles {
-    padding: 45px 45px;
+    padding: 45px 0;
     width: 66%;
     margin: 0 auto;
     max-width: 1249px;
@@ -788,6 +788,7 @@ font-family: var(--ff-roboto);
 }
 .statusCourse.SC-runningnow {
     background: #639630;
+    color: #FFF;
 }
 .courseOrderBlock {
     padding: 0 18px;
@@ -817,10 +818,14 @@ font-family: var(--ff-roboto);
     line-height: 22px;
     text-align: center;
     border: 1px solid #FFF;
-    transition: 0.4s;
+    transition: 0.3s;
     width: 140px;
     height: 50px;
     margin-left: 10px;
+    color: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .courseOrderBlock .cob-buyorinfo .btn-course:hover {
     background: #FFF;
