@@ -77,7 +77,7 @@
                                class="btn buy-button">Купить</a>
                         </div>
                         {% else %}
-                        <a href="{{ url_for('views.download_products', product_id=product.id) }}" class="btn download-button">
+                        <a href="{{ url_for('views.download_product', product_id=product.id) }}" class="btn download-button">
                                         <span class="nohover"><svg width="15" height="18" viewBox="0 0 14 17"
                                                                    fill="none"
                                                                    xmlns="http://www.w3.org/2000/svg"><path
@@ -135,7 +135,7 @@
                     {% if not product.is_purchased %}
                     <a href="{{ url_for('views.buy_product', product_id=product.id) }}" class="btn buy-button">Купить</a>
                     {% else %}
-                    <a href="{{ url_for('views.download_products', product_id=product.id) }}" class="btn download-button">
+                    <a href="{{ url_for('views.download_product', product_id=product.id) }}" class="btn download-button">
                                         <span class="nohover"><svg width="15" height="18" viewBox="0 0 14 17"
                                                                    fill="none"
                                                                    xmlns="http://www.w3.org/2000/svg"><path

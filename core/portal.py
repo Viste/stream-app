@@ -42,19 +42,6 @@ def register():
     return render_template('profile/register.html')
 
 
-@views.route('/download_product/<int:product_id>')
-@login_required
-def download_products(product_id):
-    product = Purchase.query.get_or_404(product_id)
-    if product.is_purchased:
-        directory = os.path.dirname(product.file_path)
-        filename = os.path.basename(product.file_path)
-        return send_from_directory(directory=directory,
-                                   path=filename,
-                                   as_attachment=True)
-    return "Товар не куплен", 403
-
-
 @views.route('/profile')
 @login_required
 def profile():
@@ -188,7 +175,7 @@ def buy_product(product_id):
         if GlobalBalance.get_balance() >= product.price:
             product.is_purchased = True
             db.session.commit()
-            return redirect(url_for('sport'))
+            return redirect(url_for('views.sport'))
         else:
             flash('Недостаточно средств для покупки', 'error')
     return redirect(url_for('sport'))
@@ -199,12 +186,14 @@ def buy_product(product_id):
 def download_product(product_id):
     product = Purchase.query.get(product_id)
     if product and product.is_purchased:
-        return send_from_directory(directory=os.path.dirname(product.file_path),
-                                   filename=os.path.basename(product.file_path),
+        directory = os.path.dirname(product.file_path)
+        filename = os.path.basename(product.file_path)
+        return send_from_directory(directory=directory,
+                                   path=filename,
                                    as_attachment=True)
     return "Товар не куплен", 403
 
-#@TODO: Для страницы курсов необходимо убрать авторизацию - страница должна быть доступна всем
+
 @views.route('/courses')
 @login_required
 def courses():
@@ -213,7 +202,7 @@ def courses():
     all_courses = Course.query.all()
     return render_template('course/courses.html', courses=course_item, all_courses=all_courses)
 
-#@TODO: Для страницы курса так же необходимо убрать авторизацию - добавить дополнительный признак - куплен курс или нет для возможности указать на верстке отображать кнопку "купить" или нет
+
 @views.route('/course/<int:course_id>')
 @login_required
 def course_detail(course_id):
