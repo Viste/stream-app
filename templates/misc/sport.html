@@ -54,7 +54,7 @@
                         </defs>
                     </svg>
                 </div>-->
-                <img src="{{ url_for('static', filename=product.card_image_path) }}">
+                <img src="{{ url_for('static', filename=product.card_image_path.split('/static/')[-1]) }}">
                 <div class="mobile-info-button">
                     <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle opacity="0.3" cx="14.5" cy="14.5" r="14.5" fill="white"/>
