@@ -15,3 +15,5 @@ Jinja2
 zipp
 gunicorn
 Flask-WTF
+flask-seasurf
+flask-talisman
