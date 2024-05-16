@@ -7,7 +7,7 @@ from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 
-from database.models import db, Homework, HomeworkSubmission, Course, Broadcast, Customer, Achievement, AchievementCriteria, CourseProgram
+from database.models import db, Homework, HomeworkSubmission, Course, Broadcast, Customer, Achievement, AchievementCriteria, CourseProgram, Purchase, GlobalBalance
 from tools.forms import LoginForm
 
 next_broadcast_title = None
@@ -105,4 +105,5 @@ admins.add_view(MyModelView(CourseProgram, db.session, category="Таблицы"
 admins.add_view(MyModelView(Achievement, db.session, category="Таблицы", name="Достижения"))
 admins.add_view(MyModelView(AchievementCriteria, db.session, category="Таблицы", name="Критерии достижений"))
 admins.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
-
+admins.add_view(MyModelView(Purchase, db.session, category="Таблицы", name="Товары за коины"))
+admins.add_view(MyModelView(GlobalBalance, db.session, category="Таблицы", name="Баланс коинов"))
