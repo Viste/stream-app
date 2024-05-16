@@ -2,11 +2,15 @@
 {% block pageHeaderBlock%}
 <div class="courseDetailHeaderBlock">
     <div class="previewImageBlockHeader">
-        <img src="" width="130" height="130">
+        <img src="{{ course..image_url }}" width="130" height="130">
     </div>
-    <div class="previewCourseNamingBlock"><h1>{{ course.name }}</h1></div>
+    <div class="previewCourseNamingBlock">
+        <div class="PCNBTitle"><h1>{{ course.name }}</h1></div>
+        <div class="PCNBDescription">
+            <p>{{ course.description }}</p>
+        </div>
+    </div>
     <div class="previewCourseStatusBlock">
-        <p>{{ course.description }}</p>
     </div>
 </div>
 {% endblock %}

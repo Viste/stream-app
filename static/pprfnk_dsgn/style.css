@@ -845,7 +845,9 @@ font-family: var(--ff-roboto);
     border: 1px solid #000;
 }
 .courseDetailHeaderBlock {
-
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 .courseDetailHeaderBlock .previewImageBlockHeader {
 
