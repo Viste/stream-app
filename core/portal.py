@@ -170,15 +170,18 @@ def sport():
 def buy_product(product_id):
     if not current_user.is_moderator:
         return "Доступ запрещен", 403
+
     product = Purchase.query.get(product_id)
     if product and not product.is_purchased:
-        if GlobalBalance.get_balance() >= product.price:
+        current_balance = GlobalBalance.get_balance()
+        if current_balance >= product.price:
             product.is_purchased = True
+            GlobalBalance.update_balance(-product.price)
             db.session.commit()
             return redirect(url_for('views.sport'))
         else:
             flash('Недостаточно средств для покупки', 'error')
-    return redirect(url_for('sport'))
+    return redirect(url_for('views.sport'))
 
 
 @views.route('/download_product/<int:product_id>')
