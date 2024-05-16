@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from flask_seasurf import SeaSurf
 from flask_talisman import Talisman
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -17,7 +16,7 @@ from tools.utils import number_format
 app = Flask(__name__)
 talisman = Talisman(app, content_security_policy=None)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
-csrf = SeaSurf(app)
+# csrf = SeaSurf(app)
 app.config.from_object(Config)
 
 db.init_app(app)
