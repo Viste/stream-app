@@ -1,10 +1,18 @@
 {% extends 'layout.html' %}
+{% block pageHeaderBlock%}
+<div class="courseDetailHeaderBlock">
+    <div class="previewImageBlockHeader">
+        <img src="" width="130" height="130">
+    </div>
+    <div class="previewCourseNamingBlock"><h1>{{ course.name }}</h1></div>
+    <div class="previewCourseStatusBlock">
+        <p>{{ course.description }}</p>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>{{ course.name }}</h1>
-    <p>{{ course.description }}</p>
-
     <!-- Программа курса -->
     <h2>Программа курса</h2>
     {% for program in programs %}
@@ -15,7 +23,7 @@
     <h3>Записи Трансляций</h3>
     {% for broadcast in broadcasts %}
     <div class="mb-4">
-        <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
+        <!--<video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
             var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
@@ -37,7 +45,11 @@
                 sourceTypes: ['mp4']
             });
             });
-        </script>
+        </script>-->
+        <video id="player-{{ loop.index }}" class="video-js" controls preload="auto" width="640" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+            <source src="https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}" type="video/mp4" />
+            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+        </video>
     </div>
     {% endfor %}
 
@@ -53,4 +65,10 @@
     </div>
     {% endfor %}
 </div>
+{% endblock %}
+{% block ExtStylesBlock %}
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+{% endblock %}
+{% block ExtScriptBlock %}
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 {% endblock %}

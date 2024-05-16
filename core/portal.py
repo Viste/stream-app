@@ -204,7 +204,7 @@ def download_product(product_id):
                                    as_attachment=True)
     return "Товар не куплен", 403
 
-
+#@TODO: Для страницы курсов необходимо убрать авторизацию - страница должна быть доступна всем
 @views.route('/courses')
 @login_required
 def courses():
@@ -213,7 +213,7 @@ def courses():
     all_courses = Course.query.all()
     return render_template('course/courses.html', courses=course_item, all_courses=all_courses)
 
-
+#@TODO: Для страницы курса так же необходимо убрать авторизацию - добавить дополнительный признак - куплен курс или нет для возможности указать на верстке отображать кнопку "купить" или нет
 @views.route('/course/<int:course_id>')
 @login_required
 def course_detail(course_id):
