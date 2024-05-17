@@ -1,5 +1,18 @@
 {% extends 'layout.html' %}
 
+   {% block head %}
+   <style>
+       .pagination {
+           text-align: center;
+           margin: 20px 0;
+       }
+       .pagination a {
+           margin: 0 10px;
+           white-space: nowrap;
+       }
+   </style>
+   {% endblock %}
+
 {% block content %}
 <div class="students-page">
     <h1 class="page-title">Наши студенты</h1>

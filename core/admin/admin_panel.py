@@ -124,8 +124,11 @@ class CourseSyncView(admin.BaseView):
                 for short_name in course_short_names:
                     course = courses.get(short_name)
                     if course:
-                        registration = CourseRegistration(customer_id=customer.id, course_id=course.id)
-                        db.session.add(registration)
+                        registration_exists = db.session.query(CourseRegistration.query.filter(CourseRegistration.customer_id == customer.id, CourseRegistration.course_id == course.id).exists()).scalar()
+
+                        if not registration_exists:
+                            registration = CourseRegistration(customer_id=customer.id, course_id=course.id)
+                            db.session.add(registration)
         db.session.commit()
 
 
