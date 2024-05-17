@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Numeric
-from sqlalchemy.sql import expression
 
 db = SQLAlchemy()
 
@@ -33,11 +34,12 @@ class Customer(db.Model):
     is_moderator = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
     is_banned = db.Column(db.Boolean)
+    is_podpivas = db.Column(db.Boolean, default=False, nullable=False)
     avatar_url = db.Column(db.String(255), nullable=True)
     city = db.Column(db.String(255), nullable=True)
     headphones = db.Column(db.String(255), nullable=True)
     sound_card = db.Column(db.String(255), nullable=True)
-    pc_setup = db.Column(db.String(255), nullable=True)
+    pc_setup = db.Column(db.Text, nullable=True)
 
     @property
     def is_authenticated(self):
@@ -67,9 +69,22 @@ class Course(db.Model):
     short_name = db.Column(db.String(255))
     description = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255))
+    start_date = db.Column(db.DateTime, default=datetime.utcnow)
+    end_date = db.Column(db.DateTime)
+    students = db.relationship('Customer', secondary='course_registrations', back_populates='courses')
 
     def __repr__(self):
         return f'<Course {self.name}>'
+
+
+class CourseRegistration(db.Model):
+    __tablename__ = 'course_registrations'
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), primary_key=True)
+    customer_id = db.Column(db.BigInteger, db.ForeignKey('customers.id'), primary_key=True)
+    registration_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+Customer.courses = db.relationship('Course', secondary='course_registrations', back_populates='students')
 
 
 class CourseProgram(db.Model):
@@ -151,19 +166,6 @@ class NeuropunkPro(db.Model):
     subscription_start = db.Column(db.DateTime, nullable=True)
     subscription_end = db.Column(db.DateTime, nullable=True)
     subscription_status = db.Column(db.String(50), nullable=False, default='inactive')
-
-
-class ChatMember(db.Model):
-    __tablename__ = "chat_members"
-    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-
-    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    telegram_id = db.Column(db.BigInteger, nullable=False)
-    telegram_username = db.Column(db.String(255), nullable=True)
-    chat_name = db.Column(db.String(255), nullable=False)
-    chat_id = db.Column(db.BigInteger, nullable=False)
-    status = db.Column(db.String(50), nullable=False, default='active')
-    banned = db.Column(db.Boolean, default=False, server_default=expression.false())
 
 
 class Config(db.Model):
@@ -254,6 +256,7 @@ class GlobalBalance(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     balance = db.Column(Numeric(20, 4), default=0)
+    interesting_fact = db.Column(db.Text, nullable=True)
 
     @staticmethod
     def get_balance():
@@ -262,7 +265,7 @@ class GlobalBalance(db.Model):
             balance_record = GlobalBalance(balance=0)
             db.session.add(balance_record)
             db.session.commit()
-        return float(balance_record.balance)
+        return float(balance_record.balance), balance_record.interesting_fact
 
     @staticmethod
     def update_balance(amount):

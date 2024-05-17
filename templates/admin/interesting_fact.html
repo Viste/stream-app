@@ -1,0 +1,10 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<form method="POST">
+    <div class="form-group">
+        <label for="interesting_fact">Интересный Факт:</label>
+        <textarea class="form-control" id="interesting_fact" name="interesting_fact" rows="3">{{ interesting_fact }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

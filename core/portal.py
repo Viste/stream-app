@@ -4,6 +4,7 @@ from datetime import timedelta
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
+from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
 from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
@@ -42,26 +43,12 @@ def register():
     return render_template('profile/register.html')
 
 
-@views.route('/download_product/<int:product_id>')
-@login_required
-def download_products(product_id):
-    product = Purchase.query.get_or_404(product_id)
-    if product.is_purchased:
-        directory = os.path.dirname(product.file_path)
-        filename = os.path.basename(product.file_path)
-        return send_from_directory(directory=directory,
-                                   path=filename,
-                                   as_attachment=True)
-    return "Товар не куплен", 403
-
-
 @views.route('/profile')
 @login_required
 def profile():
     if current_user and not current_user.is_banned:
-        allowed_course_short_names = current_user.allowed_courses.split(',')
-        user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-        submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).all()
+        user_courses = current_user.courses
+        submissions = HomeworkSubmission.query.options(joinedload(HomeworkSubmission.homework).joinedload(Homework.course)).filter_by(student_id=current_user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
@@ -136,27 +123,30 @@ def change_email():
 @views.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():
-    allowed_course_short_names = current_user.allowed_courses.split(',')
-    available_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-    live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
+    subscribed_courses = current_user.courses
+    subscribed_course_ids = [course.id for course in subscribed_courses]
+
+    live_broadcasts = Broadcast.query.join(Course).filter(
+        Broadcast.is_live == True,
+        Course.id.in_(subscribed_course_ids)
+    ).all()
+
     print("Live Broadcasts:", live_broadcasts)
-    return render_template('course/stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
+    return render_template('course/stream.html', account=current_user, courses=subscribed_courses, live_broadcasts=live_broadcasts)
 
 
 @views.route('/students')
 def students():
-    users = Customer.query.all()  # Получаем всех пользователей
+    page = request.args.get('page', 1, type=int)
+    per_page = 6
+    pagination = Customer.query.order_by(Customer.id).paginate(page=page, per_page=per_page, error_out=False)
+    users = pagination.items
     user_data = []
     for user in users:
         submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
-        total_submissions = len(submissions)
-        average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
-        user_data.append({
-            'user': user,
-            'total_submissions': total_submissions,
-            'average_grade': average_grade
-        })
-    return render_template('profile/students.html', user_data=user_data)
+        average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / len(submissions) if submissions else 0
+        user_data.append({'user': user, 'average_grade': average_grade})
+    return render_template('profile/students.html', user_data=user_data, pagination=pagination)
 
 
 @views.route('/howto')
@@ -173,9 +163,9 @@ def about():
 @views.route('/sport')
 @login_required
 def sport():
-    balance = GlobalBalance.get_balance()
+    balance, interesting_fact = GlobalBalance.get_balance()
     products = Purchase.query.all()
-    return render_template('misc/sport.html', balance=balance, products=products)
+    return render_template('misc/sport.html', balance=balance, products=products, interesting_fact=interesting_fact)
 
 
 @views.route('/buy_product/<int:product_id>')
@@ -183,15 +173,18 @@ def sport():
 def buy_product(product_id):
     if not current_user.is_moderator:
         return "Доступ запрещен", 403
+
     product = Purchase.query.get(product_id)
     if product and not product.is_purchased:
-        if GlobalBalance.get_balance() >= product.price:
+        current_balance = GlobalBalance.get_balance()
+        if current_balance >= product.price:
             product.is_purchased = True
+            GlobalBalance.update_balance(-product.price)
             db.session.commit()
-            return redirect(url_for('sport'))
+            return redirect(url_for('views.sport'))
         else:
             flash('Недостаточно средств для покупки', 'error')
-    return redirect(url_for('sport'))
+    return redirect(url_for('views.sport'))
 
 
 @views.route('/download_product/<int:product_id>')
@@ -199,12 +192,14 @@ def buy_product(product_id):
 def download_product(product_id):
     product = Purchase.query.get(product_id)
     if product and product.is_purchased:
-        return send_from_directory(directory=os.path.dirname(product.file_path),
-                                   filename=os.path.basename(product.file_path),
+        directory = os.path.dirname(product.file_path)
+        filename = os.path.basename(product.file_path)
+        return send_from_directory(directory=directory,
+                                   path=filename,
                                    as_attachment=True)
     return "Товар не куплен", 403
 
-#@TODO: Для страницы курсов необходимо убрать авторизацию - страница должна быть доступна всем
+
 @views.route('/courses')
 @login_required
 def courses():
@@ -213,7 +208,7 @@ def courses():
     all_courses = Course.query.all()
     return render_template('course/courses.html', courses=course_item, all_courses=all_courses)
 
-#@TODO: Для страницы курса так же необходимо убрать авторизацию - добавить дополнительный признак - куплен курс или нет для возможности указать на верстке отображать кнопку "купить" или нет
+
 @views.route('/course/<int:course_id>')
 @login_required
 def course_detail(course_id):

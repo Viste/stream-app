@@ -1,9 +1,5 @@
 {% extends 'layout.html' %}
 
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_styles.css') }}">
-{% endblock %}
-
 {% block content %}
 <div class="profile-page">
     <h1 class="page-title">Профиль</h1>
@@ -31,7 +27,7 @@
         <h3>Сделанные домашние задания</h3>
         {% for submission in submissions %}
         <div>
-            <div class="detail-item">Курс: {{ submission.name }}</div>
+            <div class="detail-item">Курс: {{ submission.homework.title }} ({{ submission.homework.course.name }})</div>
             <div class="detail-item">Оценка: <span class="star-rating">{% for i in range(submission.grade) %}★{% endfor %}</span></div>
             <div class="detail-item">Комментарий: {{ submission.comments }}</div>
         </div>
@@ -51,7 +47,7 @@
     {% for purchase in purchases %}
         <div>
             <div class="detail-item">Товар: {{ purchase.item_name }}</div>
-            <div class="detail-item"><a href="{{ url_for('download_products', product_id=purchase.id) }}">Скачать</a></div>
+            <div class="detail-item"><a href="{{ url_for('views.download_product', product_id=purchase.id) }}">Скачать</a></div>
         </div>
     {% endfor %}
    </div>

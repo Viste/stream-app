@@ -10,7 +10,6 @@
             <h3>{{ broadcast.course.name }}</h3>
             <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
             <div id="status-info-{{ loop.index }}">Трансляция активна</div>
-            <div id="viewers-info-{{ loop.index }}">Зрителей: {{ live_broadcasts|length }}</div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                 var player = cloudinary.videoPlayer('player-{{ loop.index }}', {

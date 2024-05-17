@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from flask_talisman import Talisman
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from api.api import api
 from core.admin.admin_panel import admins, MyAdminIndexView
@@ -12,6 +14,9 @@ from tools.config import Config
 from tools.utils import number_format
 
 app = Flask(__name__)
+talisman = Talisman(app, content_security_policy=None)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
+# csrf = SeaSurf(app)
 app.config.from_object(Config)
 
 db.init_app(app)
