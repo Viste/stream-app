@@ -1,12 +1,11 @@
-.students-grid {
+.students-page .students-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
-    color: var(--white-color);
 }
 
-.student-card {
+.students-page .student-card {
     background-color: var(--header-infoblock-bg);
     border: 1px solid var(--prod-elem-border-color);
     padding: 15px;
@@ -17,28 +16,28 @@
     cursor: pointer;
 }
 
-.student-card:hover {
+.students-page .student-card:hover {
     transform: translateY(-5px);
     border-color: var(--active-menu-color);
 }
 
-.student-name {
+.students-page .student-name {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
     color: var(--white-color);
 }
 
-.student-name a {
+.students-page .student-name a {
     color: var(--white-color);
 }
 
-.student-name a:hover {
+.students-page .student-name a:hover {
     color: var(--active-menu-color);
     text-decoration: none;
 }
 
-.student-hover-info {
+.students-page .student-hover-info {
     visibility: hidden;
     opacity: 0;
     position: absolute;
@@ -58,12 +57,12 @@
     z-index: 10;
 }
 
-.student-card:hover .student-hover-info {
+.students-page .student-card:hover .student-hover-info {
     visibility: visible;
     opacity: 1;
 }
 
-.student-avatar {
+.students-page .student-avatar {
     width: 150px;
     height: 150px;
     border-radius: 50%;
