@@ -1,6 +1,7 @@
 .students-page .students-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 карточек на строку */
+    grid-template-columns: repeat(3, 1fr); /* 3 карточки на строку */
+    grid-template-rows: repeat(2, 1fr); /* 2 строки */
     gap: 20px;
     padding: 20px;
 }

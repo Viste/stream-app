@@ -139,7 +139,7 @@ def stream():
 @views.route('/students')
 def students():
     page = request.args.get('page', 1, type=int)
-    per_page = 5
+    per_page = 6
     users = Customer.query.order_by(func.random()).paginate(page=page, per_page=per_page, error_out=False)
     user_data = []
     for user in users.items:
