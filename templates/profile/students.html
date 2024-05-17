@@ -10,20 +10,18 @@
     <div class="students-grid">
         {% for data in user_data %}
         <div class="student-card">
-            <a href="{{ url_for('views.public_profile', user_id=data.user.id) }}" class="student-link">
-                <img src="{{ data.user.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150" class="student-avatar">
-                <div class="student-name">{{ data.user.username }}</div>
-                <div class="student-info">
-                    Пройденные курсы: {{ data.user.courses|length }}
-                    <br>
-                    Средний балл: {{ data.average_grade|round(2) }}
-                </div>
-                <div class="student-hover-info">
-                    Город: {{ data.user.city }}
-                    <br>
-                    Наушники: {{ data.user.headphones }}
-                </div>
-            </a>
+            <div class="student-name">
+                <a href="{{ url_for('views.public_profile', user_id=data.user.id) }}" class="student-link">
+                    {{ data.user.username }}
+                </a>
+            </div>
+            <div class="student-hover-info">
+                <img src="{{ data.user.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" class="student-avatar">
+                <div>Пройденные курсы: {{ data.user.courses|length }}</div>
+                <div>Средний балл: {{ data.average_grade|round(2) }}</div>
+                <div>Город: {{ data.user.city }}</div>
+                <div>Наушники: {{ data.user.headphones }}</div>
+            </div>
         </div>
         {% endfor %}
     </div>
