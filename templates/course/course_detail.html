@@ -11,14 +11,64 @@
         </div>
     </div>
     <div class="previewCourseStatusBlock">
+        <div class="pvsb pvsb-success">Завершен</div>
+        <div class="pvsb pvsb-recorded">Доступен в записи</div>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
+    <div class="predescription">
+        <p>Николай <span class="spanhight">NERV3</span> подготовил курс для опытных продюсеров, которые хотят решить
+            одну из самых распространённых проблем в своём творчестве:</p>
+        <p>Идейный ступор, трудности в переходах, трудности со склейкой интро и дропа. Эффективные методы и простая
+            подача.</p>
+        <p>Отличники, которые получили оценку 5 или 5- получат скидку на следующие курсы и годовую подписку на плагин
+            для сайдчейна <span class="spanhight">"БАТЯ МК-1"</span>.</p>
+        <p>В конце курса все попадут в общий чат "Нейропанк Академии".</p>
+        <p>&nbsp;</p>
+        <p>• Вебинар: 1.5-2 часа.</p>
+        <p>• Старт от 20 участников в группе (дата начала курса - путём голосования)</p>
+    </div>
     <!-- Программа курса -->
-    <h2>Программа курса</h2>
+    <div class="blockCourseInfo">
+        <h2>Программа курса</h2>
+        <div class="bci-elem">
+            <h3><span>01</span>Вебинар "Барабаны" (1.5-2 часа):</h3>
+            <ul>
+                <li>Сбор битов, подбор семплов.</li>
+                <li>Общая обработка и добавление дополнительных элементов динамики.</li>
+                <li>Разбивка на готовые паттерны, учет работы над басом.</li>
+                <li>Важно: Используйте собственные пресеты для возможности их раздачи после курса.</li>
+                <li>Короткая работа с басом на готовом семпле.</li>
+            </ul>
+            <div class="bci-perrifBlock">Перерыв: 15 минут после первых 50 минут.</div>
+            <h4>Домашнее задание:</h4>
+            <div class="hw-info">
+                <ul>
+                    <li>Формат: WAV, 44100 Hz, 24 bit.</li>
+                    <li>Длительность: 44 секунды.</li>
+                    <li>Название файла: *Ваш ник* - *Название домашки* (Домашка #1).</li>
+                    <li>Срок сдачи: 3 рабочих дня.</li>
+                    <li>Пересдача: при оценке ниже 3 баллов или 3 с двумя минусами.</li>
+                    <li>Отсутствие домашки нарушает обучение.</li>
+                    <li>Проверка пересдачи: личная беседа в Telegram.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bci-elem">
+            <h3><span>01</span>Вебинар "Барабаны" (1.5-2 часа):</h3>
+            <ul>
+                <li>Сбор битов, подбор семплов.</li>
+                <li>Общая обработка и добавление дополнительных элементов динамики.</li>
+                <li>Разбивка на готовые паттерны, учет работы над басом.</li>
+                <li>Важно: Используйте собственные пресеты для возможности их раздачи после курса.</li>
+                <li>Короткая работа с басом на готовом семпле.</li>
+            </ul>
+        </div>
+
+    </div>
     {% for program in programs %}
     <div><strong>{{ program.title }}</strong>: {{ program.description }}</div>
     {% endfor %}
@@ -27,33 +77,29 @@
     <h3>Записи Трансляций</h3>
     {% for broadcast in broadcasts %}
     <div class="mb-4">
-        <!--<video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
+        <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
-                cloudName: 'di2pcyu5n',
-                autoplay: true,
-                autoplayMode: 'on-scroll',
-                fluid: true,
-                controls: true,
-                aiHighlightsGraph: true,
-                floatingWhenNotVisible: 'right',
-                hideContextMenu: false,
-                showJumpControls: true,
-                pictureInPictureToggle: true,
-                showLogo: true,
-                logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
-                logoOnclickUrl: 'https://pprfnk.tech/'
+            document.addEventListener('DOMContentLoaded', function () {
+                var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
+                    cloudName: 'di2pcyu5n',
+                    autoplay: true,
+                    autoplayMode: 'on-scroll',
+                    fluid: true,
+                    controls: true,
+                    aiHighlightsGraph: true,
+                    floatingWhenNotVisible: 'right',
+                    hideContextMenu: false,
+                    showJumpControls: true,
+                    pictureInPictureToggle: true,
+                    showLogo: true,
+                    logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
+                    logoOnclickUrl: 'https://pprfnk.tech/'
+                });
+                player.source('https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}', {
+                    sourceTypes: ['mp4']
+                });
             });
-            player.source('https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}', {
-                sourceTypes: ['mp4']
-            });
-            });
-        </script>-->
-        <video id="player-{{ loop.index }}" class="video-js" controls preload="auto" width="640" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
-            <source src="https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}" type="video/mp4" />
-            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-        </video>
+        </script>
     </div>
     {% endfor %}
 
@@ -62,7 +108,8 @@
     {% for homework in homeworks %}
     <div>
         <strong>{{ homework.title }}</strong>: {{ homework.description }}
-        <form action="{{ url_for('views.submit_homework', homework_id=homework.id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('views.submit_homework', homework_id=homework.id) }}" method="post"
+              enctype="multipart/form-data">
             <input type="file" name="file" accept=".mp3, .wav">
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
@@ -71,7 +118,7 @@
 </div>
 {% endblock %}
 {% block ExtStylesBlock %}
-<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet"/>
 {% endblock %}
 {% block ExtScriptBlock %}
 <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>

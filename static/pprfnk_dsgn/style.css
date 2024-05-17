@@ -846,18 +846,54 @@ font-family: var(--ff-roboto);
 }
 .courseDetailHeaderBlock {
     display: flex;
-    flex-wrap: nowrap;
     flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 68%;
+    margin: 0 auto;
 }
 .courseDetailHeaderBlock .previewImageBlockHeader {
 
 }
 .courseDetailHeaderBlock .previewCourseNamingBlock {
-
+    width: 525px;
+    font-family: var(--ff-europeext);
 }
 .courseDetailHeaderBlock .previewCourseNamingBlock h1 {
-
+    font-family: var(--ff-europeext);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 27.63px;
+    text-align: left;
 }
 .courseDetailHeaderBlock .previewCourseStatusBlock {
-
+    width: 242px;
+    display: flex;
+}
+.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb  {
+    height: 24px;
+    padding: 0 10px 0 10px;
+    gap: 10px;
+    border-radius: 6px;
+}
+.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-success  {
+    background: #616161;
+}
+.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-recorded  {
+    background: #AE7A14;
+}
+.predescription {
+    font-family: var(--ff-roboto);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+.predescription span.spanhight {
+    font-family: var(--ff-roboto);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
 }
