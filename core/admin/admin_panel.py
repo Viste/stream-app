@@ -1,13 +1,14 @@
 from collections import defaultdict
 
 import flask_admin as admin
+from flask import flash
 from flask import request, redirect, url_for, session
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 
-from database.models import db, Homework, HomeworkSubmission, Course, Broadcast, Customer, Achievement, AchievementCriteria, CourseProgram, Purchase, GlobalBalance
+from database.models import db, Homework, HomeworkSubmission, Course, Broadcast, Customer, Achievement, AchievementCriteria, CourseProgram, Purchase, GlobalBalance, CourseRegistration
 from tools.forms import LoginForm
 
 next_broadcast_title = None
@@ -84,6 +85,50 @@ class BroadcastTitleView(admin.BaseView):
         return self.render('admin/set_broadcast_title.html')
 
 
+class InterestingFactView(admin.BaseView):
+    @admin.expose('/', methods=['GET', 'POST'])
+    def index(self):
+        if request.method == 'POST':
+            fact = request.form.get('interesting_fact')
+            balance_record = GlobalBalance.query.first()
+            if not balance_record:
+                balance_record = GlobalBalance(interesting_fact=fact)
+                db.session.add(balance_record)
+            else:
+                balance_record.interesting_fact = fact
+            db.session.commit()
+            return redirect(url_for('admin.index'))
+        balance_record = GlobalBalance.query.first()
+        return self.render('admin/interesting_fact.html', interesting_fact=balance_record.interesting_fact if balance_record else "")
+
+
+class CourseSyncView(admin.BaseView):
+    @admin.expose('/', methods=['GET', 'POST'])
+    def index(self):
+        if request.method == 'POST':
+            try:
+                self.migrate_available_courses()
+                flash('Синхронизация прошла успешно!', 'success')
+            except Exception as e:
+                flash(f'Ошибка при синхронизации: {str(e)}', 'error')
+            return redirect(url_for('coursesync.index'))
+        return self.render('admin/course_sync.html')
+
+    @staticmethod
+    def migrate_available_courses():
+        customers = Customer.query.all()
+        courses = {course.short_name: course for course in Course.query.all()}
+        for customer in customers:
+            if customer.allowed_courses:
+                course_short_names = customer.allowed_courses.split(',')
+                for short_name in course_short_names:
+                    course = courses.get(short_name)
+                    if course:
+                        registration = CourseRegistration(customer_id=customer.id, course_id=course.id)
+                        db.session.add(registration)
+        db.session.commit()
+
+
 class MyModelView(ModelView):
     form_base_class = SecureForm
 
@@ -97,6 +142,9 @@ class MyModelView(ModelView):
 admins = admin.Admin(name='Панель Администратора. Нейропанк Академия', base_template='admin/master.html', template_mode='bootstrap4')
 
 admins.add_view(HomeworkReviewView(name='Проверка Домашек', endpoint='homeworkreview'))
+admins.add_view(BroadcastTitleView(name='Установка названия стрима'))
+admins.add_view(InterestingFactView(name='Интересный Факт', endpoint='interestingfact'))
+admins.add_view(CourseSyncView(name='Синхронизация Курсов', endpoint='coursesync'))
 admins.add_view(MyModelView(Course, db.session, category="Таблицы", name="Курсы"))
 admins.add_view(MyModelView(Customer, db.session, category="Таблицы", name="Пользователи"))
 admins.add_view(MyModelView(Broadcast, db.session, category="Таблицы", name="Трансляции"))
@@ -107,3 +155,4 @@ admins.add_view(MyModelView(AchievementCriteria, db.session, category="Табл�
 admins.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworksubmissionview"))
 admins.add_view(MyModelView(Purchase, db.session, category="Таблицы", name="Товары за коины"))
 admins.add_view(MyModelView(GlobalBalance, db.session, category="Таблицы", name="Баланс коинов"))
+admins.add_view(MyModelView(CourseRegistration, db.session, category="Таблицы", name="Доступ к курсам"))

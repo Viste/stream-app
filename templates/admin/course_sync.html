@@ -1,0 +1,9 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="alert alert-info" role="alert">
+    Нажмите кнопку ниже, чтобы синхронизировать данные из поля <strong>allowed_courses</strong> в новую таблицу связей.
+</div>
+<form method="POST">
+    <button type="submit" class="btn btn-primary">Синхронизировать</button>
+</form>
+{% endblock %}

@@ -123,11 +123,16 @@ def change_email():
 @views.route('/stream', methods=['GET', 'POST'])
 @login_required
 def stream():
-    allowed_course_short_names = current_user.allowed_courses.split(',')
-    available_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
-    live_broadcasts = Broadcast.query.join(Course).filter(Broadcast.is_live == True, Course.short_name.in_(allowed_course_short_names)).all()
+    subscribed_courses = current_user.courses
+    subscribed_course_ids = [course.id for course in subscribed_courses]
+
+    live_broadcasts = Broadcast.query.join(Course).filter(
+        Broadcast.is_live == True,
+        Course.id.in_(subscribed_course_ids)
+    ).all()
+
     print("Live Broadcasts:", live_broadcasts)
-    return render_template('course/stream.html', account=current_user, courses=available_courses, live_broadcasts=live_broadcasts)
+    return render_template('course/stream.html', account=current_user, courses=subscribed_courses, live_broadcasts=live_broadcasts)
 
 
 @views.route('/students')
@@ -160,9 +165,9 @@ def about():
 @views.route('/sport')
 @login_required
 def sport():
-    balance = GlobalBalance.get_balance()
+    balance, interesting_fact = GlobalBalance.get_balance()
     products = Purchase.query.all()
-    return render_template('misc/sport.html', balance=balance, products=products)
+    return render_template('misc/sport.html', balance=balance, products=products, interesting_fact=interesting_fact)
 
 
 @views.route('/buy_product/<int:product_id>')
