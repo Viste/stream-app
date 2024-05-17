@@ -4,6 +4,7 @@ from datetime import timedelta
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
+from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
 from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
@@ -47,7 +48,7 @@ def register():
 def profile():
     if current_user and not current_user.is_banned:
         user_courses = current_user.courses
-        submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).all()
+        submissions = HomeworkSubmission.query.options(joinedload(HomeworkSubmission.homework).joinedload(Homework.course)).filter_by(student_id=current_user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
