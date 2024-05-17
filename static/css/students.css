@@ -28,9 +28,24 @@
     text-decoration: none;
 }
 
+.students-page .student-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
 .students-page .student-avatar {
     width: 80%; /* Уменьшите ширину, если карточки слишком большие */
     height: auto;
     border-radius: 50%;
     margin-bottom: 10px;
 }
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+.pagination a, .pagination span {
+    margin: 0 10px;
+    white-space: nowrap;
+}
+

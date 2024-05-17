@@ -5,7 +5,6 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import func
 from werkzeug.utils import secure_filename
 
 from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
@@ -140,13 +139,14 @@ def stream():
 def students():
     page = request.args.get('page', 1, type=int)
     per_page = 6
-    users = Customer.query.order_by(func.paginate(page=page, per_page=per_page, error_out=False))
+    pagination = Customer.query.order_by(Customer.id).paginate(page=page, per_page=per_page, error_out=False)
+    users = pagination.items
     user_data = []
-    for user in users.items:
+    for user in users:
         submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / len(submissions) if submissions else 0
         user_data.append({'user': user, 'average_grade': average_grade})
-    return render_template('profile/students.html', user_data=user_data, pagination=users)
+    return render_template('profile/students.html', user_data=user_data, pagination=pagination)
 
 
 @views.route('/howto')
