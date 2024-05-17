@@ -46,8 +46,7 @@ def register():
 @login_required
 def profile():
     if current_user and not current_user.is_banned:
-        allowed_course_short_names = current_user.allowed_courses.split(',')
-        user_courses = Course.query.filter(Course.short_name.in_(allowed_course_short_names)).all()
+        user_courses = current_user.courses
         submissions = HomeworkSubmission.query.filter_by(student_id=current_user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
