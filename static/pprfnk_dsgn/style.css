@@ -877,6 +877,27 @@ font-family: var(--ff-roboto);
     gap: 10px;
     border-radius: 6px;
 }
+.blockCourseInfo h2 {
+    font-family: var(--ff-europeext);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    text-align: left;
+}
+.blockCourseInfo .bci-elem h3 {
+    font-family: var(--ff-europeext);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+}
+.blockCourseInfo .bci-elem h3 span {
+    font-family: var(--ff-europeext);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+}
 .courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-success  {
     background: #616161;
 }
@@ -896,4 +917,10 @@ font-family: var(--ff-roboto);
     font-weight: 700;
     line-height: 24px;
     text-align: left;
+}
+.courseDetailContainer {
+
+}
+.blockCourseInfo {
+    
 }
