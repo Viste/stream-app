@@ -82,3 +82,43 @@
     background-color: #1e7e34;
     cursor: pointer;
 }
+
+.profile-public-container, .profile-public-students-page, .profile-public-profile-page {
+    background-color: #282828; /* Светлее, чем #121212 */
+    color: #e0e0e0; /* Темнее, чем #ffffff */
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.profile-public-page-title {
+    text-align: center;
+    color: #ffffff; /* Белый для заголовков */
+    margin-bottom: 30px;
+}
+
+.profile-public-section {
+    background-color: #2e2e2e; /* Светлее, чем #1e1e1e */
+    border: 1px solid #444; /* Светлее, чем #333 */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.profile-public-section:hover {
+    transform: translateY(-5px);
+    border-color: #8585ff; /* Светлее, чем #646cff */
+}
+
+.profile-public-detail-item {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff; /* Белый для деталей */
+}
+
+.profile-public-detail-info {
+    font-size: 14px;
+    opacity: 0.9; /* Более четкий, чем 0.8 */
+    color: #d0d0d0; /* Светлее, чем #ffffff */
+}

@@ -1,38 +1,37 @@
 {% extends 'layout.html' %}
 
-
 {% block content %}
-<div class="profile-page">
-    <h1 class="page-title">Публичный Профиль</h1>
-    <div class="profile-section">
+<div class="profile-public-profile-page">
+    <h1 class="profile-public-page-title">Публичный Профиль</h1>
+    <div class="profile-public-section">
         <img src="{{ user.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150">
-        <div class="detail-item">Логин: {{ user.username }}</div>
-        <div class="detail-item">Город: {{ user.city or 'Не указан' }}</div>
-        <div class="detail-item">Наушники: {{ user.headphones or 'Не указаны' }}</div>
-        <div class="detail-item">Звуковая карта: {{ user.sound_card or 'Не указана' }}</div>
-        <div class="detail-item">Сэтап ПК: {{ user.pc_setup or 'Не указан' }}</div>
+        <div class="profile-public-detail-item">Логин: {{ user.username }}</div>
+        <div class="profile-public-detail-item">Город: {{ user.city or 'Не указан' }}</div>
+        <div class="profile-public-detail-item">Наушники: {{ user.headphones or 'Не указаны' }}</div>
+        <div class="profile-public-detail-item">Звуковая карта: {{ user.sound_card or 'Не указана' }}</div>
+        <div class="profile-public-detail-item">Сэтап ПК: {{ user.pc_setup or 'Не указан' }}</div>
     </div>
-    <div class="profile-section">
+    <div class="profile-public-section">
         <h3>Пройденные Курсы</h3>
         {% for course in courses %}
         <div>
-            <div class="detail-item">{{ course.name }}</div>
+            <div class="profile-public-detail-item">{{ course.name }}</div>
         </div>
         {% endfor %}
     </div>
-    <div class="profile-section">
+    <div class="profile-public-section">
         <h3>Статистика по домашним заданиям</h3>
-        <div class="detail-item">Общее количество сделанных домашних заданий: {{ total_submissions }}</div>
-        <div class="detail-item">Средняя оценка: {{ average_grade|round(2) }}</div>
+        <div class="profile-public-detail-item">Общее количество сделанных домашних заданий: {{ total_submissions }}</div>
+        <div class="profile-public-detail-item">Средняя оценка: {{ average_grade|round(2) }}</div>
     </div>
-<div class="profile-section">
-    <h3>Достижения</h3>
-    {% for achievement in achievements %}
-    <div class="detail-item">Звание: {{ achievement.title }}</div>
-    <div class="detail-item">Описание: {{ achievement.description }}</div>
-    {% else %}
-    <div class="detail-item">Звание: Нет достижений</div>
-    {% endfor %}
-</div>
+    <div class="profile-public-section">
+        <h3>Достижения</h3>
+        {% for achievement in achievements %}
+        <div class="profile-public-detail-item">Звание: {{ achievement.title }}</div>
+        <div class="profile-public-detail-item">Описание: {{ achievement.description }}</div>
+        {% else %}
+        <div class="profile-public-detail-item">Звание: Нет достижений</div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

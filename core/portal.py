@@ -137,9 +137,11 @@ def stream():
 
 @views.route('/students')
 def students():
-    users = Customer.query.all()  # Получаем всех пользователей
+    page = request.args.get('page', 1, type=int)
+    per_page = 25
+    users = Customer.query.paginate(page=page, per_page=per_page, error_out=False)
     user_data = []
-    for user in users:
+    for user in users.items:
         submissions = HomeworkSubmission.query.filter_by(student_id=user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
@@ -148,7 +150,7 @@ def students():
             'total_submissions': total_submissions,
             'average_grade': average_grade
         })
-    return render_template('profile/students.html', user_data=user_data)
+    return render_template('profile/students.html', user_data=user_data, pagination=users)
 
 
 @views.route('/howto')

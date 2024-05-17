@@ -1,42 +1,53 @@
-.student-name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
 .students-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
+    color: var(--white-color);
 }
 
 .student-card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
+    background-color: var(--header-infoblock-bg);
+    border: 1px solid var(--prod-elem-border-color);
     padding: 15px;
     border-radius: 8px;
-    position: relative; /* Добавлено для позиционирования всплывающей карточки */
+    position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease;
-    cursor: pointer; /* Опционально, для указания на интерактивность */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
 }
 
 .student-card:hover {
     transform: translateY(-5px);
-    border-color: #646cff;
+    border-color: var(--active-menu-color);
+}
+
+.student-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--white-color);
+}
+
+.student-name a {
+    color: var(--white-color);
+}
+
+.student-name a:hover {
+    color: var(--active-menu-color);
+    text-decoration: none;
 }
 
 .student-hover-info {
     visibility: hidden;
     opacity: 0;
-    position: absolute; /* Изменено на absolute */
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    color: white;
+    color: var(--white-color);
     padding: 10px;
     border-radius: 8px;
     display: flex;
@@ -44,10 +55,18 @@
     align-items: center;
     justify-content: center;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 10; /* Убедитесь, что z-index достаточно высок, чтобы быть поверх других элементов */
+    z-index: 10;
 }
 
 .student-card:hover .student-hover-info {
     visibility: visible;
     opacity: 1;
+}
+
+.student-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
