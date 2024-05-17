@@ -857,8 +857,8 @@ font-family: var(--ff-roboto);
 
 }
 .courseDetailHeaderBlock .previewCourseNamingBlock {
-    width: 525px;
     font-family: var(--ff-europeext);
+    padding-left: 20px;
 }
 .courseDetailHeaderBlock .previewCourseNamingBlock h1 {
     font-family: var(--ff-europeext);
@@ -866,10 +866,16 @@ font-family: var(--ff-roboto);
     font-weight: 700;
     line-height: 27.63px;
     text-align: left;
+    margin: 0;
 }
 .courseDetailHeaderBlock .previewCourseStatusBlock {
-    width: 242px;
     display: flex;
+    align-items: flex-start;
+    height: 130px;
+    padding-top: 20px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 }
 .courseDetailHeaderBlock .previewCourseStatusBlock .pvsb {
     height: 24px;
@@ -887,6 +893,7 @@ font-family: var(--ff-roboto);
     font-weight: 700;
     line-height: 32px;
     text-align: left;
+    margin-bottom: 60px;
 }
 .blockCourseInfo .bci-elem h3 {
     font-family: var(--ff-europeext);
@@ -927,5 +934,7 @@ font-family: var(--ff-roboto);
 
 }
 .blockCourseInfo {
-
+    padding-top: 35px;
+    background: #191919;
+    padding-left: 31px;
 }
