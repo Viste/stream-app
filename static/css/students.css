@@ -1,9 +1,13 @@
+.students-page {
+    max-width: 100%; /* Убедитесь, что страница использует всю доступную ширину */
+    padding: 20px;
+}
+
 .students-page .students-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 карточки на строку */
-    grid-template-rows: repeat(2, 1fr); /* 2 строки */
+    grid-template-rows: auto auto; /* Две строки, высота автоматическая */
     gap: 20px;
-    padding: 20px;
 }
 
 .students-page .student-card {
@@ -13,6 +17,10 @@
     border-radius: 8px;
     overflow: hidden;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .students-page .student-card a {
@@ -21,8 +29,8 @@
 }
 
 .students-page .student-avatar {
-    width: 100px;
-    height: 100px;
+    width: 80%; /* Уменьшите ширину, если карточки слишком большие */
+    height: auto;
     border-radius: 50%;
     margin-bottom: 10px;
 }

@@ -1,17 +1,18 @@
-.profile-container, .profile-students-page, .profile-profile-page {
+/* profile_styles.css */
+.container, .students-page, .profile-page {
     background-color: #121212;
     color: #ffffff;
     padding: 20px;
     min-height: 100vh;
 }
 
-.profile-page-title {
+.page-title {
     text-align: center;
     color: #f0f0f0;
     margin-bottom: 30px;
 }
 
-.profile-section, .profile-student-card {
+.profile-section, .student-card {
     background-color: #1e1e1e;
     border: 1px solid #333;
     padding: 15px;
@@ -20,36 +21,36 @@
     transition: transform 0.3s ease;
 }
 
-.profile-section:hover, .profile-student-card:hover {
+.profile-section:hover, .student-card:hover {
     transform: translateY(-5px);
     border-color: #646cff;
 }
 
-.profile-student-link, .profile-course-link {
+.student-link, .course-link {
     text-decoration: none;
     color: #fff;
 }
 
-.profile-course-link:hover {
+.course-link:hover {
     text-decoration: underline;
 }
 
-.profile-student-name, .profile-detail-item {
+.student-name, .detail-item {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.profile-student-info, .profile-detail-item {
+.student-info, .detail-item {
     font-size: 14px;
     opacity: 0.8;
 }
 
-.profile-star-rating {
+.star-rating {
     color: gold;
 }
 
-.profile-button {
+.button {
     display: inline-block;
     padding: 10px 20px;
     margin: 5px;
@@ -61,12 +62,12 @@
     font-weight: bold;
 }
 
-.profile-button:hover {
+.button:hover {
     background-color: #0056b3;
     cursor: pointer;
 }
 
-.profile-course-button {
+.course-button {
     display: block;
     padding: 8px 16px;
     margin: 5px 0;
@@ -78,47 +79,7 @@
     font-weight: bold;
 }
 
-.profile-course-button:hover {
+.course-button:hover {
     background-color: #1e7e34;
     cursor: pointer;
-}
-
-.profile-public-container, .profile-public-students-page, .profile-public-profile-page {
-    background-color: #282828; /* Светлее, чем #121212 */
-    color: #e0e0e0; /* Темнее, чем #ffffff */
-    padding: 20px;
-    min-height: 100vh;
-}
-
-.profile-public-page-title {
-    text-align: center;
-    color: #ffffff; /* Белый для заголовков */
-    margin-bottom: 30px;
-}
-
-.profile-public-section {
-    background-color: #2e2e2e; /* Светлее, чем #1e1e1e */
-    border: 1px solid #444; /* Светлее, чем #333 */
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease;
-}
-
-.profile-public-section:hover {
-    transform: translateY(-5px);
-    border-color: #8585ff; /* Светлее, чем #646cff */
-}
-
-.profile-public-detail-item {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #ffffff; /* Белый для деталей */
-}
-
-.profile-public-detail-info {
-    font-size: 14px;
-    opacity: 0.9; /* Более четкий, чем 0.8 */
-    color: #d0d0d0; /* Светлее, чем #ffffff */
 }
