@@ -11,7 +11,7 @@
         {% for data in user_data %}
         <div class="student-card">
             <a href="{{ url_for('views.public_profile', user_id=data.user.id) }}" class="student-link">
-                <img src="{{ data.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150" class="student-avatar">
+                <img src="{{ data.user.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="avatar" width="150" height="150" class="student-avatar">
                 <div class="student-name">{{ data.user.username }}</div>
                 <div class="student-info">
                     Пройденные курсы: {{ data.user.courses|length }}
