@@ -176,7 +176,7 @@ def buy_product(product_id):
 
     product = Purchase.query.get(product_id)
     if product and not product.is_purchased:
-        current_balance = GlobalBalance.get_balance()
+        current_balance, interesting_fact = GlobalBalance.get_balance()
         if current_balance >= product.price:
             product.is_purchased = True
             GlobalBalance.update_balance(-product.price)

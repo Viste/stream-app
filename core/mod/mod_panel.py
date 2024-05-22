@@ -72,10 +72,11 @@ class ModeratorView(moderator.BaseView):
     @login_required
     def buy_product(self, product_id):
         product = Purchase.query.get(product_id)
-        if not product.is_purchased:
-            if GlobalBalance.get_balance() >= product.price:
-                GlobalBalance.update_balance(-product.price)
+        if product and not product.is_purchased:
+            current_balance, interesting_fact = GlobalBalance.get_balance()
+            if current_balance >= product.price:
                 product.is_purchased = True
+                GlobalBalance.update_balance(-product.price)
                 db.session.commit()
         return redirect(url_for('moderator.index'))
 
