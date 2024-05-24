@@ -5,7 +5,7 @@ class Config:
     SECRET_KEY = 'pprfnktechsekta2024'
     API_KEY = 'pprfkebetvsehrot2024'
     UPLOAD_FOLDER = '/app/static/storage'
-    SQLALCHEMY_DATABASE_URI = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@pprfnkdb-primary.mariadb.svc.pprfnk.local/cyber?charset=utf8mb4'
+    SQLALCHEMY_DATABASE_URI = 'mariadb+pymysql://sysop:0Z3tcFg7FE60YBpKdquwrQRk@localhost/cyber?charset=utf8mb4'
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_POOL_SIZE = 10
     SQLALCHEMY_POOL_TIMEOUT = 30

@@ -124,23 +124,6 @@ class HomeworkSubmission(db.Model):
     student = db.relationship('Customer', foreign_keys=[student_id], backref=db.backref('submissions', lazy=True))
 
 
-class Calendar(db.Model):
-    __tablename__ = "calendar"
-    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
-    end_time = db.Column(db.TIMESTAMP, nullable=False)
-
-
-class StreamEmails(db.Model):
-    __tablename__ = "stream_emails"
-    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-
-    id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True)
-    stream_id = db.Column(db.Integer, nullable=False)
-    email = db.Column(db.String(255), nullable=False, unique=False)
-
-
 class User(db.Model):
     __tablename__ = "users"
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
@@ -186,32 +169,6 @@ class Zoom(db.Model):
     telegram_id = db.Column(db.BigInteger, nullable=False, unique=True)
     telegram_username = db.Column(db.String(255), nullable=True, unique=True)
     email = db.Column(db.String(255), nullable=True)
-
-
-class Admins(db.Model):
-    __tablename__ = 'admins'
-    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(50), unique=True)
-    telegram_id: int = db.Column(db.BigInteger, nullable=False, unique=True)
-    password_hash = db.Column(db.String(256))
-    is_admin = db.Column(db.Boolean, default=False)
-
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return self.is_admin
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return str(self.id)
 
 
 class Achievement(db.Model):
