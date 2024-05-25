@@ -10,7 +10,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
-from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Homework, Course, DemoSubmission
+from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Homework, Course, DemoSubmission, DemoSubmissionSetting
 from tools.forms import ModLoginForm
 
 
@@ -218,14 +218,29 @@ class DemoManagementView(moderator.BaseView):
     @moderator.expose('/')
     def index(self):
         courses = Course.query.all()
-        return self.render('mod/demo_management.html', courses=courses)
+        selected_course_id = request.form.get('course_id')
+        if selected_course_id:
+            selected_course = Course.query.get(selected_course_id)
+            demo_submissions = DemoSubmission.query.filter_by(course_id=selected_course_id).all()
+        else:
+            selected_course = None
+            demo_submissions = []
+
+        return self.render('admin/demo_management.html', courses=courses, selected_course=selected_course, demo_submissions=demo_submissions)
 
     @moderator.expose('/toggle/<int:course_id>', methods=['POST'])
     def toggle_demo(self, course_id):
+        course_id = request.form.get('course_id')
+        is_active = request.form.get('is_active') == 'true'
+        title = request.form.get('title', '')
         course = Course.query.get_or_404(course_id)
         if course.demo_setting:
-            course.demo_setting.is_active = not course.demo_setting.is_active
-            db.session.commit()
+            course.demo_setting.is_active = is_active
+            if title:
+                course.demo_setting.title = title
+        else:
+            course.demo_setting = DemoSubmissionSetting(is_active=is_active, title=title, course_id=course_id)
+        db.session.commit()
         return redirect(url_for('.index'))
 
     @moderator.expose('/grade_demo', methods=['POST'])
