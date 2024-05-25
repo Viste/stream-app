@@ -226,7 +226,7 @@ class DemoManagementView(moderator.BaseView):
             selected_course = None
             demo_submissions = []
 
-        return self.render('admin/demo_management.html', courses=courses, selected_course=selected_course, demo_submissions=demo_submissions)
+        return self.render('mod/demo_management.html', courses=courses, selected_course=selected_course, demo_submissions=demo_submissions)
 
     @moderator.expose('/toggle/<int:course_id>', methods=['POST'])
     def toggle_demo(self, course_id):
