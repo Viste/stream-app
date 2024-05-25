@@ -1,0 +1,44 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>Управление приемом демо</h1>
+{% for course in courses %}
+<div>
+    <h2>{{ course.name }}</h2>
+    <form action="{{ url_for('demo_mgmt.toggle_demo', course_id=course.id) }}" method="post">
+        <button type="submit">{{ 'Выключить' if course.demo_setting.is_active else 'Включить' }} прием демок</button>
+    </form>
+</div>
+{% endfor %}
+
+<h2>Демо-записи</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Курс</th>
+            <th>приема демок #/name</th>
+            <th>Ник приславшего</th>
+            <th>Шоа за демка демки</th>
+            <th>Оценка</th>
+            <th>Скачать</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for demo in demo_submissions %}
+        <tr>
+            <td>{{ demo.course.name }}</td>
+            <td>{{ demo.course.demo_setting.title }}</td>
+            <td>{{ demo.student.username }}</td>
+            <td>{{ demo.demo_name }}</td>
+            <td>
+                <form action="{{ url_for('demo_mgmt.grade_demo') }}" method="post">
+                    <input type="hidden" name="demo_id" value="{{ demo.id }}">
+                    <input type="number" name="grade" min="1" max="5" value="{{ demo.grade }}">
+                    <button type="submit">Оценить</button>
+                </form>
+            </td>
+            <td><a href="{{ url_for('static', filename='uploads/' ~ demo.file_path) }}" download="{{ demo.demo_name }}">Скачать</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

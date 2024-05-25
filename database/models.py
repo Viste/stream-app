@@ -232,3 +232,25 @@ class GlobalBalance(db.Model):
         else:
             balance_record.balance += amount
         db.session.commit()
+
+
+class DemoSubmissionSetting(db.Model):
+    __tablename__ = 'demo_submission_settings'
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
+    is_active = db.Column(db.Boolean, default=False)
+    title = db.Column(db.String(255), nullable=False)
+    course = db.relationship('Course', backref=db.backref('demo_setting', uselist=False))
+
+
+class DemoSubmission(db.Model):
+    __tablename__ = 'demo_submissions'
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.BigInteger, db.ForeignKey('courses.id'), nullable=False)
+    student_id = db.Column(db.BigInteger, db.ForeignKey('customers.id'), nullable=False)
+    demo_name = db.Column(db.String(255), nullable=False)
+    file_path = db.Column(db.String(255), nullable=False)
+    grade = db.Column(db.Integer)
+    student = db.relationship('Customer', backref='demo_submissions')
+    course = db.relationship('Course', backref='demo_submissions')
+

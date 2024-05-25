@@ -33,6 +33,15 @@
         </div>
         {% endfor %}
     </div>
+    <!-- Демо-записи -->
+    <div class="profile-section">
+        <h3>Демо-записи</h3>
+        {% for demo in demo_submissions %}
+        <div>
+           <strong>{{ demo.course.demo_setting.title }}</strong>: {{ demo.demo_name }} - Оценка: {{ demo.grade }}
+       </div>
+       {% endfor %}
+    </div>
     <div class="profile-section">
         <h3>Ваши достижения</h3>
         {% for achievement in achievements %}

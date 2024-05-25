@@ -10,7 +10,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
-from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Homework
+from database.models import db, Purchase, GlobalBalance, HomeworkSubmission, Homework, Course, DemoSubmission
 from tools.forms import ModLoginForm
 
 
@@ -197,9 +197,53 @@ class ProductEditView(moderator.BaseView):
         return self.render('mod/product_form.html', product=product)
 
 
+class InterestingFactView(moderator.BaseView):
+    @moderator.expose('/', methods=['GET', 'POST'])
+    def index(self):
+        if request.method == 'POST':
+            fact = request.form.get('interesting_fact')
+            balance_record = GlobalBalance.query.first()
+            if not balance_record:
+                balance_record = GlobalBalance(interesting_fact=fact)
+                db.session.add(balance_record)
+            else:
+                balance_record.interesting_fact = fact
+            db.session.commit()
+            return redirect(url_for('admin.index'))
+        balance_record = GlobalBalance.query.first()
+        return self.render('mod/interesting_fact.html', interesting_fact=balance_record.interesting_fact if balance_record else "")
+
+
+class DemoManagementView(moderator.BaseView):
+    @moderator.expose('/')
+    def index(self):
+        courses = Course.query.all()
+        return self.render('mod/demo_management.html', courses=courses)
+
+    @moderator.expose('/toggle/<int:course_id>', methods=['POST'])
+    def toggle_demo(self, course_id):
+        course = Course.query.get_or_404(course_id)
+        if course.demo_setting:
+            course.demo_setting.is_active = not course.demo_setting.is_active
+            db.session.commit()
+        return redirect(url_for('.index'))
+
+    @moderator.expose('/grade_demo', methods=['POST'])
+    def grade_demo(self):
+        demo_id = request.form.get('demo_id')
+        grade = request.form.get('grade')
+        demo = DemoSubmission.query.get_or_404(demo_id)
+        demo.grade = grade
+        db.session.commit()
+        return redirect(url_for('.index'))
+
+
 moderator = moderator.Admin(name='Панель Модератора. Нейропанк Академия', base_template='mod/master.html', template_mode='bootstrap4')
 
-moderator.add_view(ModeratorView(name='Управление Физкоином'))
-moderator.add_view(ProductUploadView(name='Загрузка товара', endpoint='product_upload'))
-moderator.add_view(ProductEditView(name='Редактирование товара', endpoint='product_edit'))
-moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Таблицы", name="проверки домашек", endpoint="homeworkmodview"))
+moderator.add_view(ModeratorView(category="Физкоин", name='Баланс Физкоина'))
+moderator.add_view(InterestingFactView(category="Физкоин", name='Интересный Факт', endpoint='interestingfact'))
+moderator.add_view(ProductUploadView(category="Физкоин", name='Загрузка товара', endpoint='product_upload'))
+moderator.add_view(ProductEditView(category="Физкоин", name='Редактирование товара', endpoint='product_edit'))
+moderator.add_view(HomeworkReviewView(category="Домашки", name='Проверка Домашек', endpoint='homeworkreview'))
+moderator.add_view(MyModelView(HomeworkSubmission, db.session, category="Домашки", name="Таблица Домашек", endpoint="hm_submission"))
+moderator.add_view(DemoManagementView(name='Прием Дэмок', endpoint='demo_mgmt'))

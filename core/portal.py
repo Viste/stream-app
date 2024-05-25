@@ -7,7 +7,8 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance
+from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance, DemoSubmissionSetting, \
+    DemoSubmission
 from tools.auth import authenticate_user, logout
 from tools.forms import ChangePasswordForm, ChangeEmailForm, EditProfileForm
 
@@ -49,12 +50,13 @@ def profile():
     if current_user and not current_user.is_banned:
         user_courses = current_user.courses
         submissions = HomeworkSubmission.query.options(joinedload(HomeworkSubmission.homework).joinedload(Homework.course)).filter_by(student_id=current_user.id).all()
+        demo_submissions = DemoSubmission.query.filter_by(student_id=current_user.id).all()
         total_submissions = len(submissions)
         average_grade = sum(sub.grade for sub in submissions if sub.grade is not None) / total_submissions if total_submissions > 0 else 0
         achievements = Achievement.query.join(AchievementCriteria).filter(AchievementCriteria.criteria_type == 'average_grade', AchievementCriteria.threshold <= average_grade).all()
         purchases = Purchase.query.filter_by(is_purchased=True).all()
 
-        return render_template('profile/profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases)
+        return render_template('profile/profile.html', account=current_user, courses=user_courses, submissions=submissions, achievements=achievements, purchases=purchases, demo_submissions=demo_submissions)
     return redirect(url_for('login'))
 
 
@@ -216,9 +218,10 @@ def course_detail(course_id):
     programs = CourseProgram.query.filter_by(course_id=course.id).all()
     homeworks = Homework.query.filter_by(course_id=course.id).all()
     broadcasts = Broadcast.query.filter_by(course_id=course.id, is_live=False).all()
+    demo_setting = DemoSubmissionSetting.query.filter_by(course_id=course.id).first()
     identity = {'user_id': current_user.id}
     token = create_access_token(identity=identity, expires_delta=timedelta(hours=1))
-    return render_template('course/course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts)
+    return render_template('course/course_detail.html', course=course, programs=programs, homeworks=homeworks, token=token, broadcasts=broadcasts, demo_setting=demo_setting)
 
 
 @views.route('/submit_homework/<int:homework_id>', methods=['POST'])
@@ -254,6 +257,26 @@ def submit_homework(homework_id):
         flash('Ошибка загрузки файла. Допустимы только файлы форматов MP3 и WAV.', 'error')
 
     return redirect(url_for('views.course_detail', course_id=Homework.query.get(homework_id).course_id))
+
+
+@views.route('/submit_demo/<int:course_id>', methods=['POST'])
+@login_required
+def submit_demo(course_id):
+    if 'demo' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['demo']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        new_demo = DemoSubmission(course_id=course_id, student_id=current_user.id, file_path=filename)
+        db.session.add(new_demo)
+        db.session.commit()
+        flash('Дэмо успешно загружено!')
+    return redirect(url_for('views.course_detail', course_id=course_id))
 
 
 def allowed_file(filename):
