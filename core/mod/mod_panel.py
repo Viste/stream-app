@@ -215,16 +215,17 @@ class InterestingFactView(moderator.BaseView):
 
 
 class DemoManagementView(moderator.BaseView):
-    @moderator.expose('/')
+    @moderator.expose('/', methods=['GET', 'POST'])
     def index(self):
         courses = Course.query.all()
-        selected_course_id = request.form.get('course_id')
-        if selected_course_id:
-            selected_course = Course.query.get(selected_course_id)
-            demo_submissions = DemoSubmission.query.filter_by(course_id=selected_course_id).all()
-        else:
-            selected_course = None
-            demo_submissions = []
+        selected_course = None
+        demo_submissions = []
+
+        if request.method == 'POST':
+            selected_course_id = request.form.get('course_id')
+            if selected_course_id:
+                selected_course = Course.query.get(selected_course_id)
+                demo_submissions = DemoSubmission.query.filter_by(course_id=selected_course_id).all()
 
         return self.render('mod/demo_management.html', courses=courses, selected_course=selected_course, demo_submissions=demo_submissions)
 

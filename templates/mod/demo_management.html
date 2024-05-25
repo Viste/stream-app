@@ -5,7 +5,9 @@
 <form action="{{ url_for('demo_mgmt.index') }}" method="post">
     <select name="course_id">
         {% for course in courses %}
-        <option value="{{ course.id }}" {% if selected_course and selected_course.id == course.id %}selected{% endif %}>{{ course.name }}</option>
+        <option value="{{ course.id }}" {% if selected_course and selected_course.id == course.id %}selected{% endif %}>
+            {{ course.name }}
+        </option>
         {% endfor %}
     </select>
     <button type="submit">Выбрать курс</button>
