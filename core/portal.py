@@ -4,6 +4,7 @@ from datetime import timedelta
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory
 from flask_jwt_extended import create_access_token
 from flask_login import current_user, login_required
+from mutagen.mp3 import MP3
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
@@ -263,22 +264,44 @@ def submit_homework(homework_id):
 @views.route('/submit_demo/<int:course_id>', methods=['POST'])
 @login_required
 def submit_demo(course_id):
+    existing_demos_count = DemoSubmission.query.filter_by(student_id=current_user.id, course_id=course_id).count()
+    if existing_demos_count >= 2:
+        flash('Вы уже загрузили максимальное количество демо (2)')
+        return redirect(url_for('views.course_detail', course_id=course_id))
+
     if 'demo' not in request.files:
-        flash('No file part')
+        flash('Файл не найден')
         return redirect(request.url)
     file = request.files['demo']
     if file.filename == '':
-        flash('No selected file')
+        flash('Файл не выбран')
         return redirect(request.url)
-    if file and allowed_file(file.filename):
+    if file and allowed_demo_file(file):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        new_demo = DemoSubmission(course_id=course_id, student_id=current_user.id, file_path=filename)
-        db.session.add(new_demo)
-        db.session.commit()
-        flash('Дэмо успешно загружено!')
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        if validate_mp3(filepath):
+            new_demo = DemoSubmission(course_id=course_id, student_id=current_user.id, file_path=filename)
+            db.session.add(new_demo)
+            db.session.commit()
+            flash('Дэмо успешно загружено!')
+        else:
+            os.remove(filepath)  # Удаляем файл, если он не соответствует требованиям
+            flash('Дэмо должно быть в формате MP3 с битрейтом 320kbps и длительностью не менее 2 минут')
     return redirect(url_for('views.course_detail', course_id=course_id))
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'mp3', 'wav'}
+
+
+def allowed_demo_file(file):
+    return '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'mp3'
+
+
+def validate_mp3(filepath):
+    audio = MP3(filepath)
+    bitrate = audio.info.bitrate / 1000
+    duration = audio.info.length
+
+    return bitrate == 320 and duration >= 120

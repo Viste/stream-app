@@ -116,10 +116,10 @@
     </div>
     {% endfor %}
     {% if demo_setting.is_active %}
-        <h3>Загрузка демо</h3>
+        <h3>Прием демо</h3>
         <form action="{{ url_for('views.submit_demo', course_id=course.id) }}" method="post" enctype="multipart/form-data">
             <input type="file" name="demo" accept=".mp3">
-            <button type="submit" class="btn btn-primary">Upload Demo</button>
+            <button type="submit" class="btn btn-primary">Загрузить Демку</button>
         </form>
     {% endif %}
 </div>
