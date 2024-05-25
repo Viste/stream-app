@@ -7,8 +7,9 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 
-from database.models import db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram, Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance, DemoSubmissionSetting, \
-    DemoSubmission
+from database.models import (db, Homework, Course, HomeworkSubmission, Broadcast, CourseProgram,
+                             Customer, Achievement, AchievementCriteria, Purchase, GlobalBalance,
+                             DemoSubmissionSetting, DemoSubmission)
 from tools.auth import authenticate_user, logout
 from tools.forms import ChangePasswordForm, ChangeEmailForm, EditProfileForm
 
