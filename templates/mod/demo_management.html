@@ -15,7 +15,7 @@
 
 {% if selected_course %}
     <h2>Настройки приема демок для курса: {{ selected_course.name }}</h2>
-    <form action="{{ url_for('demo_mgmt.toggle_demo') }}" method="post">
+    <form action="{{ url_for('demo_mgmt.toggle_demo', course_id=selected_course.id) }}" method="post">
         <input type="hidden" name="course_id" value="{{ selected_course.id }}">
         <input type="text" name="title" placeholder="Название приема демок" value="{{ selected_course.demo_setting.title if selected_course.demo_setting else '' }}">
         <input type="hidden" name="is_active" value="true">
