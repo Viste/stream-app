@@ -253,6 +253,7 @@ header {
 .pe-previewImage {
     width: 385px;
     height: 385px;
+    position: relative;
 }
 
 .pe-list {
@@ -390,14 +391,15 @@ header {
 }
 
 .pe-previewImage .annotation {
-    position: relative;
-    bottom: 9.25rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     background: linear-gradient(180deg, rgb(0 0 0 / 6%) 0%, rgb(0 0 0 / 92%) 35%, rgb(0 0 0) 100%);
     height: auto;
     padding: 17px 14px;
-    left: 0px;
     width: 100%;
     transition: .7s;
+    min-height: 130px;
     opacity: 0;
 }
 
