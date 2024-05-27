@@ -18,3 +18,4 @@ Flask-WTF
 flask-seasurf
 flask-talisman
 mutagen
+markdown
