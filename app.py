@@ -11,7 +11,7 @@ from core.portal import views
 from database.models import db
 from tools.auth import login_manager
 from tools.config import Config
-from tools.utils import number_format
+from tools.utils import number_format, markdown_format
 
 app = Flask(__name__)
 talisman = Talisman(app, content_security_policy=None)
@@ -28,6 +28,7 @@ login_manager.login_view = 'views.login'
 jwt = JWTManager(app)
 
 app.template_filter('number_format')(number_format)
+app.template_filter('markdown_format')(markdown_format)
 
 app.register_blueprint(views)
 app.register_blueprint(api, url_prefix='/api')
