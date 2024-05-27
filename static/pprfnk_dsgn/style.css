@@ -17,9 +17,11 @@
     --ff-roboto: 'Roboto';
     --ff-europeext: 'EuropeExt';
 }
+
 a:hover {
     color: inherit;
 }
+
 * {
     font-family: 'Roboto';
     font-style: normal;
@@ -107,11 +109,13 @@ header {
     height: 76px;
     padding: 0px 23px;
 }
+
 .mobmenuburgermainnavbar a {
     padding: 30px 40px;
     height: 82px;
 
 }
+
 .profile {
     min-width: 205px;
     display: flex;
@@ -363,6 +367,7 @@ header {
 .btn.buy-button:hover {
     background-color: #00C86C;
 }
+
 .b-balance .bb-match {
     color: #fff;
     font-family: 'EuropeExt';
@@ -492,9 +497,11 @@ footer .copyright {
     text-align: center;
     top: -2px;
 }
+
 .buy-bottom-mobile {
     display: none;
 }
+
 .mobile-info-button {
     display: none;
     position: relative;
@@ -503,36 +510,44 @@ footer .copyright {
     width: 29px;
     height: 29px;
 }
+
 button#mobprofileitem {
     display: none;
 }
+
 .mmbmn-header {
     height: 70px;
     display: flex;
 }
+
 .mmnmnh-logo svg {
     display: none;
 }
+
 .mmnmnh-logo {
     flex-basis: 100%;
     padding-left: 20px;
     padding-top: 15px;
     opacity: 0;
 }
+
 .mmnmnh-close {
     flex-basis: 20px;
     padding: 20px;
     width: 20px;
 }
+
 .mmnmnh-close svg {
     top: 5px;
     position: relative;
 }
+
 .mobmenuburgermainnavbar a.active {
     background-color: #45371a;
     border-right: 1px solid #ffb524;
 }
-.mobmenuburgermainnavbar div:nth-child(2){
+
+.mobmenuburgermainnavbar div:nth-child(2) {
     background-color: #181818;
     height: 100vh;
     display: flex;
@@ -540,6 +555,7 @@ button#mobprofileitem {
     flex-wrap: wrap;
     flex-direction: column;
 }
+
 #faderout {
     background: rgba(0, 0, 0, 0.7);
     width: 100%;
@@ -549,6 +565,7 @@ button#mobprofileitem {
     left: 0;
     display: none;
 }
+
 #faderout .popup {
     width: 577px;
     height: 440px;
@@ -558,6 +575,7 @@ button#mobprofileitem {
     background: #181818;
     padding: 30px 40px;
 }
+
 #faderout .popup .titlePopupBlock {
     font-family: 'EuropeExt';
     font-size: 30px;
@@ -565,6 +583,7 @@ button#mobprofileitem {
     line-height: 33.48px;
     text-align: left;
 }
+
 .popupHeaderBlock {
     display: flex;
     flex-direction: row;
@@ -572,10 +591,12 @@ button#mobprofileitem {
     padding-bottom: 40px;
     position: relative;
 }
+
 .popup .popupHeaderBlock .closePopupButton {
     position: absolute;
     right: 0;
 }
+
 #modButton {
     position: fixed;
     top: 30%;
@@ -585,6 +606,7 @@ button#mobprofileitem {
     box-shadow: 0px 0px 2px 1px #CCC;
     z-index: 999;
 }
+
 #adminButton {
     position: fixed;
     top: 15%;
@@ -594,24 +616,29 @@ button#mobprofileitem {
     box-shadow: 0px 0px 2px 1px #CCC;
     z-index: 999;
 }
+
 .carousel {
     position: relative;
     max-width: 640px;
     margin: 0 auto;
 }
+
 #formLoginPage {
     display: flex;
     width: auto;
     flex-direction: column;
     align-items: flex-start;
 }
+
 .login .links > a:hover {
 
 }
+
 .pageHeaderBlock h1 {
     width: 84%;
     margin: 0 auto;
 }
+
 .btn.techbutton {
     background-color: var(--button-bg-color);
     border: 1px solid var(--button-border-color);
@@ -621,10 +648,12 @@ button#mobprofileitem {
     padding: 14px 15px;
     color: #FFF;
 }
+
 .btn.techbutton:hover {
     background-color: #FFF;
     color: #000;
 }
+
 #formLoginPage .frmgroup {
     display: flex;
     flex-direction: column;
@@ -632,15 +661,18 @@ button#mobprofileitem {
     padding-top: 10px;
     position: relative;
 }
+
 #formLoginPage .frmgroup:first-child {
-    padding-top:0;
+    padding-top: 0;
 }
+
 #formLoginPage .frmgroup label {
     padding-top: 5px;
     padding-right: 10px;
 }
+
 .labelLoginUsername, .labelPassword {
-font-family: var(--ff-roboto);
+    font-family: var(--ff-roboto);
     font-size: 18px;
     font-weight: 400;
     line-height: 24px;
@@ -653,6 +685,7 @@ font-family: var(--ff-roboto);
     left: 9px;
     padding: 0 10px;
 }
+
 .frmg-loginpage {
     width: 497px;
     height: 74px;
@@ -660,6 +693,7 @@ font-family: var(--ff-roboto);
     margin-bottom: 20px;
 
 }
+
 .frmg-loginpage .frmg-loginpage-inputtext {
     width: 493px;
     height: 50px;
@@ -667,6 +701,7 @@ font-family: var(--ff-roboto);
     position: absolute;
     top: 20px;
 }
+
 #loginButton {
     background-color: #15A060;
     font-size: 16px;
@@ -675,16 +710,19 @@ font-family: var(--ff-roboto);
     padding: 14px 15px;
     color: #FFF;
 }
+
 .lb-forgotpassword {
     padding: 0 0 15px 0;
     width: 100%;
 }
+
 .lb-createaccount {
     width: 100%;
     text-align: center;
     padding-top: 22px;
     height: 44px;
 }
+
 .courseHeaderOne {
     font-family: var(--ff-europeext);
     font-size: 30px;
@@ -695,25 +733,31 @@ font-family: var(--ff-roboto);
     width: max-content !important;
     margin: 0 0 !important;
 }
+
 .headerBlockCourses {
     display: flex;
     width: 68%;
     margin: 0 auto;
 }
+
 .submenu {
     padding-left: 30px;
     padding-top: 2px;
 }
+
 .submenu a {
     padding: 0 10px;
     transition: 0.2s;
 }
+
 .submenu a:hover {
     color: #FFB524;
 }
+
 .submenu a.active-tab {
     color: #FFB524;
 }
+
 .courseElement {
     width: 387px;
     height: 690px;
@@ -728,24 +772,29 @@ font-family: var(--ff-roboto);
     align-content: space-between;
     align-items: flex-start;
 }
+
 .courseElement:hover {
     border: 1px solid rgba(217, 217, 217, 1);
 }
+
 .courseElement:nth-child(3n) {
     margin-right: 0;
 }
+
 .courseElement .ElementImageB {
     width: 385px;
     height: 385px;
     margin-top: 0;
     margin-bottom: 20px;
 }
+
 .courseElement .ElementImageB img {
     max-width: 385px;
     max-height: 385px;
     width: 100%;
     height: auto;
 }
+
 .courseElement .courseTitle h2 {
     padding: 0 18px;
     font-family: var(--ff-europeext);
@@ -758,6 +807,7 @@ font-family: var(--ff-roboto);
     width: 100%;
     height: 40px;
 }
+
 .courseElement .courseDescription p {
     margin: 0;
     white-space: break-spaces;
@@ -774,6 +824,7 @@ font-family: var(--ff-roboto);
     font-weight: 400;
     line-height: 24px;
 }
+
 .courseElement .courseDescription {
     padding: 0 18px;
     font-family: var(--ff-roboto);
@@ -787,6 +838,7 @@ font-family: var(--ff-roboto);
     height: 100%;
     margin-bottom: 20px;
 }
+
 .statusCourse {
     height: 24px;
     font-family: var(--ff-roboto);
@@ -800,10 +852,12 @@ font-family: var(--ff-roboto);
     margin-bottom: 20px;
     margin-left: 18px;
 }
+
 .statusCourse.SC-runningnow {
     background: #639630;
     color: #FFF;
 }
+
 .courseOrderBlock {
     padding: 0 18px;
     display: flex;
@@ -812,6 +866,7 @@ font-family: var(--ff-roboto);
     height: 52px;
     flex-direction: row;
 }
+
 .courseOrderBlock .cob-price {
     width: 196px;
     height: 50px;
@@ -823,9 +878,11 @@ font-family: var(--ff-roboto);
     align-items: center;
     flex-wrap: nowrap;
 }
+
 .courseOrderBlock .cob-buyorinfo {
 
 }
+
 .courseOrderBlock .cob-buyorinfo .btn-course {
     font-family: var(--ff-roboto);
     font-size: 18px;
@@ -842,11 +899,13 @@ font-family: var(--ff-roboto);
     align-items: center;
     border-radius: 0;
 }
+
 .courseOrderBlock .cob-buyorinfo .btn-course:hover {
     background: #FFF;
     color: #000;
     border: 1px solid #000;
 }
+
 .courseDetailHeaderBlock {
     display: flex;
     flex-direction: row;
@@ -856,13 +915,16 @@ font-family: var(--ff-roboto);
     width: 100%;
     padding-left: 304px;
 }
+
 .courseDetailHeaderBlock .previewImageBlockHeader {
 
 }
+
 .courseDetailHeaderBlock .previewCourseNamingBlock {
     font-family: var(--ff-europeext);
     padding-left: 20px;
 }
+
 .courseDetailHeaderBlock .previewCourseNamingBlock h1 {
     font-family: var(--ff-europeext);
     font-size: 30px;
@@ -871,6 +933,7 @@ font-family: var(--ff-roboto);
     text-align: left;
     margin: 0;
 }
+
 .courseDetailHeaderBlock .previewCourseStatusBlock {
     display: flex;
     align-items: flex-start;
@@ -880,6 +943,7 @@ font-family: var(--ff-roboto);
     flex-wrap: nowrap;
     justify-content: flex-start;
 }
+
 .courseDetailHeaderBlock .previewCourseStatusBlock .pvsb {
     height: 24px;
     padding: 0 10px 0 10px;
@@ -887,9 +951,11 @@ font-family: var(--ff-roboto);
     border-radius: 6px;
     margin-right: 10px;
 }
+
 .courseDetailHeaderBlock .previewCourseStatusBlock .pvsb:last-child {
     margin-right: 0;
 }
+
 .blockCourseInfo h2 {
     font-family: var(--ff-europeext);
     font-size: 24px;
@@ -898,6 +964,7 @@ font-family: var(--ff-roboto);
     text-align: left;
     margin-bottom: 60px;
 }
+
 .blockCourseInfo .bci-elem h3 {
     font-family: var(--ff-europeext);
     font-size: 18px;
@@ -905,6 +972,7 @@ font-family: var(--ff-roboto);
     line-height: 20px;
     text-align: left;
 }
+
 .blockCourseInfo .bci-elem h3 span {
     font-family: var(--ff-europeext);
     font-size: 18px;
@@ -913,19 +981,24 @@ font-family: var(--ff-roboto);
     text-align: left;
     color: #FFB524;
 }
-.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-success  {
+
+.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-success {
     background: #616161;
 }
-.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-recorded  {
+
+.courseDetailHeaderBlock .previewCourseStatusBlock .pvsb-recorded {
     background: #AE7A14;
 }
+
 .predescription {
     font-family: var(--ff-roboto);
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
     text-align: left;
+    padding: 45px 0 40px 0;
 }
+
 .predescription span.spanhight {
     font-family: var(--ff-roboto);
     font-size: 16px;
@@ -933,14 +1006,92 @@ font-family: var(--ff-roboto);
     line-height: 24px;
     text-align: left;
 }
+
 .courseDetailContainer {
 
 }
+
 .blockCourseInfo {
-    padding-top: 35px;
-    background: #191919;
-    padding-left: 31px;
 }
+
+.detcourseblockcontainer {
+    margin-bottom: 50px;
+    background: #191919;
+    padding: 35px 30px 64px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.detcourseblockcontainer:last-child {
+    margin-bottom: 0;
+}
+
 .PCNBDescription .cob-price {
     margin-right: 20px;
+}
+
+.lockblock {
+    height: 92px;
+    padding: 0 0 0 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lockblock .locIcon {
+    display: flex;
+}
+
+.openblock .locIcon {
+    display: none;
+}
+
+.locIcon {
+    margin-right: 15px;
+}
+
+.lockblock .toggle-button {
+    display: none;
+}
+
+.openblock .toggle-button {
+    display: flex;
+    border: 1px solid #FFF;
+    background: #000;
+    font-family: var(--ff-roboto);
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 700;
+    width: 141px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+.openblock .toggle-button[data-step="opened"] {
+    content: "Cвернуть";
+}
+.openblock .toggle-button[data-step="closed"] {
+    content: "Развернуть";
+}
+.titleblock {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+}
+.tglebtn {
+    display: flex;
+    position: absolute;
+    right: 0;
+}
+.blockcontent {
+    transition: 0.5s;
+}
+.blockcontent.tglclosed {
+    height: 0;
 }

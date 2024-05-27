@@ -30,90 +30,154 @@
         {{ course.description }}
     </div>
     <!-- Программа курса -->
-    <div class="blockCourseInfo">
-        <h2>Программа курса</h2>
-
-        {% for program in programs %}
-        <!-- Блок курса -->
-        <div class="bci-elem">
-            <h3><span>01</span>{{ program.title }}:</h3>
-            <!-- <ul>
-                <li>Сбор битов, подбор семплов.</li>
-                <li>Общая обработка и добавление дополнительных элементов динамики.</li>
-                <li>Разбивка на готовые паттерны, учет работы над басом.</li>
-                <li>Важно: Используйте собственные пресеты для возможности их раздачи после курса.</li>
-                <li>Короткая работа с басом на готовом семпле.</li>
-            </ul>
-            <div class="bci-perrifBlock">Перерыв: 15 минут после первых 50 минут.</div>
-            <h4>Домашнее задание:</h4>
-            <div class="hw-info">
-                <ul>
-                    <li>Формат: WAV, 44100 Hz, 24 bit.</li>
-                    <li>Длительность: 44 секунды.</li>
-                    <li>Название файла: *Ваш ник* - *Название домашки* (Домашка #1).</li>
-                    <li>Срок сдачи: 3 рабочих дня.</li>
-                    <li>Пересдача: при оценке ниже 3 баллов или 3 с двумя минусами.</li>
-                    <li>Отсутствие домашки нарушает обучение.</li>
-                    <li>Проверка пересдачи: личная беседа в Telegram.</li>
+    <div class="blockCourseInfo detcourseblockcontainer openblock">
+        <div class="titleblock">
+            <div class="locIcon">
+                <svg width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1"
+                          d="M22.75 11.3333H21.125V8.09524C21.125 3.62667 17.485 0 13 0C8.515 0 4.875 3.62667 4.875 8.09524V11.3333H3.25C1.4625 11.3333 0 12.7905 0 14.5714V30.7619C0 32.5429 1.4625 34 3.25 34H22.75C24.5375 34 26 32.5429 26 30.7619V14.5714C26 12.7905 24.5375 11.3333 22.75 11.3333ZM13 25.9048C11.2125 25.9048 9.75 24.4476 9.75 22.6667C9.75 20.8857 11.2125 19.4286 13 19.4286C14.7875 19.4286 16.25 20.8857 16.25 22.6667C16.25 24.4476 14.7875 25.9048 13 25.9048ZM18.0375 11.3333H7.9625V8.09524C7.9625 5.32667 10.2212 3.07619 13 3.07619C15.7788 3.07619 18.0375 5.32667 18.0375 8.09524V11.3333Z"
+                          fill="white"/>
+                </svg>
+            </div>
+            <h2>Программа курса</h2>
+            <div class="tglebtn">
+                <button class="toggle-button" data-step="closed">Развернуть</button>
+            </div>
+        </div>
+        <div class="blockcontent tglclosed">
+            {% for program in programs %}
+            <!-- Блок курса -->
+            <div class="bci-elem">
+                <h3><span>01</span>{{ program.title }}:</h3>
+                <!-- <ul>
+                    <li>Сбор битов, подбор семплов.</li>
+                    <li>Общая обработка и добавление дополнительных элементов динамики.</li>
+                    <li>Разбивка на готовые паттерны, учет работы над басом.</li>
+                    <li>Важно: Используйте собственные пресеты для возможности их раздачи после курса.</li>
+                    <li>Короткая работа с басом на готовом семпле.</li>
                 </ul>
-            </div>-->
-            {{ program.description }}
+                <div class="bci-perrifBlock">Перерыв: 15 минут после первых 50 минут.</div>
+                <h4>Домашнее задание:</h4>
+                <div class="hw-info">
+                    <ul>
+                        <li>Формат: WAV, 44100 Hz, 24 bit.</li>
+                        <li>Длительность: 44 секунды.</li>
+                        <li>Название файла: *Ваш ник* - *Название домашки* (Домашка #1).</li>
+                        <li>Срок сдачи: 3 рабочих дня.</li>
+                        <li>Пересдача: при оценке ниже 3 баллов или 3 с двумя минусами.</li>
+                        <li>Отсутствие домашки нарушает обучение.</li>
+                        <li>Проверка пересдачи: личная беседа в Telegram.</li>
+                    </ul>
+                </div>-->
+                {{ program.description }}
+                <div class="bci-perrifBlock">Перерыв: 15 минут после первых 50 минут.</div>
+            </div>
+            {% endfor %}
         </div>
         <!-- /Блок курса -->
+    </div>
+    <!--    {% for program in programs %}
+        <div><strong>{{ program.title }}</strong>: {{ program.description }}</div>
         {% endfor %}
-    </div>
-<!--    {% for program in programs %}
-    <div><strong>{{ program.title }}</strong>: {{ program.description }}</div>
-    {% endfor %}
--->
+    -->
     <!-- Трансляции и записи -->
-    <h3>Записи Трансляций</h3>
-    {% for broadcast in broadcasts %}
-    <div class="mb-4">
-        <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
-                    cloudName: 'di2pcyu5n',
-                    autoplay: true,
-                    autoplayMode: 'on-scroll',
-                    fluid: true,
-                    controls: true,
-                    aiHighlightsGraph: true,
-                    floatingWhenNotVisible: 'right',
-                    hideContextMenu: false,
-                    showJumpControls: true,
-                    pictureInPictureToggle: true,
-                    showLogo: true,
-                    logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
-                    logoOnclickUrl: 'https://pprfnk.tech/'
-                });
-                player.source('https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}', {
-                    sourceTypes: ['mp4']
-                });
-            });
-        </script>
+    <div class="detcourseblockcontainer broadcastRecordBlock openblock">
+        <div class="titleblock">
+            <div class="locIcon">
+                <svg width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1"
+                          d="M22.75 11.3333H21.125V8.09524C21.125 3.62667 17.485 0 13 0C8.515 0 4.875 3.62667 4.875 8.09524V11.3333H3.25C1.4625 11.3333 0 12.7905 0 14.5714V30.7619C0 32.5429 1.4625 34 3.25 34H22.75C24.5375 34 26 32.5429 26 30.7619V14.5714C26 12.7905 24.5375 11.3333 22.75 11.3333ZM13 25.9048C11.2125 25.9048 9.75 24.4476 9.75 22.6667C9.75 20.8857 11.2125 19.4286 13 19.4286C14.7875 19.4286 16.25 20.8857 16.25 22.6667C16.25 24.4476 14.7875 25.9048 13 25.9048ZM18.0375 11.3333H7.9625V8.09524C7.9625 5.32667 10.2212 3.07619 13 3.07619C15.7788 3.07619 18.0375 5.32667 18.0375 8.09524V11.3333Z"
+                          fill="white"/>
+                </svg>
+            </div>
+            <h2>Записи Трансляций</h2>
+            <div class="tglebtn">
+                <button class="toggle-button" data-step="opened">Cвернуть</button>
+            </div>
+        </div>
+        <div class="blockcontent">
+            {% for broadcast in broadcasts %}
+            <div class="mb-4">
+                <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var player = cloudinary.videoPlayer('player-{{ loop.index }}', {
+                            cloudName: 'di2pcyu5n',
+                            autoplay: true,
+                            autoplayMode: 'on-scroll',
+                            fluid: true,
+                            controls: true,
+                            aiHighlightsGraph: true,
+                            floatingWhenNotVisible: 'right',
+                            hideContextMenu: false,
+                            showJumpControls: true,
+                            pictureInPictureToggle: true,
+                            showLogo: true,
+                            logoImageUrl: 'https://pprfnk.tech/favicon/favicon-32x32.jpg',
+                            logoOnclickUrl: 'https://pprfnk.tech/'
+                        });
+                        player.source('https://live.pprfnk.tech/vod/{{ broadcast.video_path }}?token={{ token | urlencode }}', {
+                            sourceTypes: ['mp4']
+                        });
+                    });
+                </script>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
 
-    <!-- Домашние задания -->
-    <h2>Домашние задания</h2>
-    {% for homework in homeworks %}
-    <div>
-        <strong>{{ homework.title }}</strong>: {{ homework.description }}
-        <form action="{{ url_for('views.submit_homework', homework_id=homework.id) }}" method="post"
-              enctype="multipart/form-data">
-            <input type="file" name="file" accept=".mp3, .wav">
-            <button type="submit" class="btn btn-primary">Отправить</button>
-        </form>
+    <div class="detcourseblockcontainer homeworkblock lockblock">
+        <!-- Домашние задания -->
+        <div class="titleblock">
+            <div class="locIcon">
+                <svg width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1"
+                          d="M22.75 11.3333H21.125V8.09524C21.125 3.62667 17.485 0 13 0C8.515 0 4.875 3.62667 4.875 8.09524V11.3333H3.25C1.4625 11.3333 0 12.7905 0 14.5714V30.7619C0 32.5429 1.4625 34 3.25 34H22.75C24.5375 34 26 32.5429 26 30.7619V14.5714C26 12.7905 24.5375 11.3333 22.75 11.3333ZM13 25.9048C11.2125 25.9048 9.75 24.4476 9.75 22.6667C9.75 20.8857 11.2125 19.4286 13 19.4286C14.7875 19.4286 16.25 20.8857 16.25 22.6667C16.25 24.4476 14.7875 25.9048 13 25.9048ZM18.0375 11.3333H7.9625V8.09524C7.9625 5.32667 10.2212 3.07619 13 3.07619C15.7788 3.07619 18.0375 5.32667 18.0375 8.09524V11.3333Z"
+                          fill="white"/>
+                </svg>
+            </div>
+            <h2>Домашние задания</h2>
+            <div class="tglebtn">
+                <button class="toggle-button" data-step="opened">Cвернуть</button>
+            </div>
+        </div>
+        <div class="blockcontent">
+            {% for homework in homeworks %}
+            <div>
+                <strong>{{ homework.title }}</strong>: {{ homework.description }}
+                <form action="{{ url_for('views.submit_homework', homework_id=homework.id) }}" method="post"
+                      enctype="multipart/form-data">
+                    <input type="file" name="file" accept=".mp3, .wav">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
+
     {% if demo_setting.is_active %}
-    <h3>Прием демо</h3>
-    <form action="{{ url_for('views.submit_demo', course_id=course.id) }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="demo" accept=".mp3">
-        <button type="submit" class="btn btn-primary">Загрузить Демку</button>
-    </form>
+    <div class="detcourseblockcontainer senddemoblock lockblock">
+        <div class="titleblock">
+            <div class="locIcon">
+                <svg width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1"
+                          d="M22.75 11.3333H21.125V8.09524C21.125 3.62667 17.485 0 13 0C8.515 0 4.875 3.62667 4.875 8.09524V11.3333H3.25C1.4625 11.3333 0 12.7905 0 14.5714V30.7619C0 32.5429 1.4625 34 3.25 34H22.75C24.5375 34 26 32.5429 26 30.7619V14.5714C26 12.7905 24.5375 11.3333 22.75 11.3333ZM13 25.9048C11.2125 25.9048 9.75 24.4476 9.75 22.6667C9.75 20.8857 11.2125 19.4286 13 19.4286C14.7875 19.4286 16.25 20.8857 16.25 22.6667C16.25 24.4476 14.7875 25.9048 13 25.9048ZM18.0375 11.3333H7.9625V8.09524C7.9625 5.32667 10.2212 3.07619 13 3.07619C15.7788 3.07619 18.0375 5.32667 18.0375 8.09524V11.3333Z"
+                          fill="white"/>
+                </svg>
+            </div>
+            <h2>Прием демо</h2>
+            <div>
+                <button class="toggle-button" data-step="opened">Свернуть</button>
+            </div>
+        </div>
+        <div class="blockcontent">
+            <form action="{{ url_for('views.submit_demo', course_id=course.id) }}" method="post"
+                  enctype="multipart/form-data">
+                <input type="file" name="demo" accept=".mp3">
+                <button type="submit" class="btn btn-primary">Загрузить Демку</button>
+            </form>
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
