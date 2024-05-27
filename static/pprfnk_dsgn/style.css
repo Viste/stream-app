@@ -807,9 +807,10 @@ font-family: var(--ff-roboto);
 .courseOrderBlock {
     padding: 0 18px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: nowrap;
     height: 52px;
+    flex-direction: row;
 }
 .courseOrderBlock .cob-price {
     width: 196px;
@@ -939,4 +940,7 @@ font-family: var(--ff-roboto);
     padding-top: 35px;
     background: #191919;
     padding-left: 31px;
+}
+.PCNBDescription .cob-price {
+    margin-right: 20px;
 }
