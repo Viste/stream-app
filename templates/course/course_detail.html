@@ -7,7 +7,14 @@
     <div class="previewCourseNamingBlock">
         <div class="PCNBTitle"><h1>{{ course.name }}</h1></div>
         <div class="PCNBDescription">
-            <p>{{ course.description }}</p>
+            <div class="courseOrderBlock">
+                <div class="cob-price">#PRICE#</div>
+                <div class="cob-buyorinfo">
+                    <div class="buybtn">
+                        <a title="Курс {{ course.name }}" href="#" class="btn buy-button">Купить</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="previewCourseStatusBlock">
@@ -20,16 +27,7 @@
 {% block content %}
 <div class="container courseDetailContainer">
     <div class="predescription">
-        <p>Николай <span class="spanhight">NERV3</span> подготовил курс для опытных продюсеров, которые хотят решить
-            одну из самых распространённых проблем в своём творчестве:</p>
-        <p>Идейный ступор, трудности в переходах, трудности со склейкой интро и дропа. Эффективные методы и простая
-            подача.</p>
-        <p>Отличники, которые получили оценку 5 или 5- получат скидку на следующие курсы и годовую подписку на плагин
-            для сайдчейна <span class="spanhight">"БАТЯ МК-1"</span>.</p>
-        <p>В конце курса все попадут в общий чат "Нейропанк Академии".</p>
-        <p>&nbsp;</p>
-        <p>• Вебинар: 1.5-2 часа.</p>
-        <p>• Старт от 20 участников в группе (дата начала курса - путём голосования)</p>
+        {{ course.description }}
     </div>
     <!-- Программа курса -->
     <div class="blockCourseInfo">
@@ -58,7 +56,7 @@
             </div>
         </div>
         <div class="bci-elem">
-            <h3><span>01</span>Вебинар "Барабаны" (1.5-2 часа):</h3>
+            <h3><span>02</span>Вебинар "Барабаны" (1.5-2 часа):</h3>
             <ul>
                 <li>Сбор битов, подбор семплов.</li>
                 <li>Общая обработка и добавление дополнительных элементов динамики.</li>
@@ -116,11 +114,11 @@
     </div>
     {% endfor %}
     {% if demo_setting.is_active %}
-        <h3>Прием демо</h3>
-        <form action="{{ url_for('views.submit_demo', course_id=course.id) }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="demo" accept=".mp3">
-            <button type="submit" class="btn btn-primary">Загрузить Демку</button>
-        </form>
+    <h3>Прием демо</h3>
+    <form action="{{ url_for('views.submit_demo', course_id=course.id) }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="demo" accept=".mp3">
+        <button type="submit" class="btn btn-primary">Загрузить Демку</button>
+    </form>
     {% endif %}
 </div>
 {% endblock %}
