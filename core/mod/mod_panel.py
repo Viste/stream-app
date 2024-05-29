@@ -134,7 +134,7 @@ class MyModelView(ModelView):
         return current_user.is_authenticated
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login'))
+        return redirect(url_for('views.login'))
 
 
 class ProductUploadView(moderator.BaseView):

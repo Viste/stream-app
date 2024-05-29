@@ -54,7 +54,7 @@ class MyModelView(ModelView):
         return current_user.is_authenticated
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login'))
+        return redirect(url_for('views.login'))
 
 
 admins = admin.Admin(name='Панель Администратора. Нейропанк Академия', base_template='admin/master.html', template_mode='bootstrap4')
