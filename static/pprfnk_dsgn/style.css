@@ -1091,7 +1091,9 @@ button#mobprofileitem {
 }
 .blockcontent {
     transition: 0.5s;
+    margin-top: 60px;
 }
 .blockcontent.tglclosed {
     height: 0;
+    display: none;
 }
