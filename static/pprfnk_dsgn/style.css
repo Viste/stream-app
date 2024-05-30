@@ -962,7 +962,6 @@ button#mobprofileitem {
     font-weight: 700;
     line-height: 32px;
     text-align: left;
-    margin-bottom: 60px;
 }
 
 .blockCourseInfo .bci-elem h3 {
@@ -1083,12 +1082,14 @@ button#mobprofileitem {
     flex-direction: row;
     width: 100%;
     position: relative;
+    margin-bottom: 60px;
 }
 .tglebtn {
     display: flex;
     position: absolute;
     right: 0;
 }
+
 .blockcontent {
     transition: 0.5s;
     margin-top: 60px;

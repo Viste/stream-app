@@ -41,10 +41,10 @@
             </div>
             <h2>Программа курса</h2>
             <div class="tglebtn">
-                <button class="toggle-button" data-step="closed">Развернуть</button>
+                <button class="toggle-button" data-step="closed">Свернуть</button>
             </div>
         </div>
-        <div class="blockcontent tglclosed">
+        <div class="blockcontent">
             {% for program in programs %}
             <!-- Блок курса -->
             <div class="bci-elem">
@@ -81,7 +81,7 @@
         {% endfor %}
     -->
     <!-- Трансляции и записи -->
-    <div class="detcourseblockcontainer broadcastRecordBlock openblock">
+    <div class="detcourseblockcontainer broadcastRecordBlock closeblock">
         <div class="titleblock">
             <div class="locIcon">
                 <svg width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,10 +92,10 @@
             </div>
             <h2>Записи Трансляций</h2>
             <div class="tglebtn">
-                <button class="toggle-button" data-step="opened">Cвернуть</button>
+                <button class="toggle-button" data-step="closed">Развернуть</button>
             </div>
         </div>
-        <div class="blockcontent">
+        <div class="blockcontent tglclosed">
             {% for broadcast in broadcasts %}
             <div class="mb-4">
                 <video id="player-{{ loop.index }}" class="cld-video-player" controls></video>
