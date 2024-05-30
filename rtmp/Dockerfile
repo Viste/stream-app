@@ -1,4 +1,4 @@
-FROM alpine:latest as builder
+FROM dockerhub.timeweb.cloud/library/alpine:latest as builder
 
 LABEL maintainer="Viste <viste@pprfnk.tech>"
 
@@ -45,7 +45,7 @@ RUN cd /tmp/openresty-${RESTY_VERSION} \
     && make install
 
 # Final image
-FROM alpine:latest
+FROM dockerhub.timeweb.cloud/library/alpine:latest
 
 LABEL maintainer="Viste <viste@pprfnk.tech>"
 
