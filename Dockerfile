@@ -1,4 +1,4 @@
-FROM dockerhub.timeweb.cloud/library/python:3
+FROM python:3
 
 WORKDIR /app
 
